@@ -1,4 +1,5 @@
 from object import Object
+from water import Water
 import pygame
 
 class Player_Ant(Object):  # represents the bird, not the game
@@ -10,7 +11,7 @@ class Player_Ant(Object):  # represents the bird, not the game
         self.image = pygame.transform.scale(self.image, (self.dimension, self.dimension))
 
 	self._direction = 0
-        
+
     def handle_keys(self):
         """ Handles Keys """
 
@@ -41,6 +42,18 @@ class Player_Ant(Object):  # represents the bird, not the game
             self.image = pygame.transform.rotate(self.image, 180 - self._direction)
             self._direction = 180
 
+    def collide(self, object):
+
+        if type(object).__name__ == 'Dirt' and object.empty:
+            return
+        if type(object).__name__ == 'Water':
+            self.x = self.old_x
+            self.y = self.old_y
+            return
+            
+        else:
+            print "[Info] Collided with Dirt or something"
+        
     def image_rotate(self, rect, angle):
         """rotate an image while keeping its center"""
         rot_image = pygame.transform.rotate(self, angle)
