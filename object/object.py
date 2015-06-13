@@ -13,13 +13,13 @@ class Object(pygame.sprite.Sprite):
 
         self.max_x = 800 - dimension
         self.min_x = 0
-	self.max_y = 600 - dimension
-	self.min_y = 0
+    	self.max_y = 600 - dimension
+    	self.min_y = 0
 
-	self.red = 255
-	self.green = 0
-	self.blue = 0
-	self.width = 3
+    	self.red = 255
+    	self.green = 0
+    	self.blue = 0
+    	self.width = 3
 
         self.image = None
 
@@ -31,7 +31,7 @@ class Object(pygame.sprite.Sprite):
 
     def check_collision(self, object):
 	## This has a bug, the boundaries overlap - causing it to always hit something
-        if (math.fabs(self.x - object.x) <= (self.dimension - 1) and math.fabs(self.y - object.y) <= (self.dimension - 1)): # reducing limit by 1 kinda fixed it
+        if (math.fabs(self.x - object.x) <= (self.dimension - 3) and math.fabs(self.y - object.y) <= (self.dimension - 3)): # reducing limit by 1 kinda fixed it
             return True
         else:
             return False
