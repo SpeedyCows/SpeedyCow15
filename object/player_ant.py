@@ -64,3 +64,8 @@ class Player_Ant(Object):  # represents the bird, not the game
         oldCenter = self.rect.center
         self.image = pygame.transform.rotate(self.image)
 
+    def getXPosition(self):
+        return self.x
+
+    def getYPosition(self):
+        return self.y
