@@ -7,6 +7,16 @@ from object.dirt import Dirt
 from object.crazyant import CrazyAnt
 
 SQUARE_SIZE = 40
+FONT_SIZE = 20
+FONT_COLOR = (255, 0, 0)
+
+def HUD(screen, ant):
+    font = pygame.font.Font(None, FONT_SIZE)
+    screen.blit(font.render("Score: " + str(ant.score), True, FONT_COLOR), (0, 0))
+    screen.blit(font.render("Lives: " + str(ant.lives), True, FONT_COLOR), (0, 1*FONT_SIZE))
+    screen.blit(font.render("Power ups", True, FONT_COLOR), (0, 2*FONT_SIZE))
+    screen.blit(font.render("   Sugar: " + str(ant.sugar), True, FONT_COLOR), (0, 3*FONT_SIZE))
+    screen.blit(font.render("   Leaves: " + str(ant.leaves), True, FONT_COLOR), (0, 4*FONT_SIZE))
 
 def main():
     pygame.init()
@@ -69,9 +79,9 @@ def main():
                 crazyAnt.draw(screen)
             object3.draw(screen)
 
-	font = pygame.font.Font(None, 50)
-	mes = font.render("Press <SPACE> to Start", True, (255, 0, 0))
-	screen.blit(mes, (100, 100))
+
+	HUD(screen, object1)
+
 
         #ant.draw(screen) # draw the bird to the screen
         #pygame.draw.rect(screen, (255, 0, 0), (20, 20, 40, 40), 2)
