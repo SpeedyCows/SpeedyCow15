@@ -41,14 +41,6 @@ class Object(pygame.sprite.Sprite):
             return False
 
     def collide(self, object):
-        if type(object).__name__ == 'Water':
-            print "[Info] Collided with Water"
-        elif type(object).__name__ == 'Dirt':
-            print "[Info] Collided with Dirt"
-        elif type(object).__name__ == 'Object':
-            print "[Info] Collided with Object"
-        else:
-            print "[Error] Collided with unknown Object"
         self.x = self.old_x
         self.y = self.old_y
 

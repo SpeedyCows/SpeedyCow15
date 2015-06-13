@@ -26,31 +26,16 @@ def main():
     crazyAnt = CrazyAnt(SQUARE_SIZE, object1)
     crazyAnt.setPos(500, 500)
     objects.append(crazyAnt)
-    
-    
-    #flag = 0
-    #for x in xrange(800):
-	#for y in xrange(600):
-		#if (x % 100) == 80 and (y % 100) == 40:
-		#	water = Water(SQUARE_SIZE)
-		#	water.setPos(x, y)
-		#	objects.append(water)
-                 #       flag = ~flag
-                  #      if flag == 0:
-		#		dirt = Dirt(SQUARE_SIZE)
-		#		dirt.setPos(x, y + SQUARE_SIZE)
-		#		objects.append(dirt)
 
     print "[DEBUG] Setting up world"
     dirts = []
     DIRT_SIZE = SQUARE_SIZE / 2
     for x in xrange(800 / DIRT_SIZE):
         for y in xrange(600 / DIRT_SIZE):
-            if not (y == 0 and x == 0) and not (x == 7 and y == 7):
-                dirt = Dirt(SQUARE_SIZE)
-                dirt.setPos(x * SQUARE_SIZE, y * SQUARE_SIZE)
-               # objects.append(dirt)
-
+            if not (y == 0 and x == 0):
+                dirt = Dirt(DIRT_SIZE)
+                dirt.setPos(x * DIRT_SIZE, y * DIRT_SIZE)
+                #objects.append(dirt)
     print "[DEBUG] Done Setting up world"
 
     running = True
@@ -63,7 +48,7 @@ def main():
 
         #ant.handle_keys() # handle the keys
 
-        screen.fill((255,255,255)) # fill the screen with black
+        #screen.fill((255,255,255)) # fill the screen with black
         screen.blit(background, backgroundRect)
 
         object1.handle_keys()
@@ -83,6 +68,10 @@ def main():
                 crazyAnt.searchForPlayer()
                 crazyAnt.draw(screen)
             object3.draw(screen)
+
+	font = pygame.font.Font(None, 50)
+	mes = font.render("Press <SPACE> to Start", True, (255, 0, 0))
+	screen.blit(mes, (100, 100))
 
         #ant.draw(screen) # draw the bird to the screen
         #pygame.draw.rect(screen, (255, 0, 0), (20, 20, 40, 40), 2)
