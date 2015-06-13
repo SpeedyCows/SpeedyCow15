@@ -1,9 +1,10 @@
 import pygame, os
 
-from object.object import *
-from object.player_ant import *
+from object.object import Object
+from object.player_ant import Player_Ant
 from object.water import Water
 from object.dirt import Dirt
+from object.sugar import Sugar
 from object.crazyant import CrazyAnt
 
 SQUARE_SIZE = 40
@@ -26,16 +27,34 @@ def main():
     crazyAnt = CrazyAnt(SQUARE_SIZE, object1)
     crazyAnt.setPos(500, 500)
     objects.append(crazyAnt)
+    sugar = Sugar(SQUARE_SIZE)
+    sugar.setPos(200, 200)
+    objects.append(sugar)
+    
+    
+    #flag = 0
+    #for x in xrange(800):
+	#for y in xrange(600):
+		#if (x % 100) == 80 and (y % 100) == 40:
+		#	water = Water(SQUARE_SIZE)
+		#	water.setPos(x, y)
+		#	objects.append(water)
+                 #       flag = ~flag
+                  #      if flag == 0:
+		#		dirt = Dirt(SQUARE_SIZE)
+		#		dirt.setPos(x, y + SQUARE_SIZE)
+		#		objects.append(dirt)
 
     print "[DEBUG] Setting up world"
     dirts = []
     DIRT_SIZE = SQUARE_SIZE / 2
     for x in xrange(800 / DIRT_SIZE):
         for y in xrange(600 / DIRT_SIZE):
-            if not (y == 0 and x == 0):
-                dirt = Dirt(DIRT_SIZE)
-                dirt.setPos(x * DIRT_SIZE, y * DIRT_SIZE)
-                #objects.append(dirt)
+            if not (y == 0 and x == 0) and not (x == 7 and y == 7):
+                dirt = Dirt(SQUARE_SIZE)
+                dirt.setPos(x * SQUARE_SIZE, y * SQUARE_SIZE)
+               # objects.append(dirt)
+
     print "[DEBUG] Done Setting up world"
 
     running = True
@@ -48,7 +67,7 @@ def main():
 
         #ant.handle_keys() # handle the keys
 
-        #screen.fill((255,255,255)) # fill the screen with black
+        screen.fill((255,255,255)) # fill the screen with black
         screen.blit(background, backgroundRect)
 
         object1.handle_keys()
@@ -59,23 +78,24 @@ def main():
 
         for dirt in dirts:
             dirt.draw(screen)
-                
+
         for object3 in objects:
             for object4 in objects:
                 if (object3 != object4):
                     if (object3.check_collision(object4)):
                         object3.collide(object4)
                 crazyAnt.searchForPlayer()
+                crazyAnt.draw(screen)
             object3.draw(screen)
 
-	font = pygame.font.Font(None, 50)
-	mes = font.render("Press <SPACE> to Start", True, (255, 0, 0))
-	screen.blit(mes, (100, 100))
+        for object5 in objects:
+            if object5.delete == True:
+                objects.remove(object5)
 
         #ant.draw(screen) # draw the bird to the screen
         #pygame.draw.rect(screen, (255, 0, 0), (20, 20, 40, 40), 2)
         pygame.display.update() # update the screen
 
-        clock.tick(60)
+        clock.tick(100)
 
 main()

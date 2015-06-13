@@ -23,8 +23,4 @@ class Dirt(Object):  # represents the water, not the game
 
     def collide(self, object):
         if type(object).__name__ == 'Player_Ant':
-            self.red = 68
-            self.green = 26
-            self.blue = 26
-            self.width = 0
             self.empty = True
