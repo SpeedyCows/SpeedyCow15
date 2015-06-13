@@ -19,6 +19,10 @@ class Ant(pygame.sprite.Sprite):  # represents the bird, not the game
         rot_rect = rot_image.get_rect(center=rect.center)
         return rot_image,rot_rect
 
+    def rotate(self):
+        oldCenter = self.rect.center
+        self.image = pygame.transform.rotate(self.image)
+
     def handle_keys(self):
         """ Handles Keys """
         key = pygame.key.get_pressed()
@@ -40,6 +44,8 @@ class Ant(pygame.sprite.Sprite):  # represents the bird, not the game
 
 
 pygame.init()
+background = pygame.image.load("grass.jpg")
+backgroundRect = background.get_rect()
 screen = pygame.display.set_mode((800, 600))
 
 ant = Ant() # create an instance
@@ -55,7 +61,8 @@ while running:
 
     ant.handle_keys() # handle the keys
 
-    screen.fill((255,255,255)) # fill the screen with white
+    #screen.fill((255,255,255)) # fill the screen with white
+    screen.blit(background, backgroundRect)
     ant.draw(screen) # draw the bird to the screen
     pygame.display.update() # update the screen
 
