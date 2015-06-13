@@ -4,6 +4,8 @@ import os
 from object.object import *
 from object.player_ant import *
 
+SQUARE_SIZE = 40
+
 def main():
     pygame.init()
     background = pygame.image.load("images/grass.jpg")
@@ -14,9 +16,9 @@ def main():
     clock = pygame.time.Clock()
 
     objects = []
-    object1 = Player_Ant()
+    object1 = Player_Ant(SQUARE_SIZE)
     objects.append(object1)
-    object2 = Object()
+    object2 = Object(SQUARE_SIZE)
     object2.x = 300
     object2.y = 300
     objects.append(object2)

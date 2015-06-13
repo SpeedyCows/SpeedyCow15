@@ -2,12 +2,12 @@ from object import Object
 import pygame
 
 class Player_Ant(Object):  # represents the bird, not the game
-    def __init__(self):
+    def __init__(self, dimension):
         """ The constructor of the class """
-        super(Player_Ant, self).__init__()
+        super(Player_Ant, self).__init__(dimension)
 
         self.image = pygame.image.load('images/ant.png')
-        self.image = pygame.transform.scale(self.image, (40, 40))
+        self.image = pygame.transform.scale(self.image, (self.dimension, self.dimension))
         
     def handle_keys(self):
         """ Handles Keys """
