@@ -3,7 +3,7 @@ import pygame
 from random import Random
 
 class CrazyAnt(Object):
-    def __init__(self,dimension, playerAnt):
+    def __init__(self,dimension, playerAnt, difficulty):
         global pause
         global timesMoved
         super(CrazyAnt, self).__init__(dimension)
@@ -18,6 +18,12 @@ class CrazyAnt(Object):
         pause = self.rand.randint(0, 12)
         self.counter = 0
         timesMoved = 0
+        if(difficulty == 'h'):
+            self.speed = 4
+        elif(difficulty == 'm'):
+            self.speed = 3
+        else:
+            self.speed = 1
 
     def image_rotate(self, rect, angle):
         """rotate an image while keeping its center"""
@@ -52,17 +58,29 @@ class CrazyAnt(Object):
         print 'se;f ' + str(self.x) + " " + str(self.y) 
         #translate where to check for on the board.
         if(self._direction == 0):#Ant looks 5 to the right
-            if(self.playerAnt.getXPosition() >= self.x and self.playerAnt.getXPosition() <= self.x + 100): #Then we move right
-                self.x += 1
+            if(self.playerAnt.getXPosition() >= self.x and 
+               self.playerAnt.getXPosition() <= self.x + 100 and
+               self.x < self.max_x): #Then we move right
+                self.old_x = self.x
+                self.x += self.speed
         elif(self._direction == 90):#We look up
-            if(self.playerAnt.getYPosition() <= self.y and self.playerAnt.getYPosition() >= self.y - 100): #Move u
-                self.y -= 1
+            if(self.playerAnt.getYPosition() <= self.y and 
+               self.playerAnt.getYPosition() >= self.y - 100 and
+               self.y > self.min_y): #Move u
+                self.old_y = self.y
+                self.y -= self.speed
         elif(self._direction == 180):#look left
-            if(self.playerAnt.getXPosition() <= self.x and self.playerAnt.getXPosition() >= self.x - 100):#mvoe left
-                self.x -= 1
+            if(self.playerAnt.getXPosition() <= self.x and 
+               self.playerAnt.getXPosition() >= self.x - 100 and
+               self.x > self.min_x):#mvoe left
+                self.old_x = self.x
+                self.x -= self.speed
         elif(self._direction == 270):
-            if(self.playerAnt.getYPosition() >= self.y and self.playerAnt.getYPosition() <= self.y + 100):
-                self.y += 1
+            if(self.playerAnt.getYPosition() >= self.y and 
+               self.playerAnt.getYPosition() <= self.y + 100 and 
+               self.y < self.max_y):
+                self.old_y = self.y
+                self.y += self.speed
 
     def minusLife(self):
         #if collision 

@@ -16,7 +16,7 @@ class Player_Ant(Object):  # represents the bird, not the game
 
         self.speed = 5
     	self._direction = 0
-
+        
     def handle_keys(self):
         """ Handles Keys """
 
