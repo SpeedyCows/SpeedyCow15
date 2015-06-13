@@ -19,6 +19,9 @@ class Water(Object):  # represents the water, not the game
         self.x_speed = 0
         self.y_speed = 0
 
+	self.old_old_x = 0
+	self.old_old_y = 0
+
         self.y_acceleration = .2
 
     def fall(self):
@@ -33,8 +36,6 @@ class Water(Object):  # represents the water, not the game
         self.y_speed += self.y_acceleration
 
     def collide(self, object):
-        print(self.x)
-        print(self.y)
         if (type(object) is Water):
             self.x_speed = -self.x_speed
         else:
@@ -47,7 +48,5 @@ class Water(Object):  # represents the water, not the game
             elif (self.old_old_x == self.old_x and self.old_old_y == self.old_y):
                 self.x_speed = 0
 
-        print(self.old_x)
-        print(self.old_y)
         self.x = self.old_x
         self.y = self.old_y
