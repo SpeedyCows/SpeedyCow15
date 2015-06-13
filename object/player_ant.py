@@ -22,7 +22,7 @@ class Player_Ant(Object):  # represents the bird, not the game
 
         self.speed = 5
     	self._direction = 0
-
+        
     def handle_keys(self):
         """ Handles Keys """
 
@@ -91,3 +91,9 @@ class Player_Ant(Object):  # represents the bird, not the game
     def rotate(self):
         oldCenter = self.rect.center
         self.image = pygame.transform.rotate(self.image)
+
+    def getXPosition(self):
+        return self.x
+
+    def getYPosition(self):
+        return self.y

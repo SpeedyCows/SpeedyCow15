@@ -34,7 +34,7 @@ def main():
     object2 = Water(SQUARE_SIZE)
     object2.setPos(280, 280)
     objects.append(object2)
-    crazyAnt = CrazyAnt(SQUARE_SIZE, object1)
+    crazyAnt = CrazyAnt(SQUARE_SIZE, object1, 'e')
     crazyAnt.setPos(500, 500)
     objects.append(crazyAnt)
 
@@ -85,7 +85,6 @@ def main():
                     if (object3.check_collision(object4)):
                         object3.collide(object4)
                 crazyAnt.searchForPlayer()
-                crazyAnt.draw(screen)
             object3.draw(screen)
 
 	HUD(screen, object1)
@@ -98,6 +97,6 @@ def main():
         #pygame.draw.rect(screen, (255, 0, 0), (20, 20, 40, 40), 2)
         pygame.display.update() # update the screen
 
-        clock.tick(100)
+        clock.tick(60)
 
 main()
