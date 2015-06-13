@@ -25,8 +25,7 @@ class Block(Object):  # represents the water, not the game
         if type(object).__name__ == 'Player_Ant':
             self.direction = object._direction
             if object._direction == 0:
-                self.x += distance
-                
+                self.x += distance               
             elif object._direction == 90:
                 self.y -= distance
             elif object._direction == 180:

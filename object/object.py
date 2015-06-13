@@ -41,6 +41,14 @@ class Object(pygame.sprite.Sprite):
             return False
 
     def collide(self, object):
+        if type(object).__name__ == 'Water':
+            print "[Info] Collided with Water" 
+        elif type(object).__name__ == 'Dirt':
+            print "[Info] Collided with Dirt"
+        elif type(object).__name__ == 'Object':
+            print "[Info] Collided with Object"
+        else:
+            print "[Error] Collided with unknown Object"
         self.x = self.old_x
         self.y = self.old_y
 
@@ -49,3 +57,13 @@ class Object(pygame.sprite.Sprite):
 	    self.old_y = yPos
 	    self.x = xPos
 	    self.y = yPos
+        
+    def speedBump(self, max_x_speed, max_y_speed):
+        if self.x > self.old_x:
+            self.x = self.old_x + max_x_speed
+        if self.x < self.old_x:
+            self.x = self.old_x - max_x_speed
+        if self.y > self.old_y:
+            self.y = self.old_y + max_y_speed
+        if self.y < self.old_y:
+            self.y = self.old_y - max_y_speed      
