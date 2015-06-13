@@ -40,7 +40,7 @@ class Ant(pygame.sprite.Sprite):  # represents the bird, not the game
 
 
 pygame.init()
-screen = pygame.display.set_mode((1080, 1024))
+screen = pygame.display.set_mode((800, 600))
 
 ant = Ant() # create an instance
 clock = pygame.time.Clock()
