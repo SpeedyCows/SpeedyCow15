@@ -2,6 +2,7 @@ from object import Object
 from water import Water
 from sugar import Sugar
 from block import Block
+from dirt import Dirt
 import pygame
 
 class Player_Ant(Object):  # represents the bird, not the game
@@ -28,7 +29,7 @@ class Player_Ant(Object):  # represents the bird, not the game
                 self.y += self.speed # move down
             self.image = pygame.transform.rotate(self.image, 270 - self._direction)
             self._direction = 270
-        elif key[pygame.K_UP]: # up key
+        if key[pygame.K_UP]: # up key
             if (self.y - self.speed) >= self.min_y: 
                 self.old_y = self.y
                 self.y -= self.speed # move up
@@ -40,13 +41,13 @@ class Player_Ant(Object):  # represents the bird, not the game
                 self.x += self.speed # move right
             self.image = pygame.transform.rotate(self.image, 0 - self._direction)
             self._direction = 0
-        elif key[pygame.K_LEFT]: # left key
+        if key[pygame.K_LEFT]: # left key
             if (self.x - self.speed) >= self.min_x:  
                 self.old_x = self.x
                 self.x -= self.speed # move left
             self.image = pygame.transform.rotate(self.image, 180 - self._direction)
             self._direction = 180
-        elif key[pygame.K_SPACE]:
+        if key[pygame.K_SPACE]:
             if (self.powerup == None):
                 print "You have no powerup"
             if (self.powerup == "Sugar"):
@@ -55,7 +56,13 @@ class Player_Ant(Object):  # represents the bird, not the game
                 self.speed = 2 * self.speed
 
     def collide(self, object):
-        if type(object).__name__ == 'Dirt' and object.empty:
+        if type(object) is Dirt:
+            self.x = self.old_x
+            self.y = self.old_y
+            object.life -= 1
+            if object.life == 0:
+                object.delete = True
+        elif type(object).__name__ == 'Dirt' and object.empty:
             return
         elif type(object).__name__ == 'Water':
             self.x = self.old_x
