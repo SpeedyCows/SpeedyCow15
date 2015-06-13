@@ -19,7 +19,7 @@ class Player_Ant(Object):  # represents the bird, not the game
         if key[pygame.K_DOWN]: # down key
             if (self.y + dist) <= self.max_y: 
                 self.old_y = self.y
-                self.y += dist # move dow
+                self.y += dist # move down
             self.image = pygame.transform.rotate(self.image, 270 - self._direction)
             self._direction = 270
         elif key[pygame.K_UP]: # up key
@@ -50,9 +50,4 @@ class Player_Ant(Object):  # represents the bird, not the game
     def rotate(self):
         oldCenter = self.rect.center
         self.image = pygame.transform.rotate(self.image)
-
-    def draw(self, surface):
-        """ Draw on surface """
-        # blit yourself at your current position
-        surface.blit(self.image, (self.x, self.y))
 
