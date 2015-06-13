@@ -13,6 +13,9 @@ class Ant(pygame.sprite.Sprite):  # represents the bird, not the game
         # the bird's position
         self.x = 0
         self.y = 0
+
+        # direction of the ant
+        self._direction = 0
     def image_rotate(self, rect, angle):
         """rotate an image while keeping its center"""
         rot_image = pygame.transform.rotate(self, angle)
@@ -30,12 +33,20 @@ class Ant(pygame.sprite.Sprite):  # represents the bird, not the game
         angle = 90
         if key[pygame.K_DOWN]: # down key
             self.y += dist # move down
+            self.image = pygame.transform.rotate(self.image, 270 - self._direction)
+            self._direction = 270
         elif key[pygame.K_UP]: # up key
             self.y -= dist # move up
+            self.image = pygame.transform.rotate(self.image, 90 - self._direction)
+            self._direction = 90
         if key[pygame.K_RIGHT]: # right key
             self.x += dist # move right
+            self.image = pygame.transform.rotate(self.image, 0 - self._direction)
+            self._direction = 0
         elif key[pygame.K_LEFT]: # left key
             self.x -= dist # move left
+            self.image = pygame.transform.rotate(self.image, 180 - self._direction)
+            self._direction = 180
 
     def draw(self, surface):
         """ Draw on surface """
