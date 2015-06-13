@@ -18,6 +18,8 @@ def HUD(screen, ant):
     screen.blit(font.render("Power ups", True, FONT_COLOR), (0, 2*FONT_SIZE))
     screen.blit(font.render("   Sugar: " + str(ant.sugar), True, FONT_COLOR), (0, 3*FONT_SIZE))
     screen.blit(font.render("   Leaves: " + str(ant.leaves), True, FONT_COLOR), (0, 4*FONT_SIZE))
+    if(ant.getRemianingLives() == 0):
+        screen.blit(font.render("YOU LOOSE!!!!!! ", True, FONT_COLOR), (250, 300))
 
 def main():
     pygame.init()
