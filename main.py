@@ -70,7 +70,11 @@ def main():
             
         for dirt in staticObjects:
             if (object1.check_collision(dirt)):
-                staticObjects.remove(dirt)
+                object1.collide(dirt)
+                #staticObjects.remove(dirt)
+                if (dirt.delete == True):
+                    staticObjects.remove(dirt)
+
 
         for dirt in staticObjects:
             dirt.draw(screen)
