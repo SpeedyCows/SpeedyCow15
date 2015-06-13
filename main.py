@@ -20,20 +20,29 @@ def main():
     object1 = Player_Ant(SQUARE_SIZE)
     objects.append(object1)
     object2 = Object(SQUARE_SIZE)
-    object2.setPos(300, 300)
+    object2.setPos(280, 280)
     objects.append(object2)
-    flag = 0
-    for x in xrange(800):
-	for y in xrange(600):
-		if (x % 100) == 80 and (y % 100) == 40:
-			water = Water(SQUARE_SIZE)
-			water.setPos(x, y)
-			objects.append(water)
-                        flag = ~flag
-                        if flag == 0:
-				dirt = Dirt(SQUARE_SIZE)
-				dirt.setPos(x, y + SQUARE_SIZE)
-				objects.append(dirt)
+    #flag = 0
+    #for x in xrange(800):
+	#for y in xrange(600):
+		#if (x % 100) == 80 and (y % 100) == 40:
+		#	water = Water(SQUARE_SIZE)
+		#	water.setPos(x, y)
+		#	objects.append(water)
+                 #       flag = ~flag
+                  #      if flag == 0:
+		#		dirt = Dirt(SQUARE_SIZE)
+		#		dirt.setPos(x, y + SQUARE_SIZE)
+		#		objects.append(dirt)
+
+    print "[DEBUG] Setting up world"
+    for x in xrange(800 / SQUARE_SIZE):
+        for y in xrange(600 / SQUARE_SIZE):
+            if not (y == 0 and x == 0) and not (x == 7 and y == 7):
+                dirt = Dirt(SQUARE_SIZE)
+                dirt.setPos(x * SQUARE_SIZE, y * SQUARE_SIZE)
+                objects.append(dirt)
+    print "[DEBUG] Done Setting up world"
 
     running = True
     while running:
@@ -45,7 +54,7 @@ def main():
 
         #ant.handle_keys() # handle the keys
 
-        screen.fill((255,255,255)) # fill the screen with white
+        screen.fill((255,255,255)) # fill the screen with black
         #screen.blit(background, backgroundRect)
 
         object1.handle_keys()

@@ -16,17 +16,22 @@ class Object(pygame.sprite.Sprite):
 	self.max_y = 600 - dimension
 	self.min_y = 0
 
+	self.red = 255
+	self.green = 0
+	self.blue = 0
+	self.width = 3
+
         self.image = None
 
     def draw(self, surface):
         if self.image is None:
-            pygame.draw.rect(surface, (255, 0, 0), (self.x, self.y, self.dimension, self.dimension), 3)
+            pygame.draw.rect(surface, (self.red, self.green, self.blue), (self.x, self.y, self.dimension, self.dimension), self.width)
         else:
             surface.blit(self.image, (self.x, self.y))
 
     def check_collision(self, object):
 	## This has a bug, the boundaries overlap - causing it to always hit something
-        if (math.fabs(self.x - object.x) <= self.dimension and math.fabs(self.y - object.y) <= self.dimension):
+        if (math.fabs(self.x - object.x) <= (self.dimension - 1) and math.fabs(self.y - object.y) <= (self.dimension - 1)): # reducing limit by 1 kinda fixed it
             return True
         else:
             return False
