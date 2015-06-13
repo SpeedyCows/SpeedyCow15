@@ -4,7 +4,7 @@ from random import Random
 from dirt import Dirt
 
 class CrazyAnt(Object):
-    def __init__(self,dimension, playerAnt, difficulty):
+    def __init__(self, dimension, playerAnt, difficulty):
         global pause
         global timesMoved
         super(CrazyAnt, self).__init__(dimension)
