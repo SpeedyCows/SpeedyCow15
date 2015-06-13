@@ -3,7 +3,7 @@ from water import Water
 from sugar import Sugar
 from block import Block
 from dirt import Dirt
-import pygame
+import pygame, sys
 
 class Player_Ant(Object):  # represents the bird, not the game
     def __init__(self, dimension):
@@ -59,6 +59,8 @@ class Player_Ant(Object):  # represents the bird, not the game
                 print "Using sugar"
                 self.powerup = None
                 self.speed = 2 * self.speed
+        if key[pygame.K_ESCAPE]:
+                sys.exit(0)
 
     def collide(self, object):
         if type(object) is Dirt:

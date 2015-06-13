@@ -67,4 +67,7 @@ class Object(pygame.sprite.Sprite):
         if self.y > self.old_y:
             self.y = self.old_y + max_y_speed
         if self.y < self.old_y:
-            self.y = self.old_y - max_y_speed      
+            self.y = self.old_y - max_y_speed  
+
+    def doSomething(self):
+         return    
