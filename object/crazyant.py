@@ -1,6 +1,7 @@
 from object import Object
 import pygame
 from random import Random
+from dirt import Dirt
 
 class CrazyAnt(Object):
     def __init__(self,dimension, playerAnt, difficulty):
@@ -78,7 +79,13 @@ class CrazyAnt(Object):
                 self.old_y = self.y
                 self.y += self.speed
 
-    def minusLife(self):
-        #if collision 
-        #minus life
-        pass
+    def collide(self, object):
+        if type(object) is Dirt:
+            self.x = self.old_x
+            self.y = self.old_y
+            object.life -= 1
+            if object.life == 0:
+                object.delete = True
+        elif type(object).__name__ == 'Player_Ant':
+            self.playerAnt.minusLife()
+            self.playerAnt

@@ -97,3 +97,7 @@ class Player_Ant(Object):  # represents the bird, not the game
 
     def getYPosition(self):
         return self.y
+
+    def minusLife(self):
+        self.lives -= 1
+        self.setPos(0, 0)
