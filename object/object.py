@@ -60,14 +60,19 @@ class Object(pygame.sprite.Sprite):
 	    self.y = yPos
         
     def speedBump(self, max_x_speed, max_y_speed):
-        if self.x > self.old_x:
-            self.x = self.old_x + max_x_speed
-        if self.x < self.old_x:
-            self.x = self.old_x - max_x_speed
-        if self.y > self.old_y:
-            self.y = self.old_y + max_y_speed
-        if self.y < self.old_y:
-            self.y = self.old_y - max_y_speed  
+        if self.x > self.old_old_x:
+            self.x = self.old_old_x + max_x_speed
+        if self.x < self.old_old_x:
+            self.x = self.old_old_x - max_x_speed
+        if self.y > self.old_old_y:
+            self.y = self.old_old_y + max_y_speed
+        if self.y < self.old_old_y:
+            self.y = self.old_old_y - max_y_speed 
 
     def doSomething(self):
-         return    
+        return     
+
+    def inBetweenLoops(self):
+        self.old_old_x = self.x
+        self.old_old_y = self.y
+        return

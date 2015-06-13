@@ -5,6 +5,9 @@ from block import Block
 from dirt import Dirt
 import pygame, sys
 
+FONT_SIZE = 20
+FONT_COLOR = (255, 0, 0)
+
 class Player_Ant(Object):  # represents the bird, not the game
     def __init__(self, dimension):
         """ The constructor of the class """
@@ -16,13 +19,13 @@ class Player_Ant(Object):  # represents the bird, not the game
         self.powerup = None
 
         self.score = 0
-        self.lives = 0
+        self.lives = 3
         self.leaves = 0
         self.sugar = 0
 
         self.speed = 5
     	self._direction = 0
-
+        
     def handle_keys(self):
         """ Handles Keys """
 
@@ -80,10 +83,11 @@ class Player_Ant(Object):  # represents the bird, not the game
             self.powerup = "Sugar"
         # Slow the ant down to the max travelling speed of the block
         elif type(object) is Block:
-            self.speedBump(object.xSpeed, object.ySpeed)                
+            print "Speed bumping ant:", object.xSpeed, object.ySpeed
+            self.speedBump(object.xSpeed, object.ySpeed)
         else:
             print "[Info] Collided with Dirt or something"
-        
+
     def image_rotate(self, rect, angle):
         """rotate an image while keeping its center"""
         rot_image = pygame.transform.rotate(self, angle)
@@ -93,3 +97,16 @@ class Player_Ant(Object):  # represents the bird, not the game
     def rotate(self):
         oldCenter = self.rect.center
         self.image = pygame.transform.rotate(self.image)
+
+    def getXPosition(self):
+        return self.x
+
+    def getYPosition(self):
+        return self.y
+
+    def minusLife(self):
+        self.lives -= 1
+        self.setPos(0, 0)
+        
+    def getRemianingLives(self):
+        return self.lives
