@@ -5,6 +5,8 @@ from object.object import *
 from object.player_ant import *
 from object.water import Water
 
+SQUARE_SIZE = 40
+
 def main():
     pygame.init()
     background = pygame.image.load("images/grass.jpg")
@@ -15,15 +17,15 @@ def main():
     clock = pygame.time.Clock()
 
     objects = []
-    object1 = Player_Ant()
+    object1 = Player_Ant(SQUARE_SIZE)
     objects.append(object1)
-    object2 = Object()
+    object2 = Object(SQUARE_SIZE)
     object2.setPos(300, 300)
     objects.append(object2)
     for x in xrange(800):
 	for y in xrange(600):
 		if (x % 100) == 80 and (y % 100) == 40:
-			water = Water()
+			water = Water(SQUARE_SIZE)
 			water.setPos(x, y)
 			objects.append(water)
 
