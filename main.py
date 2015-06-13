@@ -2,7 +2,7 @@ import pygame
 import os
 
 # it is better to have an extra variable, than an extremely long line.
-img_path = 'ant.png'
+img_path = 'images/ant.png'
 
 
 class Ant(pygame.sprite.Sprite):  # represents the bird, not the game
@@ -44,7 +44,7 @@ class Ant(pygame.sprite.Sprite):  # represents the bird, not the game
 
 
 pygame.init()
-background = pygame.image.load("grass.jpg")
+background = pygame.image.load("images/grass.jpg")
 backgroundRect = background.get_rect()
 screen = pygame.display.set_mode((800, 600))
 
