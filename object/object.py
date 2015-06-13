@@ -33,8 +33,8 @@ class Object(pygame.sprite.Sprite):
 	## This has a bug, the boundaries overlap - causing it to always hit something
         #if (math.fabs(self.x - object.x) <= (self.dimension - 1) and math.fabs(self.y - object.y) <= (self.dimension - 1)): # reducing limit by 1 kinda fixed it
         #if object.x > self.x and object.x < (self.x + self.dimension) and object.y > self.y and object.y < (self.y + self.dimension):
-        selfRect = pygame.Rect(self.x, self.y, self.dimension, self.dimension)
-        objectRect = pygame.Rect(object.x, object.y, object.dimension, object.dimension)
+        selfRect = pygame.Rect(self.x, self.y, self.dimension - 2, self.dimension - 2)
+        objectRect = pygame.Rect(object.x, object.y, object.dimension - 2, object.dimension- 2)
         if selfRect.colliderect(objectRect):
             return True
         else:
