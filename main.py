@@ -1,7 +1,6 @@
 import pygame
 import os
 
-<<<<<<< HEAD
 from object.object import *
 from object.player_ant import *
 
