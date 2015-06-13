@@ -8,6 +8,8 @@ class Player_Ant(Object):  # represents the bird, not the game
 
         self.image = pygame.image.load('images/ant.png')
         self.image = pygame.transform.scale(self.image, (self.dimension, self.dimension))
+
+	self._direction = 0
         
     def handle_keys(self):
         """ Handles Keys """
@@ -17,19 +19,27 @@ class Player_Ant(Object):  # represents the bird, not the game
         if key[pygame.K_DOWN]: # down key
             if (self.y + dist) <= self.max_y: 
                 self.old_y = self.y
-                self.y += dist # move down
+                self.y += dist # move dow
+            self.image = pygame.transform.rotate(self.image, 270 - self._direction)
+            self._direction = 270
         elif key[pygame.K_UP]: # up key
             if (self.y - dist) >= self.min_y: 
                 self.old_y = self.y
                 self.y -= dist # move up
+            self.image = pygame.transform.rotate(self.image, 90 - self._direction)
+            self._direction = 90
         if key[pygame.K_RIGHT]: # right key
             if (self.x + dist) <= self.max_x: 
                 self.old_x = self.x
                 self.x += dist # move right
+            self.image = pygame.transform.rotate(self.image, 0 - self._direction)
+            self._direction = 0
         elif key[pygame.K_LEFT]: # left key
             if (self.x - dist) >= self.min_x: 
                 self.old_x = self.x
                 self.x -= dist # move left
+            self.image = pygame.transform.rotate(self.image, 180 - self._direction)
+            self._direction = 180
 
     def image_rotate(self, rect, angle):
         """rotate an image while keeping its center"""
