@@ -81,7 +81,8 @@ class Player_Ant(Object):  # represents the bird, not the game
             self.powerup = "Sugar"
         # Slow the ant down to the max travelling speed of the block
         elif type(object) is Block:
-            self.speedBump(object.xSpeed, object.ySpeed)                
+            print "Speed bumping ant:", object.xSpeed, object.ySpeed
+            self.speedBump(object.xSpeed, object.ySpeed)
         else:
             print "[Info] Collided with Dirt or something"
 
