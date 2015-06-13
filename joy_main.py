@@ -67,7 +67,9 @@ def main():
             
         for dirt in dirts:
             if (object1.check_collision(dirt)):
-                dirts.remove(dirt)
+                #dirts.remove(dirt)
+                if (dirt.delete == True):
+                    dirts.remove(dirt)
 
         for dirt in dirts:
             dirt.draw(screen)
@@ -81,8 +83,8 @@ def main():
                 if (object3 != object4):
                     if (object3.check_collision(object4)):
                         object3.collide(object4)
-            object3.draw(screen)   
-            
+            object3.draw(screen)
+
         #ant.draw(screen) # draw the bird to the screen
         #pygame.draw.rect(screen, (255, 0, 0), (20, 20, 40, 40), 2)
         pygame.display.update() # update the screen
