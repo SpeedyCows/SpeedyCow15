@@ -3,6 +3,7 @@ import os
 
 from object.object import *
 from object.player_ant import *
+from object.water import Water
 
 def main():
     pygame.init()
@@ -17,9 +18,14 @@ def main():
     object1 = Player_Ant()
     objects.append(object1)
     object2 = Object()
-    object2.x = 300
-    object2.y = 300
+    object2.setPos(300, 300)
     objects.append(object2)
+    for x in xrange(800):
+	for y in xrange(600):
+		if (x % 100) == 80 and (y % 100) == 40:
+			water = Water()
+			water.setPos(x, y)
+			objects.append(water)
 
     running = True
     while running:
