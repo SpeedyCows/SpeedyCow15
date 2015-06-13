@@ -1,9 +1,9 @@
-import pygame
-import os
+import pygame, os
 
 from object.object import *
 from object.player_ant import *
 from object.water import Water
+from object.dirt import Dirt
 
 SQUARE_SIZE = 40
 
@@ -22,12 +22,18 @@ def main():
     object2 = Object(SQUARE_SIZE)
     object2.setPos(300, 300)
     objects.append(object2)
+    flag = 0
     for x in xrange(800):
 	for y in xrange(600):
 		if (x % 100) == 80 and (y % 100) == 40:
 			water = Water(SQUARE_SIZE)
 			water.setPos(x, y)
 			objects.append(water)
+                        flag = ~flag
+                        if flag == 0:
+				dirt = Dirt(SQUARE_SIZE)
+				dirt.setPos(x, y + SQUARE_SIZE)
+				objects.append(dirt)
 
     running = True
     while running:

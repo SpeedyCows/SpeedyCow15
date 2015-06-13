@@ -25,12 +25,21 @@ class Object(pygame.sprite.Sprite):
             surface.blit(self.image, (self.x, self.y))
 
     def check_collision(self, object):
+	## This has a bug, the boundaries overlap - causing it to always hit something
         if (math.fabs(self.x - object.x) <= self.dimension and math.fabs(self.y - object.y) <= self.dimension):
             return True
         else:
             return False
 
     def collide(self, object):
+        if type(object).__name__ == 'Water':
+            print "[Info] Collided with Water"
+        elif type(object).__name__ == 'Dirt':
+            print "[Info] Collided with Dirt"
+        elif type(object).__name__ == 'Object':
+            print "[Info] Collided with Object"
+        else:
+            print "[Error] Collided with unknown Object"
         self.x = self.old_x
         self.y = self.old_y
 
