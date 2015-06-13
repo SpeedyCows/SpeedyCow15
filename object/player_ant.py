@@ -11,7 +11,7 @@ class Player_Ant(Object):  # represents the bird, not the game
         self.image = pygame.transform.scale(self.image, (self.dimension, self.dimension))
 
 	self._direction = 0
-        
+
     def handle_keys(self):
         """ Handles Keys """
 

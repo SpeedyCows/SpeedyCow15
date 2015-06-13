@@ -4,6 +4,7 @@ from object.object import *
 from object.player_ant import *
 from object.water import Water
 from object.dirt import Dirt
+from object.crazyant import CrazyAnt
 
 SQUARE_SIZE = 40
 
@@ -22,6 +23,11 @@ def main():
     object2 = Water(SQUARE_SIZE)
     object2.setPos(280, 280)
     objects.append(object2)
+    crazyAnt = CrazyAnt(SQUARE_SIZE, object1)
+    crazyAnt.setPos(500, 500)
+    objects.append(crazyAnt)
+    
+    
     #flag = 0
     #for x in xrange(800):
 	#for y in xrange(600):
@@ -41,9 +47,10 @@ def main():
     for x in xrange(800 / DIRT_SIZE):
         for y in xrange(600 / DIRT_SIZE):
             if not (y == 0 and x == 0) and not (x == 7 and y == 7):
-                dirt = Dirt(DIRT_SIZE)
-                dirt.setPos(x * DIRT_SIZE, y * DIRT_SIZE)
-                dirts.append(dirt)
+                dirt = Dirt(SQUARE_SIZE)
+                dirt.setPos(x * SQUARE_SIZE, y * SQUARE_SIZE)
+               # objects.append(dirt)
+
     print "[DEBUG] Done Setting up world"
 
     running = True
@@ -73,6 +80,8 @@ def main():
                 if (object3 != object4):
                     if (object3.check_collision(object4)):
                         object3.collide(object4)
+                crazyAnt.searchForPlayer()
+                crazyAnt.draw(screen)
             object3.draw(screen)
 
         #ant.draw(screen) # draw the bird to the screen

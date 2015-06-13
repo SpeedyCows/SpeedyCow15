@@ -52,9 +52,8 @@ class Object(pygame.sprite.Sprite):
         self.x = self.old_x
         self.y = self.old_y
 
-
     def setPos(self, xPos, yPos):
-	self.old_x = xPos
-	self.old_y = yPos
-	self.x = xPos
-	self.y = yPos
+	    self.old_x = xPos
+	    self.old_y = yPos
+	    self.x = xPos
+	    self.y = yPos
