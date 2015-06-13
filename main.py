@@ -1,69 +1,52 @@
 import pygame
 import os
 
-# it is better to have an extra variable, than an extremely long line.
-img_path = 'images/ant.png'
+from object.object import *
+from object.player_ant import *
 
+def main():
+    pygame.init()
+    background = pygame.image.load("images/grass.jpg")
+    backgroundRect = background.get_rect()
+    screen = pygame.display.set_mode((800, 600))
 
-class Ant(pygame.sprite.Sprite):  # represents the bird, not the game
-    def __init__(self):
-        """ The constructor of the class """
-        self.image = pygame.image.load(img_path)
+    #ant = Ant() # create an instance
+    clock = pygame.time.Clock()
 
-        # the bird's position
-        self.x = 0
-        self.y = 0
-    def image_rotate(self, rect, angle):
-        """rotate an image while keeping its center"""
-        rot_image = pygame.transform.rotate(self, angle)
-        rot_rect = rot_image.get_rect(center=rect.center)
-        return rot_image,rot_rect
+    objects = []
+    object1 = Player_Ant()
+    objects.append(object1)
+    object2 = Object()
+    object2.x = 300
+    object2.y = 300
+    objects.append(object2)
 
-    def rotate(self):
-        oldCenter = self.rect.center
-        self.image = pygame.transform.rotate(self.image)
+    running = True
+    while running:
+        # handle every event since the last frame.
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit() # quit the screen
+                running = False
 
-    def handle_keys(self):
-        """ Handles Keys """
-        key = pygame.key.get_pressed()
-        dist = 1 # distance moved in 1 frame, try changing it to 5
-        angle = 90
-        if key[pygame.K_DOWN]: # down key
-            self.y += dist # move down
-        elif key[pygame.K_UP]: # up key
-            self.y -= dist # move up
-        if key[pygame.K_RIGHT]: # right key
-            self.x += dist # move right
-        elif key[pygame.K_LEFT]: # left key
-            self.x -= dist # move left
+        #ant.handle_keys() # handle the keys
 
-    def draw(self, surface):
-        """ Draw on surface """
-        # blit yourself at your current position
-        surface.blit(self.image, (self.x, self.y))
+        screen.fill((255,255,255)) # fill the screen with white
+        #screen.blit(background, backgroundRect)
 
+        object1.handle_keys()
 
-pygame.init()
-background = pygame.image.load("images/grass.jpg")
-backgroundRect = background.get_rect()
-screen = pygame.display.set_mode((800, 600))
+        for object3 in objects:
+            for object4 in objects:
+                if (object3 != object4):
+                    if (object3.check_collision(object4)):
+                        object3.collide(object4)
+            object3.draw(screen)
 
-ant = Ant() # create an instance
-clock = pygame.time.Clock()
+        #ant.draw(screen) # draw the bird to the screen
+        #pygame.draw.rect(screen, (255, 0, 0), (20, 20, 40, 40), 2)
+        pygame.display.update() # update the screen
 
-running = True
-while running:
-    # handle every event since the last frame.
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            pygame.quit() # quit the screen
-            running = False
+        clock.tick(100)
 
-    ant.handle_keys() # handle the keys
-
-    #screen.fill((255,255,255)) # fill the screen with white
-    screen.blit(background, backgroundRect)
-    ant.draw(screen) # draw the bird to the screen
-    pygame.display.update() # update the screen
-
-    clock.tick(100)
+main()
