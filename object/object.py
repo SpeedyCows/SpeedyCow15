@@ -22,6 +22,7 @@ class Object(pygame.sprite.Sprite):
     	self.width = 3
 
         self.image = None
+        self.delete = False
 
     def draw(self, surface):
         if self.image is None:

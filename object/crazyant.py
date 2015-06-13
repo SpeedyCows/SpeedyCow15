@@ -28,7 +28,6 @@ class CrazyAnt(Object):
         global pause
         if(self.timeForPause[pause] == self.counter):
             randDir = self.rand.randint(0, 3)
-            print randDir
             self.image = pygame.transform.rotate(self.image, self.direction[randDir] - self._direction)
             self._direction = self.direction[randDir]
             pause = self.rand.randint(0, 12)
