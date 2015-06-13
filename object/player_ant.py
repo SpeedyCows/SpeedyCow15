@@ -14,7 +14,6 @@ class Player_Ant(Object):  # represents the bird, not the game
 
     def handle_keys(self):
         """ Handles Keys """
-
         key = pygame.key.get_pressed()
         dist = 1 # distance moved in 1 frame, try changing it to 5
         if key[pygame.K_DOWN]: # down key
@@ -29,7 +28,7 @@ class Player_Ant(Object):  # represents the bird, not the game
                 self.y -= dist # move up
             self.image = pygame.transform.rotate(self.image, 90 - self._direction)
             self._direction = 90
-        if key[pygame.K_RIGHT]: # right key
+        elif key[pygame.K_RIGHT]: # right key
             if (self.x + dist) <= self.max_x: 
                 self.old_x = self.x
                 self.x += dist # move right
@@ -43,14 +42,12 @@ class Player_Ant(Object):  # represents the bird, not the game
             self._direction = 180
 
     def collide(self, object):
-
         if type(object).__name__ == 'Dirt' and object.empty:
             return
-        if type(object).__name__ == 'Water':
+        elif type(object).__name__ == 'Water':
             self.x = self.old_x
             self.y = self.old_y
             return
-            
         else:
             print "[Info] Collided with Dirt or something"
         
