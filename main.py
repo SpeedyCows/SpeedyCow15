@@ -5,6 +5,7 @@ from object.player_ant import *
 from object.water import Water
 from object.dirt import Dirt
 from object.crazyant import CrazyAnt
+from board import Board
 
 SQUARE_SIZE = 40
 
@@ -27,16 +28,20 @@ def main():
     crazyAnt.setPos(500, 500)
     objects.append(crazyAnt)
 
-    print "[DEBUG] Setting up world"
-    dirts = []
-    DIRT_SIZE = SQUARE_SIZE / 2
-    for x in xrange(800 / DIRT_SIZE):
-        for y in xrange(600 / DIRT_SIZE):
-            if not (y == 0 and x == 0):
-                dirt = Dirt(DIRT_SIZE)
-                dirt.setPos(x * DIRT_SIZE, y * DIRT_SIZE)
-                #objects.append(dirt)
-    print "[DEBUG] Done Setting up world"
+    #Create the board
+    board = Board(screen)
+    staticObjects = board.asList()
+
+    #print "[DEBUG] Setting up world"
+    #dirts = []
+    #DIRT_SIZE = SQUARE_SIZE / 2
+    #for x in xrange(800 / DIRT_SIZE):
+    #    for y in xrange(600 / DIRT_SIZE):
+    #        if not (y == 0 and x == 0):
+    #            dirt = Dirt(DIRT_SIZE)
+    #            dirt.setPos(x * DIRT_SIZE, y * DIRT_SIZE)
+    #            #objects.append(dirt)
+    #print "[DEBUG] Done Setting up world"
 
     running = True
     while running:
@@ -53,11 +58,11 @@ def main():
 
         object1.handle_keys()
             
-        for dirt in dirts:
+        for dirt in staticObjects:
             if (object1.check_collision(dirt)):
-                dirts.remove(dirt)
+                staticObjects.remove(dirt)
 
-        for dirt in dirts:
+        for dirt in staticObjects:
             dirt.draw(screen)
                 
         for object3 in objects:
@@ -69,9 +74,9 @@ def main():
                 crazyAnt.draw(screen)
             object3.draw(screen)
 
-	font = pygame.font.Font(None, 50)
-	mes = font.render("Press <SPACE> to Start", True, (255, 0, 0))
-	screen.blit(mes, (100, 100))
+        font = pygame.font.Font(None, 50)
+        mes = font.render("Press <SPACE> to Start", True, (255, 0, 0))
+        screen.blit(mes, (100, 100))
 
         #ant.draw(screen) # draw the bird to the screen
         #pygame.draw.rect(screen, (255, 0, 0), (20, 20, 40, 40), 2)
