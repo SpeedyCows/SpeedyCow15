@@ -1,13 +1,16 @@
 from object import Object
 from dirt import Dirt
 import pygame
-
+ 
 class Block(Object):  # represents the water, not the game
     MAX_SPEED = 2
 
     def __init__(self, dimension):
         """ The constructor of the class """
         super(Block, self).__init__(dimension)
+        
+        self.image = pygame.image.load('images/Boulder.png')
+        self.image = pygame.transform.scale(self.image, (self.dimension, self.dimension))        
         
         self.red = 0
         self.green = 0
@@ -36,16 +39,16 @@ class Block(Object):  # represents the water, not the game
             
         elif type(object) is Dirt:
             if self.direction == 0 and object.x < self.x + self.dimension:
-                self.x = object.x - self.dimension
+                self.x = self.old_x
                 self.xSpeed = 0
             elif self.direction == 90 and object.y + object.dimension > self.y:
-                self.y = object.y + object.dimension
+                self.y = self.old_y
                 self.ySpeed = 0
             elif self.direction == 180 and object.x + object.dimension > self.x:
-                self.x = object.x + object.dimension
+                self.x = self.old_x
                 self.xSpeed = 0
             elif self.direction == 270 and object.y < self.y + self.dimension:
-                self.y = object.y - self.dimension
+                self.y = self.old_y
                 self.ySpeed
         return      
         

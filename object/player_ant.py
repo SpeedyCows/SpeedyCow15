@@ -3,7 +3,7 @@ from water import Water
 from sugar import Sugar
 from block import Block
 import pygame
-
+ 
 class Player_Ant(Object):  # represents the bird, not the game
     def __init__(self, dimension):
         """ The constructor of the class """
