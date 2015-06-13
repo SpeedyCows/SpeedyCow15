@@ -40,7 +40,6 @@ class CrazyAnt(Object):
             randDir = self.rand.randint(0, 3)
             self.image = pygame.transform.rotate(self.image, self.direction[randDir] - self._direction)
             self._direction = self.direction[randDir]
-            print self.direction[randDir]
             pause = self.rand.randint(0, 12)
             self.counter = 0
             timesMoved = 0
@@ -53,9 +52,6 @@ class CrazyAnt(Object):
         self.image = pygame.transform.rotate(self.image)
 
     def checkDirection(self):
-        print 'checking dir'
-        print 'ant ' + str(self.playerAnt.getXPosition()) + " " + str(self.playerAnt.getYPosition())
-        print 'se;f ' + str(self.x) + " " + str(self.y) 
         #translate where to check for on the board.
         if(self._direction == 0):#Ant looks 5 to the right
             if(self.playerAnt.getXPosition() >= self.x and 
