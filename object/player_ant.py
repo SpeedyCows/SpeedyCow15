@@ -1,7 +1,7 @@
 from object import Object
 from water import Water
 from sugar import Sugar
-from block import Block
+from block import Boulder
 from dirt import Dirt
 import pygame
 
@@ -80,7 +80,7 @@ class Player_Ant(Object):  # represents the bird, not the game
             print "PICKED UP SUGAR"  
             self.powerup = "Sugar"
         # Slow the ant down to the max travelling speed of the block
-        elif type(object) is Block:
+        elif type(object) is Boulder:
             print "Speed bumping ant:", object.xSpeed, object.ySpeed
             self.speedBump(object.xSpeed, object.ySpeed)
         else:
