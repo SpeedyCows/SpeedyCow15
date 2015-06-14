@@ -3,7 +3,6 @@ import pygame
 from random import Random
 from dirt import Dirt
 from block import Boulder
-from water import Water
 
 class CrazyAnt(Object):
     def __init__(self, dimension, playerAnt, difficulty):
@@ -16,7 +15,7 @@ class CrazyAnt(Object):
         self._direction = 0
         self.rand = Random()
         self.rotationTracekr = 0
-        self.timeForPause = [2000, 5000, 7000, 900, 100, 1500, 3000, 3000, 4000, 500, 100, 1180, 1200]
+        self.timeForPause = [200, 500, 700, 90, 10, 150, 300, 300, 400, 50, 10, 118, 120]
         self.direction = [0, 90, 180, 270]
         pause = self.rand.randint(0, 12)
         self.counter = 0
@@ -80,19 +79,19 @@ class CrazyAnt(Object):
                 self.old_y = self.y
                 self.y += self.speed
 
-    def collide(self, object):
-        if type(object) is Dirt:
+    def collide(self, obj):
+        if type(obj) is Dirt:
             self.x = self.old_x
             self.y = self.old_y
-            object.life -= 1
-            if object.life == 0:
-                object.delete = True
+            obj.life -= 1
+            if obj.life == 0:
+                obj.delete = True
+        elif type(obj).__name__ == 'Dirt' and obj.empty:
+            return
+        elif type(obj) is Boulder:
+            self.speedBump(obj.xSpeed, obj.ySpeed)
 
-        # Slow the ant down to the max travelling speed of the block
-        elif type(object) is Boulder or type(object) is Water:
-            self.delete = True
-
-        elif type(object).__name__ == 'Player_Ant':
+        elif type(obj).__name__ == 'Player_Ant':
             self.playerAnt.minusLife()
             self.playerAnt
 

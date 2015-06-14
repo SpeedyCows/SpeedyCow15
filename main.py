@@ -70,7 +70,7 @@ def main():
     numberOfCrazyAnts = 1
     while True:
         t = time.clock()
-        if(t/10 > numberOfCrazyAnts):
+        if(t/20 > numberOfCrazyAnts):
             crazyAnt = CrazyAnt(SQUARE_SIZE, ant, 'e')
             randomX = rand.randint(20, 500)
             randomY = rand.randint(20, 500)
@@ -137,8 +137,8 @@ def main():
                 if (object3 != object4):
                     if (object3.check_collision(object4)):
                         object3.collide(object4)
-                for crazyAnt in enemyAnts:
-                    crazyAnt.searchForPlayer()
+                    for crazyAnt in enemyAnts:
+                        crazyAnt.searchForPlayer()
 
         #draw all objects
         for obj in staticObjects + movableObjects:
