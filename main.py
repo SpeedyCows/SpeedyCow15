@@ -9,6 +9,8 @@ from object.queen import Queen
 from object.egg import Egg
 from board import Board
 from random import Random
+from eventmanager import EventManager
+from soundmanager import SoundManager
 
 from object.pyganim import *
 PLAYER_SIZE = 80
@@ -88,8 +90,11 @@ def main():
     crazyAnt = CrazyAnt(SQUARE_SIZE, ant, dif)
     crazyAnt.setPos(500, 500)
     enemyAnts.append(crazyAnt)
-    #Create the board
-    board = Board(screen)
+    #Create the event managers
+    eventManager = EventManager()
+    soundManager = SoundManager(eventManager)
+    #Create board
+    board = Board(screen, eventManager)
     movableObjects, staticObjects = board.getObjects()
     movableObjects += [ant]
     movableObjects.append(crazyAnt)
@@ -100,12 +105,12 @@ def main():
 
     started = False
     keycount = 0
+    numberOfCrazyAnts = 1
 
     scoreTimer = time.clock()
     sugarTimer = scoreTimer
     leafTimer = scoreTimer
     eggTimer = scoreTimer
-    crazyAntTimer = scoreTimer
     randomEggSpawnTime = queen.getRandomEggTime()
 
     logo = pygame.image.load('images/sugar-ant.png')
@@ -123,16 +128,7 @@ def main():
             egg.setPos(queen.x, queen.y)
             staticObjects.append(egg)
             eggTimer = t
-            randomEggSpawnTime = egg.getRandomEggTime()
-        if(t - crazyAntTimer) > 20:
-            crazyAnt = CrazyAnt(SQUARE_SIZE, ant, dif)
-            randomX = rand.randint(100, 800 - SQUARE_SIZE)
-            randomY = rand.randint(100, 600 - SQUARE_SIZE)
-            crazyAnt.setPos(randomX, randomY)
-            movableObjects.append(crazyAnt)
-            enemyAnts.append(crazyAnt)
-            crazyAnt.aggresiveSearchForPlayer()
-            crazyAntTimer = t
+            randomEggSpawnTime = queen.getRandomEggTime()
         if (t - sugarTimer) > 30:
             sugar = Sugar(rand.choice((SQUARE_SIZE, SQUARE_SIZE / 2)))
             randomX = rand.randint(100, 800 - SQUARE_SIZE)
@@ -147,6 +143,16 @@ def main():
             leaf.setPos(randomX, randomY)
             movableObjects.append(leaf)
             leafTimer = t
+        if (t/20 > numberOfCrazyAnts):
+            if(t < 40):
+                spawnCrazyAnt(numberOfCrazyAnts, rand, enemyAnts, movableObjects, ant, 'e')
+                numberOfCrazyAnts += 1
+            elif(t >= 40 and t <= 60):
+                spawnCrazyAnt(numberOfCrazyAnts, rand, enemyAnts, movableObjects, ant, 'm')
+                numberOfCrazyAnts += 1
+            else:
+                spawnCrazyAnt(numberOfCrazyAnts, rand, enemyAnts, movableObjects, ant, 'h')
+                numberOfCrazyAnts += 1
         screen.blit(background, backgroundRect)
         if not started:
             screen.blit(mes, (200, 250))
@@ -224,4 +230,14 @@ def main():
 
         clock.tick(20)
 
-main()
+def spawnCrazyAnt(numberOfCrazyAnts, rand, enemyAnts, movableObjects, ant, arg ):
+    crazyAnt = copy.copy(CrazyAnt(SQUARE_SIZE, ant, arg))
+    randomX = rand.randint(100, 500)
+    randomY = rand.randint(100, 500)
+    if(randomX != ant.x and randomY != ant.y):
+        crazyAnt.setPos(randomX, randomY)
+        movableObjects.append(crazyAnt)
+        enemyAnts.append(crazyAnt)
+        crazyAnt.aggresiveSearchForPlayer()
+
+if __name__=='__main__':main()
