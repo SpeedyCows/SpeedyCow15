@@ -115,25 +115,21 @@ class Player_Ant(Object):  # represents the bird, not the game
                 sys.exit(0)
     def move_up(self):
         self.move = (0, 0 - self.speed)
-        self.image = pygame.transform.rotate(self.image, 90 - self._direction)
         self.ani = self.ani_D
         self._direction = 90
 
     def move_down(self):
         self.move = (0, self.speed)
-        self.image = pygame.transform.rotate(self.image, 270 - self._direction)
         self.ani = self.ani_D
         self._direction = 270
 
     def move_right(self):
         self.move = (self.speed, 0)
-        self.image = pygame.transform.rotate(self.image, 0 - self._direction)
         self.ani = self.ani_R
         self._direction = 0
 
     def move_left(self):
         self.move = (0 - self.speed, 0)
-        self.image = pygame.transform.rotate(self.image, 180 - self._direction)
         self.ani = self.ani_L
         self._direction = 180
 
