@@ -101,8 +101,8 @@ def main():
                     movableObject.collide(staticObject)
                     staticObject.collide(movableObject)
 
-                    if (staticObject.delete == True):
-                        staticObjects.remove(staticObject)
+            if (staticObject.delete == True):
+                staticObjects.remove(staticObject)
 
 
             
