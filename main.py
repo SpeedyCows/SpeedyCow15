@@ -106,10 +106,9 @@ def main():
     keycount = 0
     numberOfCrazyAnts = 1
 
-    scoreTimer = time.clock()
-    sugarTimer = scoreTimer
-    leafTimer = scoreTimer
-    eggTimer = scoreTimer
+    sugarTimer = time.clock()
+    leafTimer = sugarTimer
+    eggTimer = sugarTimer
     randomEggSpawnTime = queen.getRandomEggTime()
 
     logo = pygame.image.load('images/sugar-ant.png')
@@ -119,9 +118,6 @@ def main():
 
     while True:
         t = time.clock()
-        if (t - scoreTimer) > 1:
-            ant.score += 1
-            scoreTimer = t
         if (t - eggTimer) > randomEggSpawnTime:
             egg = Egg(SQUARE_SIZE)
             egg.setPos(queen.x, queen.y)
@@ -152,10 +148,6 @@ def main():
             else:
                 spawnCrazyAnt(numberOfCrazyAnts, rand, enemyAnts, movableObjects, ant, 'h')
                 numberOfCrazyAnts += 1
-
-        if (t - scoreTimer) > 1:
-            ant.score += 1
-            scoreTimer = t
         screen.blit(background, backgroundRect)
         if not started:
             screen.blit(mes, (200, 250))
