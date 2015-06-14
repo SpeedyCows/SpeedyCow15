@@ -57,7 +57,6 @@ class CrazyAnt(Object):
         # initial animation direction to draw
         self.ani = self.ani_R
 
-
         self._direction = 0
         self.rand = Random()
         self.rotationTracekr = 0
@@ -70,11 +69,11 @@ class CrazyAnt(Object):
         cPause = self.rand.randint(0, 13)
         self.counter = 0
         if(difficulty == 'h'):
-            self.speed = 0.09
+            self.speed = 0.06
         elif(difficulty == 'm'):
-            self.speed = 0.07
-        else:
             self.speed = 0.05
+        else:
+            self.speed = 0.04
 
     def image_rotate(self, rect, angle):
         """rotate an image while keeping its center"""
@@ -151,6 +150,9 @@ class CrazyAnt(Object):
                self.y < self.max_y):
                 self.old_y = self.y
                 self.y += self.speed
+        #NOT IN OUR HOUSE!!
+        if(self.x <= 100 or self.y <= 1500):
+            self.killSelf()
 
     def collide(self, obj):
         if type(obj) is Dirt:
@@ -173,3 +175,6 @@ class CrazyAnt(Object):
 
     def isMovable(self):
         return True
+    
+    def killSelf(self):
+        self.delete = True
