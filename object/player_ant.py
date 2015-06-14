@@ -39,10 +39,10 @@ class Player_Ant(Object):  # represents the bird, not the game
         self.ani_D.scale((self.dimension, self.dimension))
 
         # Up Animation
-        ani_U1 = pygame.image.load('images/ant/sprite_b_ant_down1.png')
-        ani_U2 = pygame.image.load('images/ant/sprite_b_ant_down2.png')
-        ani_U3 = pygame.image.load('images/ant/sprite_b_ant_down3.png')
-        ani_U4 = pygame.image.load('images/ant/sprite_b_ant_down4.png')
+        ani_U1 = pygame.image.load('images/ant/sprite_b_ant_up1.png')
+        ani_U2 = pygame.image.load('images/ant/sprite_b_ant_up2.png')
+        ani_U3 = pygame.image.load('images/ant/sprite_b_ant_up3.png')
+        ani_U4 = pygame.image.load('images/ant/sprite_b_ant_up4.png')
         self.ani_U = pyganim.PygAnimation([(ani_U1, .1), (ani_U2, .1), (ani_U3, .1), (ani_U4, .1)])
         self.ani_U.scale((self.dimension, self.dimension))
 
@@ -80,16 +80,6 @@ class Player_Ant(Object):  # represents the bird, not the game
         elif delta_y < 0:
             self.move_down()"""
 
-    def handle_keys(self):
-        """ Handles Keys """
-
-        key = pygame.key.get_pressed()
-        #self.dist = 1 # distance moved in 1 frame, try changing it to 5
-        if key[pygame.K_DOWN]: # down key 
-            if (self.y + self.speed) <= self.max_y: 
-                self.old_y = self.y
-                self.y += self.speed # move down
-
     def handle_key(self, event):
         self.ani_conduct.play()
 
@@ -115,7 +105,7 @@ class Player_Ant(Object):  # represents the bird, not the game
                 sys.exit(0)
     def move_up(self):
         self.move = (0, 0 - self.speed)
-        self.ani = self.ani_D
+        self.ani = self.ani_U
         self._direction = 90
 
     def move_down(self):
