@@ -6,6 +6,7 @@ from block import Boulder
 
 from water import Water
 from queen import Queen
+from fire import Fire
 
 class CrazyAnt(Object):
     def __init__(self, dimension, playerAnt, difficulty):
@@ -95,7 +96,7 @@ class CrazyAnt(Object):
         elif type(obj) is Boulder:
             self.speedBump(obj.xSpeed, obj.ySpeed)
         # Slow the ant down to the max travelling speed of the block
-        elif type(object) is Boulder or type(object) is Water or type(object) is Queen:
+        elif type(object) is Boulder or type(object) is Water or type(object) is Queen or type(object) is Fire:
             self.delete = True
 
         elif type(object).__name__ == 'Player_Ant':

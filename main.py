@@ -12,6 +12,7 @@ from random import Random
 from object.pyganim import *
 PLAYER_SIZE = 80
 SQUARE_SIZE = 40
+BLOCK_SIZE = 40
 FONT_SIZE = 20
 FONT_COLOR = (255, 255, 255)
 def HUD(screen, ant):
@@ -51,8 +52,20 @@ def processPYGame(ant, keycount):
 def main():
     pygame.init()
     rand = Random()
-    background = pygame.image.load("images/grass.jpg")
+
+    #make background dirt
+    topdirt = pygame.image.load("images/dirt1.png")
+    topdirt = pygame.transform.scale(topdirt, (BLOCK_SIZE, BLOCK_SIZE))
+    backdirt = pygame.image.load("images/dirt2.png")
+    backdirt = pygame.transform.scale(backdirt, (BLOCK_SIZE, BLOCK_SIZE))
+    background = pygame.image.load("images/dirt.jpg")
+    for b_x in range(0, 800, BLOCK_SIZE):
+        background.blit(topdirt, (b_x, 0))
+        for b_y in range(BLOCK_SIZE, 600, BLOCK_SIZE):
+            background.blit(backdirt, (b_x, b_y))
+
     backgroundRect = background.get_rect()
+
     screen = pygame.display.set_mode((800, 600))
     enemyAnts = []
     clock = pygame.time.Clock()
