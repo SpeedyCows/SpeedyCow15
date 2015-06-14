@@ -38,6 +38,7 @@ def processPYGame(ant, keycount):
             #only pause if num of key down is now 0
             keycount -= 1
             if keycount <= 0:
+                keycount = 0
                 ant.pause_ani()
         elif event.type == pygame.MOUSEMOTION:
             ant.handle_mouse(event)
