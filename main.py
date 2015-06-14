@@ -67,7 +67,7 @@ def main():
         if not started:
            font = pygame.font.Font(None, 50)
            mes = font.render("Press <ENTER> to Start", True, (255, 0, 0))
-           screen.blit(mes, (200, 400))
+           screen.blit(mes, (200, 250))
            pygame.display.update() # update the screen
            while True:
 		 processPYGame()
@@ -75,6 +75,8 @@ def main():
                  if key[pygame.K_RETURN]:
                     started = True
                     break
+                 if key[pygame.K_ESCAPE]:
+                    sys.exit(0)
 
 	processPYGame()
 
