@@ -60,14 +60,18 @@ class Board:
                 if not self.isEmpty(x,y):
                     self.board[x][y].draw(self.screen)
 
-    def asList(self):
-        list = []
+    def getObjects(self):
+        movables = []
+        statics = []
         for row in self.board:
             for obj in row:
                 if obj:
-                    list += [obj]
+                    if obj.isMovable():
+                        movables += [obj]
+                    else:
+                        statics += [obj]
 
-        return list
+        return movables, statics
 
     #private--------------------------------------
 

@@ -96,3 +96,6 @@ class CrazyAnt(Object):
         elif type(object).__name__ == 'Player_Ant':
             self.playerAnt.minusLife()
             self.playerAnt
+
+    def isMovable(self):
+        return True
