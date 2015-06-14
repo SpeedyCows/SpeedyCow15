@@ -151,7 +151,7 @@ class CrazyAnt(Object):
                 self.old_y = self.y
                 self.y += self.speed
         #NOT IN OUR HOUSE!!
-        if(self.x <= 100 or self.y <= 1500):
+        if(self.x <= 100 or self.y <= 100):
             self.killSelf()
 
     def collide(self, obj):

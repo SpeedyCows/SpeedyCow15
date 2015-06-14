@@ -147,10 +147,10 @@ def main():
             movableObjects.append(leaf)
             leafTimer = t
         if (t/20 > numberOfCrazyAnts):
-            if(t < 40):
+            if(t < 60):
                 spawnCrazyAnt(numberOfCrazyAnts, rand, enemyAnts, movableObjects, ant, 'e')
                 numberOfCrazyAnts += 1
-            elif(t >= 40 and t <= 60):
+            elif(t >= 60 and t <= 100):
                 spawnCrazyAnt(numberOfCrazyAnts, rand, enemyAnts, movableObjects, ant, 'm')
                 numberOfCrazyAnts += 1
             else:
