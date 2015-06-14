@@ -86,6 +86,10 @@ def main():
     keycount = 0
     started = False
     numberOfCrazyAnts = 1
+    logo = pygame.image.load('images/sugar-ant.png')
+    font = pygame.font.Font(None, 50)
+    mes = font.render("Press <ENTER> to Start", True, (255, 0, 0))
+    gamename = font.render("Crazy Ants!", True, (0, 255, 0))
     while True:
         t = time.clock()
         if(t/10 > numberOfCrazyAnts):
@@ -98,9 +102,9 @@ def main():
             enemyAnts.append(crazyAnt)
         screen.blit(background, backgroundRect)
         if not started:
-            font = pygame.font.Font(None, 50)
-            mes = font.render("Press <ENTER> to Start", True, (255, 0, 0))
             screen.blit(mes, (200, 250))
+            screen.blit(gamename, (300, 350))
+            screen.blit(logo, (380, 400))
             pygame.display.update() # update the screen
             while True:
                 processPYGame(ant, keycount)
