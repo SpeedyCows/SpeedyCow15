@@ -10,7 +10,7 @@ class Leaf(Object):  # represents the water, not the game
         """ The constructor of the class """
         super(Leaf, self).__init__(dimension)
         
-        self.image = pygame.image.load('images/Leaf.png')
+        self.image = pygame.image.load('images/leaf.png')
         self.image = pygame.transform.scale(self.image, (self.dimension, self.dimension))        
         
         self.red = 0
