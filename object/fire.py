@@ -34,7 +34,7 @@ class Fire(Object):  # represents the water, not the game
         self.width = 1
         
     def explode(self):
-        event = SoundEffectEvent()
+        event = SoundEffectEvent('sounds/explosion.wav')
         self.evManager.Post(event)
     
         ani_E1 = pygame.image.load('images/explosion/sprite_1.png')
