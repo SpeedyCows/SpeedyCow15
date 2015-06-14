@@ -34,9 +34,19 @@ class Queen(Object):
         self.dropEgg()
 
     def collide(self, object):
-       # if (type(object) is player_ant.Player_Ant):
-       #     self.delete = True
-       return
+       if type(object).__name__ == 'Player_Ant':
+          object.score += object.sugar
+          object.sugar = 0
+       elif type(object).__name__ == 'Water':
+          object.x = object.old_x
+          object.y = object.old_y
+       elif type(object).__name__ == 'Dirt':
+            print "HELLO WORLD"
+            object.x = object.old_x
+            object.y = object.old_y
+            object.life -= 1
+            if object.life == 0:
+                object.delete = True
 
     def isMovable(self):
         return True
