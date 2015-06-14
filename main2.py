@@ -41,7 +41,7 @@ def main():
     object2 = Water(SQUARE_SIZE)
     object2.setPos(280, 280)
     objects.append(object2)
-    crazyAnt = CrazyAnt(SQUARE_SIZE, object1)
+    crazyAnt = CrazyAnt(SQUARE_SIZE, object1, 'e')
     crazyAnt.setPos(500, 500)
     objects.append(crazyAnt)
 
