@@ -57,10 +57,15 @@ class Player_Ant(Object):  # represents the bird, not the game
 
         self.powerup = None
 
-        self.score = 0
-        self.lives = 3
-        self.leaves = 0
-        self.sugar = 0
+
+        self.initial_score = 0
+        self.score = self.initial_score
+        self.initial_lives = 3
+        self.lives = self.initial_lives
+        self.initial_leaves = 0
+        self.leaves = self.initial_leaves
+        self.initial_sugar = 0
+        self.sugar = self.initial_sugar
 
         self.initial_speed = 5
         self.speed = self.initial_speed

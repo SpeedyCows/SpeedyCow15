@@ -14,20 +14,6 @@ PLAYER_SIZE = 80
 SQUARE_SIZE = 40
 FONT_SIZE = 20
 FONT_COLOR = (255, 255, 255)
-def HUD(screen, ant):
-    font = pygame.font.Font(None, FONT_SIZE)
-    screen.blit(font.render("Score: " + str(ant.score), True, FONT_COLOR), (0, 0))
-    screen.blit(font.render("Lives: " + str(ant.lives), True, FONT_COLOR), (0, 1*FONT_SIZE))
-    screen.blit(font.render("Power ups", True, FONT_COLOR), (0, 2*FONT_SIZE))
-    screen.blit(font.render("   Sugar: " + str(ant.sugar), True, FONT_COLOR), (0, 3*FONT_SIZE))
-    screen.blit(font.render("   Leaves: " + str(ant.leaves), True, FONT_COLOR), (0, 4*FONT_SIZE))
-    if(ant.getRemianingLives() == 0):
-        screen.blit(pygame.font.Font(None, 50).render("GAME OVER!", True, (255, 255, 255)), (275, 250))
-        if ant.score == 0:
-           screen.blit(pygame.font.Font(None, 25).render("You Lose", True, (255, 255, 255)), (325, 300))
-        else:
-           screen.blit(pygame.font.Font(None, 25).render("Your score is " + str(ant.score), True, (255, 255, 255)), (325, 300))
-        
 
 def processPYGame(ant, keycount):
     # handle every event since the last frame.
@@ -47,6 +33,31 @@ def processPYGame(ant, keycount):
                 ant.pause_ani()
         elif event.type == pygame.MOUSEMOTION:
             ant.handle_mouse(event)
+
+def HUD(screen, ant):
+    font = pygame.font.Font(None, FONT_SIZE)
+    screen.blit(font.render("Score: " + str(ant.score), True, FONT_COLOR), (0, 0))
+    screen.blit(font.render("Lives: " + str(ant.lives), True, FONT_COLOR), (0, 1*FONT_SIZE))
+    screen.blit(font.render("Power ups", True, FONT_COLOR), (0, 2*FONT_SIZE))
+    screen.blit(font.render("   Sugar: " + str(ant.sugar), True, FONT_COLOR), (0, 3*FONT_SIZE))
+    screen.blit(font.render("   Leaves: " + str(ant.leaves), True, FONT_COLOR), (0, 4*FONT_SIZE))
+    if(ant.getRemianingLives() == 0):
+        screen.blit(pygame.font.Font(None, 50).render("GAME OVER!", True, (255, 255, 255)), (275, 250))
+        if ant.score == 0:
+           screen.blit(pygame.font.Font(None, 25).render("You Lose", True, (255, 255, 255)), (325, 300))
+        else:
+           screen.blit(pygame.font.Font(None, 25).render("Your score is " + str(ant.score), True, (255, 255, 255)), (325, 300))
+        screen.blit(pygame.font.Font(None, 25).render("Press <SPACE> to try again", True, (255, 255, 255)), (275, 450))
+        pygame.display.update()
+        keycount = 0
+        while True:
+            processPYGame(ant, keycount)
+            key = pygame.key.get_pressed()
+            if key[pygame.K_SPACE]:
+               return False
+            if key[pygame.K_ESCAPE]:
+               sys.exit(0)
+    return True
 
 def main():
     pygame.init()
@@ -70,9 +81,11 @@ def main():
     queen.setPos(420, 420)
     movableObjects.append(queen)
 
-    keycount = 0
     started = False
+    keycount = 0
     numberOfCrazyAnts = 1
+    numberOfSugar = 1
+    numberOfLeafs = 1
     while True:
         t = time.clock()
         if(t/10 > numberOfCrazyAnts):
@@ -88,6 +101,10 @@ def main():
             font = pygame.font.Font(None, 50)
             mes = font.render("Press <ENTER> to Start", True, (255, 0, 0))
             screen.blit(mes, (200, 250))
+            ant.score = ant.initial_score
+            ant.lives = ant.initial_lives
+            ant.leaves = ant.initial_leaves
+            ant.sugar = ant.initial_sugar
             pygame.display.update() # update the screen
             while True:
                 processPYGame(ant, keycount)
@@ -151,7 +168,7 @@ def main():
             
         ant.draw(screen)
         
-        HUD(screen, ant)
+        started = HUD(screen, ant)
 
         pygame.display.update() # update the screen
 
