@@ -1,5 +1,6 @@
 from object import Object
 from dirt import Dirt
+from water import Water
 import pygame
  
 class Boulder(Object):  # represents the water, not the game
@@ -37,7 +38,7 @@ class Boulder(Object):  # represents the water, not the game
             elif object._direction == 270:
                 self.y += self.ySpeed
             
-        elif type(object) is Dirt:
+        elif type(object) is Dirt or type(object) is Water:
             if self.direction == 0 and object.x < self.x + self.dimension:
                 self.x = self.old_x
                 self.xSpeed = 0
