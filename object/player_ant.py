@@ -1,8 +1,12 @@
 from object import Object
 from water import Water
-from block import Block
-import pygame
-import pyganim
+from sugar import Sugar
+from block import Boulder
+from dirt import Dirt
+import pygame, sys, pyganim
+
+FONT_SIZE = 20
+FONT_COLOR = (255, 0, 0)
 
 class Player_Ant(Object):  # represents the bird, not the game
     def __init__(self, dimension):
@@ -55,6 +59,17 @@ class Player_Ant(Object):  # represents the bird, not the game
         self.speed = 5
         self._direction = 0
 
+        self.powerup = None
+
+        self.score = 0
+        self.lives = 3
+        self.leaves = 0
+        self.sugar = 0
+
+        self.initial_speed = 5
+        self.speed = self.initial_speed
+    	self._direction = 0
+        
     def handle_key(self, event):
         self.ani_conduct.play()
 
@@ -78,6 +93,18 @@ class Player_Ant(Object):  # represents the bird, not the game
             self.image = pygame.transform.rotate(self.image, 180 - self._direction)
             self.ani = self.ani_L
             self._direction = 180
+        elif event.key == pygame.K_SPACE:
+            if (self.powerup == None):
+                print "You have no powerup"
+            if (self.powerup == "Sugar"):
+                print "Using sugar"
+                self.powerup = None
+                self.speed = 2 * self.speed
+                self.sugar -= 1
+                if self.sugar < 0:
+                   self.sugar = 0
+        elif event.key == pygame.K_ESCAPE:
+                sys.exit(0)
 
     def update_pos(self):
         self.old_x = self.x
@@ -93,18 +120,29 @@ class Player_Ant(Object):  # represents the bird, not the game
         self.move = (0, 0)
 
     def collide(self, object):
-
-        if type(object) is Water:
+        if type(object) is Dirt:
             self.x = self.old_x
             self.y = self.old_y
-
+            object.life -= 1
+            if object.life == 0:
+                object.delete = True
+        elif type(object).__name__ == 'Dirt' and object.empty:
+            return
+        elif type(object).__name__ == 'Water':
+            self.x = self.old_x
+            self.y = self.old_y
+            return
+        elif type(object) is Sugar:
+            print "PICKED UP SUGAR"  
+            self.powerup = "Sugar"
+            self.sugar += 1
+            self.delete = True
         # Slow the ant down to the max travelling speed of the block
-        elif type(object) is Block:
-            self.speedBump(object.xSpeed, object.ySpeed)                
-
+        elif type(object) is Boulder:
+            self.speedBump(object.xSpeed, object.ySpeed)
         else:
             print "[Info] Collided with Dirt or something"
-        
+
     def image_rotate(self, rect, angle):
         """rotate an image while keeping its center"""
         rot_image = pygame.transform.rotate(self, angle)
@@ -114,3 +152,20 @@ class Player_Ant(Object):  # represents the bird, not the game
     def rotate(self):
         oldCenter = self.rect.center
         self.image = pygame.transform.rotate(self.image)
+
+    def getXPosition(self):
+        return self.x
+
+    def getYPosition(self):
+        return self.y
+
+    def minusLife(self):
+        self.lives -= 1
+        self.setPos(0, 0)
+        self.speed = self.initial_speed
+        
+    def getRemianingLives(self):
+        return self.lives
+
+    def isMovable(self):
+        return True

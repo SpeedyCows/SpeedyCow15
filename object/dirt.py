@@ -6,6 +6,8 @@ class Dirt(Object):  # represents the water, not the game
         """ The constructor of the class """
         super(Dirt, self).__init__(dimension)
 
+        self.life = 4
+
 	# Option 1 - Loads fast
         self.red = 68
         self.green = 26
@@ -22,5 +24,9 @@ class Dirt(Object):  # represents the water, not the game
         #self.image = pygame.transform.scale(self.image, (dimension, dimension))
 
     def collide(self, object):
-        if type(object).__name__ == 'Player_Ant':
-            self.empty = True
+        return
+        #if type(object).__name__ == 'Player_Ant':
+        #self.empty = True
+
+    def isMovable(self):
+        return False

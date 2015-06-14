@@ -5,10 +5,40 @@ from object.player_ant import *
 from object.water import Water
 from object.dirt import Dirt
 from object.crazyant import CrazyAnt
+from object.queen import Queen
+from board import Board
 
 from object.pyganim import *
 PLAYER_SIZE = 80
 SQUARE_SIZE = 40
+FONT_SIZE = 20
+FONT_COLOR = (255, 255, 255)
+
+def HUD(screen, ant):
+    font = pygame.font.Font(None, FONT_SIZE)
+    screen.blit(font.render("Score: " + str(ant.score), True, FONT_COLOR), (0, 0))
+    screen.blit(font.render("Lives: " + str(ant.lives), True, FONT_COLOR), (0, 1*FONT_SIZE))
+    screen.blit(font.render("Power ups", True, FONT_COLOR), (0, 2*FONT_SIZE))
+    screen.blit(font.render("   Sugar: " + str(ant.sugar), True, FONT_COLOR), (0, 3*FONT_SIZE))
+    screen.blit(font.render("   Leaves: " + str(ant.leaves), True, FONT_COLOR), (0, 4*FONT_SIZE))
+    if(ant.getRemianingLives() == 0):
+        screen.blit(font.render("YOU LOOSE!!!!!! ", True, FONT_COLOR), (250, 300))
+
+def processPYGame(ant, keycount):
+    # handle every event since the last frame.
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+           pygame.quit() # quit the screen
+           sys.exit(1)
+        elif event.type == pygame.KEYDOWN:
+           #need to count key down so that we can track when they are released
+           keycount += 1
+           ant.handle_key(event)
+        elif event.type == pygame.KEYUP:
+            #only pause if num of key down is now 0
+            keycount -= 1
+            if keycount <= 0:
+                ant.pause_ani()
 
 def main():
     pygame.init()
@@ -16,81 +46,82 @@ def main():
     backgroundRect = background.get_rect()
     screen = pygame.display.set_mode((800, 600))
 
-    #ant = Ant() # create an instance
     clock = pygame.time.Clock()
 
-    objects = []
-    object1 = Player_Ant(PLAYER_SIZE)
-    objects.append(object1)
-    object2 = Water(SQUARE_SIZE)
-    object2.setPos(280, 280)
-    objects.append(object2)
-    crazyAnt = CrazyAnt(SQUARE_SIZE, object1)
+    ant = Player_Ant(SQUARE_SIZE)
+    crazyAnt = CrazyAnt(SQUARE_SIZE, ant, 'e')
     crazyAnt.setPos(500, 500)
-    objects.append(crazyAnt)
 
-    print "[DEBUG] Setting up world"
-    dirts = []
-    DIRT_SIZE = SQUARE_SIZE / 2
-    for x in xrange(800 / DIRT_SIZE):
-        for y in xrange(600 / DIRT_SIZE):
-            if not (y == 0 and x == 0):
-                dirt = Dirt(DIRT_SIZE)
-                dirt.setPos(x * DIRT_SIZE, y * DIRT_SIZE)
-                #objects.append(dirt)
-    print "[DEBUG] Done Setting up world"
+    #Create the board
+    board = Board(screen)
+    movableObjects, staticObjects = board.getObjects()
+    movableObjects += [ant]
+    movableObjects += [crazyAnt]
+
+    queen = Queen(SQUARE_SIZE)
+    queen.setPos(420, 420)
+    staticObjects.append(queen)
 
     keycount = 0
-    running = True
-    while running:
-        # handle every event since the last frame.
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit() # quit the screen
-                running = False
-            elif event.type == pygame.KEYDOWN:
-                #need to count key down so that we can track when they are released
-                keycount += 1
-                object1.handle_key(event)
-            elif event.type == pygame.KEYUP:
-                #only pause if num of key down is now 0
-                keycount -= 1
-                if keycount <= 0:
-                    object1.pause_ani()
-
-        #ant.handle_keys() # handle the keys
-
-        #Update ant position
-        object1.update_pos()
-
-        #screen.fill((255,255,255)) # fill the screen with black
+    started = False
+    while True:
         screen.blit(background, backgroundRect)
+        if not started:
+            font = pygame.font.Font(None, 50)
+            mes = font.render("Press <ENTER> to Start", True, (255, 0, 0))
+            screen.blit(mes, (200, 250))
+            pygame.display.update() # update the screen
+            while True:
+                processPYGame(ant, keycount)
+                key = pygame.key.get_pressed()
+                if key[pygame.K_RETURN]:
+                    started = True
+                    break
+                if key[pygame.K_ESCAPE]:
+                    sys.exit(0)
 
-            
-        for dirt in dirts:
-            if (object1.check_collision(dirt)):
-                dirts.remove(dirt)
+        processPYGame(ant, keycount)
 
-        for dirt in dirts:
-            dirt.draw(screen)
-                
-        for object3 in objects:
-            for object4 in objects:
+        ant.inBetweenLoops()
+        ant.update_pos()
+        for object in movableObjects:
+            object.inBetweenLoops()
+
+        queen.move()
+
+        for staticObject in staticObjects:
+            for movableObject in movableObjects:
+                if (movableObject.check_collision(staticObject)):
+
+                    #collide both ways
+                    movableObject.collide(staticObject)
+                    staticObject.collide(movableObject)
+
+                    if (staticObject.delete == True):
+                        staticObjects.remove(staticObject)
+
+                    if(CrazyAnt.check_collision(crazyAnt, staticObject)):
+                        crazyAnt.collide(staticObject)
+
+
+
+        #draw all objects
+        for obj in staticObjects + movableObjects:
+            obj.draw(screen)
+
+        #collide movable objects against each other
+        for object3 in movableObjects:
+            for object4 in movableObjects:
                 if (object3 != object4):
-                    if (object3.check_collision(object4)):
+                    if (object3.check_collision(object4) or crazyAnt.check_collision(object4)):
                         object3.collide(object4)
                 crazyAnt.searchForPlayer()
-                crazyAnt.draw(screen)
             object3.draw(screen)
 
-	font = pygame.font.Font(None, 50)
-	mes = font.render("Press <SPACE> to Start", True, (255, 0, 0))
-	screen.blit(mes, (100, 100))
+	    HUD(screen, ant)
 
-        #ant.draw(screen) # draw the bird to the screen
-        #pygame.draw.rect(screen, (255, 0, 0), (20, 20, 40, 40), 2)
         pygame.display.update() # update the screen
 
-        clock.tick(100)
+        clock.tick(30)
 
 main()

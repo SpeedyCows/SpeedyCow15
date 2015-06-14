@@ -18,26 +18,14 @@ def main():
     clock = pygame.time.Clock()
 
     objects = []
-    object1 = Player_Ant(SQUARE_SIZE)
-    objects.append(object1)
+    theAnt = Player_Ant(SQUARE_SIZE)
+    objects.append(theAnt)
     object2 = Water(SQUARE_SIZE)
     object2.setPos(280, 280)
     objects.append(object2)
     block = Block(SQUARE_SIZE)
     block.setPos(700, 500)
     objects.append(block)
-    #flag = 0
-    #for x in xrange(800):
-	#for y in xrange(600):
-		#if (x % 100) == 80 and (y % 100) == 40:
-		#	water = Water(SQUARE_SIZE)
-		#	water.setPos(x, y)
-		#	objects.append(water)
-                 #       flag = ~flag
-                  #      if flag == 0:
-		#		dirt = Dirt(SQUARE_SIZE)
-		#		dirt.setPos(x, y + SQUARE_SIZE)
-		#		objects.append(dirt)
 
     print "[DEBUG] Setting up world"
     dirts = []
@@ -63,25 +51,40 @@ def main():
         screen.fill((255,255,255)) # fill the screen with black
         screen.blit(background, backgroundRect)
 
-        object1.handle_keys()
-            
+        theAnt.inBetweenLoops()
+        for object in objects:
+            object.inBetweenLoops()
+        
+        theAnt.handle_keys()
+        
         for dirt in dirts:
-            if (object1.check_collision(dirt)):
+            if (theAnt.check_collision(dirt)):
+                #dirts.remove(dirt)
+                if (dirt.delete == True):
+                    dirts.remove(dirt)
+
+            if (theAnt.check_collision(dirt)):
                 dirts.remove(dirt)
+                
+        for object in objects:
+            for dirt in dirts:
+                if (object.check_collision(dirt)):
+                    object.collide(dirt)
 
         for dirt in dirts:
             dirt.draw(screen)
-                
-        for object3 in objects:
-            for dirt in dirts:
-                if (object3.check_collision(dirt)):
-                    object3.collide(dirt)
+                         
+        for object in objects:
+            if (theAnt.check_collision(object)):
+                theAnt.collide(object)
+                object.collide(theAnt)
      
+        for object in objects:
             for object4 in objects:
-                if (object3 != object4):
-                    if (object3.check_collision(object4)):
-                        object3.collide(object4)
-            object3.draw(screen)   
+                if (object != object4):
+                    if (object.check_collision(object4)):
+                        object.collide(object4)
+            object.draw(screen)   
             
         #ant.draw(screen) # draw the bird to the screen
         #pygame.draw.rect(screen, (255, 0, 0), (20, 20, 40, 40), 2)

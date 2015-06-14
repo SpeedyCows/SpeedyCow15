@@ -8,6 +8,9 @@ class Object(pygame.sprite.Sprite):
         self.old_x = 0
         self.y = 0
         self.old_y = 0
+
+	self.old_old_x = 0
+	self.old_old_y = 0
         
         self.dimension = dimension
 
@@ -23,6 +26,7 @@ class Object(pygame.sprite.Sprite):
 
         self.image = None
         self.ani = None
+        self.delete = False
 
     def draw(self, surface):
         if self.ani is None:
@@ -63,11 +67,19 @@ class Object(pygame.sprite.Sprite):
 	    self.y = yPos
         
     def speedBump(self, max_x_speed, max_y_speed):
-        if self.x > self.old_x:
-            self.x = self.old_x + max_x_speed
-        if self.x < self.old_x:
-            self.x = self.old_x - max_x_speed
-        if self.y > self.old_y:
-            self.y = self.old_y + max_y_speed
-        if self.y < self.old_y:
-            self.y = self.old_y - max_y_speed      
+        if self.x > self.old_old_x:
+            self.x = self.old_old_x + max_x_speed
+        if self.x < self.old_old_x:
+            self.x = self.old_old_x - max_x_speed
+        if self.y > self.old_old_y:
+            self.y = self.old_old_y + max_y_speed
+        if self.y < self.old_old_y:
+            self.y = self.old_old_y - max_y_speed 
+
+    def doSomething(self):
+        return     
+
+    def inBetweenLoops(self):
+        self.old_old_x = self.x
+        self.old_old_y = self.y
+        return
