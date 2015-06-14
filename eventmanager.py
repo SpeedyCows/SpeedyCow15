@@ -7,8 +7,11 @@ class Event:
         self.name = "Generic Event"
 
 class SoundEffectEvent(Event):
-	def __init__(self):
-		self.name = "Sound Effect"
+    def __init__(self, filename):
+        
+        self.name = "Sound Effect"
+        self.filename = filename
+        
 
 class EventManager:
 	""" Class for sending events between objects """
