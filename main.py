@@ -1,4 +1,4 @@
-import pygame, os, sys
+import pygame, os
 
 from object.object import *
 from object.player_ant import *
@@ -8,6 +8,8 @@ from object.crazyant import CrazyAnt
 from object.queen import Queen
 from board import Board
 
+from object.pyganim import *
+PLAYER_SIZE = 80
 SQUARE_SIZE = 40
 FONT_SIZE = 20
 FONT_COLOR = (255, 255, 255)
@@ -22,12 +24,21 @@ def HUD(screen, ant):
     if(ant.getRemianingLives() == 0):
         screen.blit(font.render("YOU LOOSE!!!!!! ", True, FONT_COLOR), (250, 300))
 
-def processPYGame():
+def processPYGame(ant, keycount):
     # handle every event since the last frame.
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
            pygame.quit() # quit the screen
            sys.exit(1)
+        elif event.type == pygame.KEYDOWN:
+           #need to count key down so that we can track when they are released
+           keycount += 1
+           ant.handle_key(event)
+        elif event.type == pygame.KEYUP:
+            #only pause if num of key down is now 0
+            keycount -= 1
+            if keycount <= 0:
+                ant.pause_ani()
 
 def main():
     pygame.init()
@@ -51,30 +62,30 @@ def main():
     queen.setPos(420, 420)
     movableObjects.append(queen)
 
+    keycount = 0
     started = False
     while True:
         screen.blit(background, backgroundRect)
         if not started:
-           font = pygame.font.Font(None, 50)
-           mes = font.render("Press <ENTER> to Start", True, (255, 0, 0))
-           screen.blit(mes, (200, 250))
-           pygame.display.update() # update the screen
-           while True:
-		 processPYGame()
-                 key = pygame.key.get_pressed()
-                 if key[pygame.K_RETURN]:
+            font = pygame.font.Font(None, 50)
+            mes = font.render("Press <ENTER> to Start", True, (255, 0, 0))
+            screen.blit(mes, (200, 250))
+            pygame.display.update() # update the screen
+            while True:
+                processPYGame(ant, keycount)
+                key = pygame.key.get_pressed()
+                if key[pygame.K_RETURN]:
                     started = True
                     break
-                 if key[pygame.K_ESCAPE]:
+                if key[pygame.K_ESCAPE]:
                     sys.exit(0)
 
-	processPYGame()
+        processPYGame(ant, keycount)
 
         ant.inBetweenLoops()
+        ant.update_pos()
         for object in movableObjects:
             object.inBetweenLoops()
-            
-        ant.handle_keys()
 
         queen.move()
 
@@ -113,7 +124,7 @@ def main():
         for object3 in movableObjects:
             object3.draw(screen)
 
-	HUD(screen, ant)
+	    HUD(screen, ant)
 
         pygame.display.update() # update the screen
 
