@@ -6,6 +6,7 @@ from object.water import Water
 from object.dirt import Dirt
 from object.crazyant import CrazyAnt
 from object.queen import Queen
+from object.egg import Egg
 from board import Board
 from random import Random
 
@@ -64,6 +65,9 @@ def main():
     pygame.init()
     rand = Random()
 
+    # Set Difficulty
+    dif = 'e'
+
     #make background dirt
     topdirt = pygame.image.load("images/dirt1.png")
     topdirt = pygame.transform.scale(topdirt, (BLOCK_SIZE, BLOCK_SIZE))
@@ -81,7 +85,7 @@ def main():
     enemyAnts = []
     clock = pygame.time.Clock()
     ant = Player_Ant(SQUARE_SIZE)
-    crazyAnt = CrazyAnt(SQUARE_SIZE, ant, 'e')
+    crazyAnt = CrazyAnt(SQUARE_SIZE, ant, dif)
     crazyAnt.setPos(500, 500)
     enemyAnts.append(crazyAnt)
     #Create the board
@@ -90,7 +94,7 @@ def main():
     movableObjects += [ant]
     movableObjects.append(crazyAnt)
 
-    queen = Queen(SQUARE_SIZE)
+    queen = Queen(SQUARE_SIZE, dif)
     queen.setPos(420, 420)
     movableObjects.append(queen)
 
@@ -99,6 +103,8 @@ def main():
     numberOfCrazyAnts = 1
 
     scoreTimer = time.clock()
+    eggTimer = scoreTimer
+    randomEggSpawnTime = queen.getRandomEggTime()
 
     logo = pygame.image.load('images/sugar-ant.png')
     font = pygame.font.Font(None, 50)
@@ -110,10 +116,16 @@ def main():
         if (t - scoreTimer) > 1:
             ant.score += 1
             scoreTimer = t
+        if (t - eggTimer) > randomEggSpawnTime:
+            egg = Egg(SQUARE_SIZE)
+            egg.setPos(queen.x, queen.y)
+            staticObjects.append(egg)
+            eggTimer = t
+            randomEggSpawnTime = queen.getRandomEggTime()
         if(t/10 > numberOfCrazyAnts):
             crazyAnt = CrazyAnt(SQUARE_SIZE, ant, 'e')
-            randomX = rand.randint(20, 500)
-            randomY = rand.randint(20, 500)
+            randomX = rand.randint(100, 800)
+            randomY = rand.randint(100, 600)
             crazyAnt.setPos(randomX, randomY)
             numberOfCrazyAnts += 1
             movableObjects.append(crazyAnt)
