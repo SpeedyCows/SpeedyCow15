@@ -69,7 +69,7 @@ def main():
 
     # Set Difficulty
     dif = 'e'
-
+    genSugar = 0
     #make background dirt
     topdirt = pygame.image.load("images/dirt1.png")
     topdirt = pygame.transform.scale(topdirt, (BLOCK_SIZE, BLOCK_SIZE))
@@ -129,12 +129,15 @@ def main():
             staticObjects.append(egg)
             eggTimer = t
             randomEggSpawnTime = queen.getRandomEggTime()
-        if (t - sugarTimer) > 30:
+        if (t - sugarTimer) > 30 and genSugar >= 100:
             sugar = Sugar(rand.choice((SQUARE_SIZE, SQUARE_SIZE / 2)))
             randomX = rand.randint(100, 800 - SQUARE_SIZE)
             randomY = rand.randint(100, 600 - SQUARE_SIZE)
             sugar.setPos(randomX, randomY)
             staticObjects.append(sugar)
+            genSugar = 0
+        else:
+            genSugar += 1
             sugar = t
         if (t - leafTimer) > 15:
             leaf = Leaf(rand.choice((SQUARE_SIZE, SQUARE_SIZE / 2)))
