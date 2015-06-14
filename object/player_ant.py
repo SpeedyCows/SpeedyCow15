@@ -3,7 +3,7 @@ from water import Water
 from sugar import Sugar
 from block import Boulder
 from dirt import Dirt
-import pygame
+import pygame, sys
 
 FONT_SIZE = 20
 FONT_COLOR = (255, 0, 0)
@@ -62,6 +62,8 @@ class Player_Ant(Object):  # represents the bird, not the game
                 print "Using sugar"
                 self.powerup = None
                 self.speed = 2 * self.speed
+        if key[pygame.K_ESCAPE]:
+                sys.exit(0)
 
     def collide(self, object):
         if type(object) is Dirt:

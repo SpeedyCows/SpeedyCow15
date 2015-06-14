@@ -26,18 +26,6 @@ def main():
     block = Block(SQUARE_SIZE)
     block.setPos(700, 500)
     objects.append(block)
-    #flag = 0
-    #for x in xrange(800):
-	#for y in xrange(600):
-		#if (x % 100) == 80 and (y % 100) == 40:
-		#	water = Water(SQUARE_SIZE)
-		#	water.setPos(x, y)
-		#	objects.append(water)
-                 #       flag = ~flag
-                  #      if flag == 0:
-		#		dirt = Dirt(SQUARE_SIZE)
-		#		dirt.setPos(x, y + SQUARE_SIZE)
-		#		objects.append(dirt)
 
     print "[DEBUG] Setting up world"
     dirts = []

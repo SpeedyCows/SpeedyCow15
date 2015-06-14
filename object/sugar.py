@@ -17,4 +17,3 @@ class Sugar(Object):  # represents the water, not the game
     def collide(self, object):
         if (type(object) is player_ant.Player_Ant):
             self.delete = True
-            print("DELETE ME")
