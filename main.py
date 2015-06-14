@@ -56,7 +56,7 @@ def main():
     board = Board(screen)
     movableObjects, staticObjects = board.getObjects()
     movableObjects += [ant]
-    movableObjects += [crazyAnt]
+    movableObjects.append(crazyAnt)
 
     queen = Queen(SQUARE_SIZE)
     queen.setPos(420, 420)
@@ -100,10 +100,6 @@ def main():
                     if (staticObject.delete == True):
                         staticObjects.remove(staticObject)
 
-                    if(crazyAnt.check_collision(staticObject)):
-                        crazyAnt.collide(staticObject)
-
-
 
         #draw all objects
         for obj in staticObjects + movableObjects:
@@ -128,6 +124,6 @@ def main():
 
         pygame.display.update() # update the screen
 
-        clock.tick(30)
+        clock.tick(20)
 
 main()
