@@ -100,10 +100,12 @@ def main():
 
     started = False
     keycount = 0
-    numberOfCrazyAnts = 1
 
     scoreTimer = time.clock()
+    sugarTimer = scoreTimer
+    leafTimer = scoreTimer
     eggTimer = scoreTimer
+    crazyAntTimer = scoreTimer
     randomEggSpawnTime = queen.getRandomEggTime()
 
     logo = pygame.image.load('images/sugar-ant.png')
@@ -121,16 +123,30 @@ def main():
             egg.setPos(queen.x, queen.y)
             staticObjects.append(egg)
             eggTimer = t
-            randomEggSpawnTime = queen.getRandomEggTime()
-        if(t/20 > numberOfCrazyAnts):
+            randomEggSpawnTime = egg.getRandomEggTime()
+        if(t - crazyAntTimer) > 20:
             crazyAnt = CrazyAnt(SQUARE_SIZE, ant, dif)
-            randomX = rand.randint(100, 800)
-            randomY = rand.randint(100, 600)
+            randomX = rand.randint(100, 800 - SQUARE_SIZE)
+            randomY = rand.randint(100, 600 - SQUARE_SIZE)
             crazyAnt.setPos(randomX, randomY)
-            numberOfCrazyAnts += 1
             movableObjects.append(crazyAnt)
             enemyAnts.append(crazyAnt)
             crazyAnt.aggresiveSearchForPlayer()
+            crazyAntTimer = t
+        if (t - sugarTimer) > 30:
+            sugar = Sugar(rand.choice((SQUARE_SIZE, SQUARE_SIZE / 2)))
+            randomX = rand.randint(100, 800 - SQUARE_SIZE)
+            randomY = rand.randint(100, 600 - SQUARE_SIZE)
+            sugar.setPos(randomX, randomY)
+            staticObjects.append(sugar)
+            sugar = t
+        if (t - leafTimer) > 15:
+            leaf = Leaf(rand.choice((SQUARE_SIZE, SQUARE_SIZE / 2)))
+            randomX = rand.randint(100, 800 - SQUARE_SIZE)
+            randomY = rand.randint(100, 600 - SQUARE_SIZE)
+            leaf.setPos(randomX, randomY)
+            movableObjects.append(leaf)
+            leafTimer = t
         screen.blit(background, backgroundRect)
         if not started:
             screen.blit(mes, (200, 250))
