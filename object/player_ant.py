@@ -69,6 +69,20 @@ class Player_Ant(Object):  # represents the bird, not the game
         self.speed = self.initial_speed
     	self._direction = 0
 
+
+    def handle_mouse(self, event):"""
+        delta_x = self.x - event.pos[0]
+        delta_y = self.y - event.pos[1]
+
+        if delta_x > 0:
+            self.move_left()
+        elif delta_x < 0:
+            self.move_right()
+        if delta_y > 0:
+            self.move_up()
+        elif delta_y < 0:
+            self.move_down()"""
+
     def handle_keys(self):
         """ Handles Keys """
 
@@ -78,30 +92,18 @@ class Player_Ant(Object):  # represents the bird, not the game
             if (self.y + self.speed) <= self.max_y: 
                 self.old_y = self.y
                 self.y += self.speed # move down
-        
+
     def handle_key(self, event):
         self.ani_conduct.play()
 
         if event.key == pygame.K_DOWN: # down key
-            self.move = (0, self.speed)
-            self.image = pygame.transform.rotate(self.image, 270 - self._direction)
-            self.ani = self.ani_D
-            self._direction = 270
+            self.move_down()
         elif event.key == pygame.K_UP: # up key
-            self.move = (0, 0 - self.speed)
-            self.image = pygame.transform.rotate(self.image, 90 - self._direction)
-            self.ani = self.ani_D
-            self._direction = 90
+            self.move_up()
         if event.key == pygame.K_RIGHT: # right key
-            self.move = (self.speed, 0)
-            self.image = pygame.transform.rotate(self.image, 0 - self._direction)
-            self.ani = self.ani_R
-            self._direction = 0
+            self.move_right()
         elif event.key == pygame.K_LEFT: # left key
-            self.move = (0 - self.speed, 0)
-            self.image = pygame.transform.rotate(self.image, 180 - self._direction)
-            self.ani = self.ani_L
-            self._direction = 180
+            self.move_left()
         elif event.key == pygame.K_SPACE:
             if (self.powerup == None):
                 print "You have no powerup"
@@ -114,6 +116,29 @@ class Player_Ant(Object):  # represents the bird, not the game
                    self.sugar = 0
         elif event.key == pygame.K_ESCAPE:
                 sys.exit(0)
+    def move_up(self):
+        self.move = (0, 0 - self.speed)
+        self.image = pygame.transform.rotate(self.image, 90 - self._direction)
+        self.ani = self.ani_D
+        self._direction = 90
+
+    def move_down(self):
+        self.move = (0, self.speed)
+        self.image = pygame.transform.rotate(self.image, 270 - self._direction)
+        self.ani = self.ani_D
+        self._direction = 270
+
+    def move_right(self):
+        self.move = (self.speed, 0)
+        self.image = pygame.transform.rotate(self.image, 0 - self._direction)
+        self.ani = self.ani_R
+        self._direction = 0
+
+    def move_left(self):
+        self.move = (0 - self.speed, 0)
+        self.image = pygame.transform.rotate(self.image, 180 - self._direction)
+        self.ani = self.ani_L
+        self._direction = 180
 
     def update_pos(self):
         self.old_x = self.x
