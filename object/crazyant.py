@@ -11,7 +11,8 @@ from fire import Fire
 class CrazyAnt(Object):
     def __init__(self, dimension, playerAnt, difficulty):
         global pause
-        global functionCounter
+        global cPause
+        global justRotated
         super(CrazyAnt, self).__init__(dimension)
         self.playerAnt = playerAnt
         self.image = pygame.image.load('images/ant.png')
@@ -19,15 +20,17 @@ class CrazyAnt(Object):
         self._direction = 0
         self.rand = Random()
         self.rotationTracekr = 0
-        self.timeForPause = [1000, 2000, 3000, 4000, 500, 600, 700, 800, 900, 10, 110, 120, 130]
+        self.counterVars = [0, 10001, 12001, 13001, 14001, 15001, 16001, 17001, 18001, 19001, 10001, 11001, 12001, 13001]
+        self.timeForPause = [1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000, 11000, 12000, 13000, 14000]
         self.direction = [0, 90, 180, 270]
-        pause = self.rand.randint(0, 12)
+        justRotated = 0
+        pause = self.rand.randint(0, 13)
+        cPause = self.rand.randint(0, 13)
         self.counter = 0
-        functionCounter = 0
         if(difficulty == 'h'):
-            self.speed = 4
+            self.speed = 0.09
         elif(difficulty == 'm'):
-            self.speed = 3
+            self.speed = 0.07
         else:
             self.speed = 0.05
 
@@ -39,7 +42,7 @@ class CrazyAnt(Object):
 
     def aggresiveSearchForPlayer(self):
         global pause
-        global found
+        global cPause
         if(self.timeForPause[pause] >= self.counter):
             randDir = self.rand.randint(0, 3)
             self.image = pygame.transform.rotate(self.image, self.direction[randDir] - self._direction)
@@ -54,16 +57,23 @@ class CrazyAnt(Object):
     # Kind of the init function for ants
     def searchForPlayer(self):
         global pause
-        global found
-        if(self.timeForPause[pause] >= self.counter):
+        global cPause
+        global justRotated
+        if(self.timeForPause[pause] >= self.counterVars[cPause]):
             randDir = self.rand.randint(0, 3)
-            self.image = pygame.transform.rotate(self.image, self.direction[randDir] - self._direction)
-            self._direction = self.direction[randDir]
-            pause = self.rand.randint(0, 12)
+            if(justRotated >= 300):
+                self.image = pygame.transform.rotate(self.image, self.direction[randDir] - self._direction)
+                self._direction = self.direction[randDir]
+                justRotated = 0
+            else:
+                justRotated += 1
+            pause = self.rand.randint(0, 13)
+            cPause = self.rand.randint(0, 13)
             self.counter = 0
             self.checkDirection()
         else:
-            self.counter += 1
+            pause = self.rand.randint(0, 13)
+            cPause = self.rand.randint(0, 13)
             self.checkDirection()
 
     def rotate(self):
@@ -72,7 +82,6 @@ class CrazyAnt(Object):
 
     def checkDirection(self):
         global functionCounter
-        functionCounter += 1
         #translate where to check for on the board.
         if(self._direction == 0):#Ant looks 5 to the right
             if(self.playerAnt.getXPosition() >= self.x and 

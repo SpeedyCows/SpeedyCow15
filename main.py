@@ -137,6 +137,7 @@ def main():
             else:
                 spawnCrazyAnt(numberOfCrazyAnts, rand, enemyAnts, movableObjects, ant, 'h')
                 numberOfCrazyAnts += 1
+
         if (t - scoreTimer) > 1:
             ant.score += 1
             scoreTimer = t
@@ -223,6 +224,11 @@ def spawnCrazyAnt(numberOfCrazyAnts, rand, enemyAnts, movableObjects, ant, arg )
     randomY = rand.randint(100, 500)
     if(randomX != ant.x and randomY != ant.y):
         crazyAnt.setPos(randomX, randomY)
+        movableObjects.append(crazyAnt)
+        enemyAnts.append(crazyAnt)
+        crazyAnt.aggresiveSearchForPlayer()
+    else:
+        crazyAnt.setPos(500, 500)
         movableObjects.append(crazyAnt)
         enemyAnts.append(crazyAnt)
         crazyAnt.aggresiveSearchForPlayer()
