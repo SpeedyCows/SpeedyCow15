@@ -52,8 +52,8 @@ class Queen(Object):
 
     def collide(self, object):
        if type(object).__name__ == 'Player_Ant':
-          object.score += object.sugar * 2
-          object.score += object.leaves
+          object.score += object.sugar * 2000
+          object.score += object.leaves * 1000
           object.leaves = 0
           object.sugar = 0
        elif type(object).__name__ == 'Water':
