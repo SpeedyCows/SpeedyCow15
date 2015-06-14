@@ -89,7 +89,7 @@ def main():
                     if (staticObject.delete == True):
                         staticObjects.remove(staticObject)
 
-                    if(CrazyAnt.check_collision(crazyAnt, staticObject)):
+                    if(crazyAnt.check_collision(staticObject)):
                         crazyAnt.collide(staticObject)
 
 
