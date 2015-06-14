@@ -36,19 +36,15 @@ def main():
 
     clock = pygame.time.Clock()
 
-    objects = []
-    object1 = Player_Ant(SQUARE_SIZE)
-    objects.append(object1)
-    object2 = Water(SQUARE_SIZE)
-    object2.setPos(280, 280)
-    objects.append(object2)
-    crazyAnt = CrazyAnt(SQUARE_SIZE, object1, 'e')
+    ant = Player_Ant(SQUARE_SIZE)
+    crazyAnt = CrazyAnt(SQUARE_SIZE, ant, 'e')
     crazyAnt.setPos(500, 500)
-    objects.append(crazyAnt)
 
     #Create the board
     board = Board(screen)
-    staticObjects = board.asList()
+    movableObjects, staticObjects = board.getObjects()
+    movableObjects += [ant]
+    movableObjects += [crazyAnt]
 
     #print "[DEBUG] Setting up world"
     #dirts = []
@@ -78,37 +74,43 @@ def main():
 
 	processPYGame()
 
-        object1.inBetweenLoops()
-        for object in objects:
+        ant.inBetweenLoops()
+        for object in movableObjects:
             object.inBetweenLoops()
             
-        object1.handle_keys()
+        ant.handle_keys()
 
-        for dirt in staticObjects:
-            if (object1.check_collision(dirt)):
-                object1.collide(dirt)
-                #staticObjects.remove(dirt)
-                if (dirt.delete == True):
-                    staticObjects.remove(dirt)
+        for staticObject in staticObjects:
+            for movableObject in movableObjects:
+                if (movableObject.check_collision(staticObject)):
 
-            if(CrazyAnt.check_collision(crazyAnt, dirt)):
-                crazyAnt.collide(dirt)
-                
-                if(dirt.delete == True):
-                    staticObjects.remove(dirt)
+                    #collide both ways
+                    movableObject.collide(staticObject)
+                    staticObject.collide(movableObject)
 
-        for dirt in staticObjects:
-            dirt.draw(screen)
-                
-        for object3 in objects:
-            for object4 in objects:
+                    if (staticObject.delete == True):
+                        staticObjects.remove(staticObject)
+
+                if(CrazyAnt.check_collision(crazyAnt, staticObject)):
+                    crazyAnt.collide(staticObject)
+
+                    if(staticObject.delete == True):
+                        staticObjects.remove(staticObject)
+
+        #draw all objects
+        for obj in staticObjects + movableObjects:
+            obj.draw(screen)
+
+        #collide movable objects against each other
+        for object3 in movableObjects:
+            for object4 in movableObjects:
                 if (object3 != object4):
                     if (object3.check_collision(object4) or crazyAnt.check_collision(object4)):
                         object3.collide(object4)
                 crazyAnt.searchForPlayer()
             object3.draw(screen)
 
-	HUD(screen, object1)
+	HUD(screen, ant)
 
         font = pygame.font.Font(None, 50)
         #mes = font.render("Press <SPACE> to Start", True, (255, 0, 0))
