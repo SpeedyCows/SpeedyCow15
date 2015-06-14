@@ -9,7 +9,7 @@ from board import Board
 
 SQUARE_SIZE = 40
 FONT_SIZE = 20
-FONT_COLOR = (255, 0, 0)
+FONT_COLOR = (255, 255, 255)
 
 def HUD(screen, ant):
     font = pygame.font.Font(None, FONT_SIZE)
@@ -69,7 +69,7 @@ def main():
         screen.blit(background, backgroundRect)
 
         object1.handle_keys()
-            
+
         for dirt in staticObjects:
             if (object1.check_collision(dirt)):
                 object1.collide(dirt)
@@ -77,6 +77,11 @@ def main():
                 if (dirt.delete == True):
                     staticObjects.remove(dirt)
 
+            if(CrazyAnt.check_collision(crazyAnt, dirt)):
+                crazyAnt.collide(dirt)
+                
+                if(dirt.delete == True):
+                    staticObjects.remove(dirt)
 
         for dirt in staticObjects:
             dirt.draw(screen)
@@ -84,7 +89,7 @@ def main():
         for object3 in objects:
             for object4 in objects:
                 if (object3 != object4):
-                    if (object3.check_collision(object4)):
+                    if (object3.check_collision(object4) or crazyAnt.check_collision(object4)):
                         object3.collide(object4)
                 crazyAnt.searchForPlayer()
             object3.draw(screen)
@@ -92,8 +97,8 @@ def main():
 	HUD(screen, object1)
 
         font = pygame.font.Font(None, 50)
-        mes = font.render("Press <SPACE> to Start", True, (255, 0, 0))
-        screen.blit(mes, (100, 100))
+        #mes = font.render("Press <SPACE> to Start", True, (255, 0, 0))
+        #screen.blit(mes, (100, 100))
 
         #ant.draw(screen) # draw the bird to the screen
         #pygame.draw.rect(screen, (255, 0, 0), (20, 20, 40, 40), 2)
