@@ -1,9 +1,9 @@
 from object import Object
 from water import Water
 from sugar import Sugar
-from block import Block
+from block import Boulder
 from dirt import Dirt
-import pygame
+import pygame, sys
 
 FONT_SIZE = 20
 FONT_COLOR = (255, 0, 0)
@@ -62,6 +62,8 @@ class Player_Ant(Object):  # represents the bird, not the game
                 print "Using sugar"
                 self.powerup = None
                 self.speed = 2 * self.speed
+        if key[pygame.K_ESCAPE]:
+                sys.exit(0)
 
     def collide(self, object):
         if type(object) is Dirt:
@@ -80,8 +82,7 @@ class Player_Ant(Object):  # represents the bird, not the game
             print "PICKED UP SUGAR"  
             self.powerup = "Sugar"
         # Slow the ant down to the max travelling speed of the block
-        elif type(object) is Block:
-            print "Speed bumping ant:", object.xSpeed, object.ySpeed
+        elif type(object) is Boulder:
             self.speedBump(object.xSpeed, object.ySpeed)
         else:
             print "[Info] Collided with Dirt or something"

@@ -2,12 +2,12 @@ from object import Object
 from dirt import Dirt
 import pygame
  
-class Block(Object):  # represents the water, not the game
+class Boulder(Object):  # represents the water, not the game
     MAX_SPEED = 2
 
     def __init__(self, dimension):
         """ The constructor of the class """
-        super(Block, self).__init__(dimension)
+        super(Boulder, self).__init__(dimension)
         
         self.image = pygame.image.load('images/Boulder.png')
         self.image = pygame.transform.scale(self.image, (self.dimension, self.dimension))        
@@ -18,8 +18,8 @@ class Block(Object):  # represents the water, not the game
         self.width = 1
         
         self.direction = 0
-        self.xSpeed = Block.MAX_SPEED
-        self.ySpeed = Block.MAX_SPEED
+        self.xSpeed = Boulder.MAX_SPEED
+        self.ySpeed = Boulder.MAX_SPEED
         
     def collide(self, object):
 
@@ -31,7 +31,7 @@ class Block(Object):  # represents the water, not the game
                 self.x += self.xSpeed         
             elif object._direction == 90:
                 self.y -= self.ySpeed
-                self.ySpeed = Block.MAX_SPEED
+                self.ySpeed = Boulder.MAX_SPEED
             elif object._direction == 180:
                 self.x -= self.xSpeed
             elif object._direction == 270:
@@ -53,5 +53,5 @@ class Block(Object):  # represents the water, not the game
         return      
         
     def inBetweenLoops(self):
-        self.xSpeed = Block.MAX_SPEED
-        self.ySpeed = Block.MAX_SPEED
+        self.xSpeed = Boulder.MAX_SPEED
+        self.ySpeed = Boulder.MAX_SPEED

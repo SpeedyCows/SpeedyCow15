@@ -2,7 +2,7 @@ from object import Object
 import pygame
 from random import Random
 from dirt import Dirt
-from block import Block
+from block import Boulder
 
 class CrazyAnt(Object):
     def __init__(self, dimension, playerAnt, difficulty):
@@ -90,7 +90,7 @@ class CrazyAnt(Object):
         elif type(object).__name__ == 'Dirt' and object.empty:
             return
         # Slow the ant down to the max travelling speed of the block
-        elif type(object) is Block:
+        elif type(object) is Boulder:
             self.speedBump(object.xSpeed, object.ySpeed)
 
         elif type(object).__name__ == 'Player_Ant':
