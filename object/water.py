@@ -4,7 +4,7 @@ import random
 
 class Water(Object):  # represents the water, not the game
 
-    def __init__(self, dimension):
+    def __init__(self, dimension, board_width, board_height):
         """ The constructor of the class """
         super(Water, self).__init__(dimension)
         
@@ -18,6 +18,9 @@ class Water(Object):  # represents the water, not the game
 
         self.x_speed = 0
         self.y_speed = 0
+        
+        self.board_width = board_width
+        self.board_height = board_height
 
 	self.old_old_x = 0
 	self.old_old_y = 0
@@ -56,3 +59,11 @@ class Water(Object):  # represents the water, not the game
         
     def inBetweenLoops(self):
         self.fall()
+        if self.x < 0:
+            self.x = self.old_x
+        elif self.x + self.dimension > self.board_width:
+            self.x = self.old_x
+        if self.y < 0:
+            self.y = self.old_y
+        elif self.y + self.dimension > self.board_height:
+            self.y = self.old_y
