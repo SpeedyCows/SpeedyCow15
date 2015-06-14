@@ -12,7 +12,10 @@ class Sugar(Object):  # represents the water, not the game
         self.red = 255
         self.green = 255
         self.blue = 255
-        self.width = 4
+        self.width = 0
+
+        self.image = pygame.image.load('images/sugar.png')
+        self.image = pygame.transform.scale(self.image, (dimension, dimension))
 
     def collide(self, object):
         if (type(object) is player_ant.Player_Ant):

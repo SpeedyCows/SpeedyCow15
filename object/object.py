@@ -95,4 +95,4 @@ class Object(pygame.sprite.Sprite):
            self.y = self.min_y
         
     def isMovable(self):
-        return false
+        return False

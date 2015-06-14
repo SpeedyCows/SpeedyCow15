@@ -4,6 +4,8 @@ from random import Random
 from dirt import Dirt
 from block import Boulder
 from water import Water
+from queen import Queen
+from fire import Fire
 
 class CrazyAnt(Object):
     def __init__(self, dimension, playerAnt, difficulty):
@@ -89,7 +91,7 @@ class CrazyAnt(Object):
                 object.delete = True
 
         # Slow the ant down to the max travelling speed of the block
-        elif type(object) is Boulder or type(object) is Water:
+        elif type(object) is Boulder or type(object) is Water or type(object) is Queen or type(object) is Fire:
             self.delete = True
 
         elif type(object).__name__ == 'Player_Ant':

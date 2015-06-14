@@ -6,6 +6,7 @@ from object.sugar import Sugar
 from object.block import Boulder
 from object.water import Water
 from object.leaf import Leaf
+from object.fire import Fire
 
 
 class Board:
@@ -99,7 +100,7 @@ class Board:
         for x in range(self.horizontalBlocks):
             for y in range(self.verticalBlocks):
                 if random.random() < .05 and self.spaceClear(x, y):
-                    itemNum = random.randint(0,3)
+                    itemNum = random.randint(0,4)
                     if itemNum == 0:
                         self.setBlock(Sugar(self.squareSize), x, y)
                     elif itemNum == 1:
@@ -108,6 +109,8 @@ class Board:
                         self.setBlock(Water(self.squareSize, Board.SCREEN_WIDTH, Board.SCREEN_HEIGHT), x, y)
                     elif itemNum == 3:
                         self.setBlock(Leaf(self.squareSize), x, y)
+                    elif itemNum == 4:
+                        self.setBlock(Fire(self.squareSize * 2), x, y)
 
     def clearSquares(self, actor):
         self.board[actor[0] % self.horizontalBlocks][actor[1] % self.verticalBlocks] = None

@@ -9,18 +9,18 @@ class Dirt(Object):  # represents the water, not the game
         self.life = 4
 
 	# Option 1 - Loads fast
-        self.red = 68
-        self.green = 26
-        self.blue = 26
-        self.width = 0
+        #self.red = 68
+        #self.green = 26
+        #self.blue = 26
+        #self.width = 0
     
-        self.empty = False
+        #self.empty = False
 
 	# Option 2 - Loads slow
-	#self.image = pygame.image.load('images/dirt.jpg')
+	#self.image = pygame.image.load('images/dirt3.png')
 
 	# Option 3 - Loads ok, but images quality reduced
-        #self.image = pygame.image.load('images/dirt_resized.jpg')
+        self.image = pygame.image.load('images/dirt3.png')
         #self.image = pygame.transform.scale(self.image, (dimension, dimension))
 
     def collide(self, object):
