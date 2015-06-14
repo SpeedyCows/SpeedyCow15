@@ -8,6 +8,9 @@ class Object(pygame.sprite.Sprite):
         self.old_x = 0
         self.y = 0
         self.old_y = 0
+
+	self.old_old_x = 0
+	self.old_old_y = 0
         
         self.dimension = dimension
 
