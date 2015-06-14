@@ -25,7 +25,7 @@ class CrazyAnt(Object):
         elif(difficulty == 'm'):
             self.speed = 3
         else:
-            self.speed = 0.2
+            self.speed = 0.07
 
     def image_rotate(self, rect, angle):
         """rotate an image while keeping its center"""
@@ -88,7 +88,6 @@ class CrazyAnt(Object):
                 object.delete = True
         elif type(object).__name__ == 'Dirt' and object.empty:
             return
-        # Slow the ant down to the max travelling speed of the block
         elif type(object) is Boulder:
             self.speedBump(object.xSpeed, object.ySpeed)
 

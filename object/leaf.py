@@ -1,7 +1,6 @@
 from object import Object
 from dirt import Dirt
-import pygame
-import random
+import pygame, random
  
 class Leaf(Object):  # represents the water, not the game
     MAX_SPEED = 2
@@ -22,12 +21,10 @@ class Leaf(Object):  # represents the water, not the game
         self.ySpeed = Leaf.MAX_SPEED
         
     def collide(self, object):
-
         self.old_x = self.x
         self.old_y = self.y
         if type(object).__name__ == 'Player_Ant':
-            self.delete = True
-            
+            self.delete = True  
         else:
             selfRect = pygame.Rect(self.x, self.y, self.dimension, self.dimension)
             otherRect = pygame.Rect(object.x, object.y, object.dimension, object.dimension)
