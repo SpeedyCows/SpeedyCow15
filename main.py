@@ -55,7 +55,7 @@ def main():
     #Create the board
     board = Board(screen)
     movableObjects, staticObjects = board.getObjects()
-    movableObjects += [ant]
+   # movableObjects += [ant]
     movableObjects += [crazyAnt]
 
     queen = Queen(SQUARE_SIZE)
@@ -105,26 +105,41 @@ def main():
 
 
 
-        #draw all objects
-        for obj in staticObjects + movableObjects:
-            obj.draw(screen)
-
+            
+        for object3 in staticObjects:
+            if (ant.check_collision(object3)):
+                ant.collide(object3)
+                object3.collide(ant)
+                if (object3.delete):
+                    staticObjects.remove(object3)
+                    
+        for object3 in movableObjects :
+            if (ant.check_collision(object3)):
+                ant.collide(object3)
+                object3.collide(ant)
+                if (object3.delete):
+                    movableObjects.remove(object3)
+                
+        for object3 in movableObjects:
+            if (object3.delete == True):
+                movableObjects.remove(object3)                    
+            
         #collide movable objects against each other
         for object3 in movableObjects:
             for object4 in movableObjects:
                 if (object3 != object4):
                     if (object3.check_collision(object4)):
                         object3.collide(object4)
-                crazyAnt.searchForPlayer()
+                    crazyAnt.searchForPlayer()
 
-        for object3 in movableObjects:
-            if (object3.delete == True):
-                movableObjects.remove(object3)     
                 
-        for object3 in movableObjects:
-            object3.draw(screen)
-
-	    HUD(screen, ant)
+        #draw all objects
+        for obj in staticObjects + movableObjects:
+            obj.draw(screen)
+            
+        ant.draw(screen)
+        
+        HUD(screen, ant)
 
         pygame.display.update() # update the screen
 
