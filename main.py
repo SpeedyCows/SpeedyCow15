@@ -57,8 +57,9 @@ def main():
     #Create the board
     board = Board(screen)
     movableObjects, staticObjects = board.getObjects()
-   # movableObjects += [ant]
-    movableObjects += [crazyAnt]
+    movableObjects += [ant]
+    movableObjects.append(crazyAnt)
+
 
     queen = Queen(SQUARE_SIZE)
     queen.setPos(420, 420)
@@ -101,10 +102,6 @@ def main():
 
                     if (staticObject.delete == True):
                         staticObjects.remove(staticObject)
-
-                    if(crazyAnt.check_collision(staticObject)):
-                        crazyAnt.collide(staticObject)
-
 
 
             
