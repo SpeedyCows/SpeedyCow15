@@ -25,13 +25,17 @@ class Object(pygame.sprite.Sprite):
     	self.width = 3
 
         self.image = None
+        self.ani = None
         self.delete = False
 
     def draw(self, surface):
-        if self.image is None:
-            pygame.draw.rect(surface, (self.red, self.green, self.blue), (self.x, self.y, self.dimension, self.dimension), self.width)
+        if self.ani is None:
+            if self.image is None:
+                pygame.draw.rect(surface, (self.red, self.green, self.blue), (self.x, self.y, self.dimension, self.dimension), self.width)
+            else:
+                surface.blit(self.image, (self.x, self.y))
         else:
-            surface.blit(self.image, (self.x, self.y))
+            self.ani.blit(surface, (self.x, self.y))
 
     def check_collision(self, object):
 	## This has a bug, the boundaries overlap - causing it to always hit something
