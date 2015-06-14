@@ -1,4 +1,4 @@
-import pygame, os, sys
+import pygame, os, sys, time
 
 from object.object import *
 from object.player_ant import *
@@ -19,7 +19,7 @@ def HUD(screen, ant):
     screen.blit(font.render("   Sugar: " + str(ant.sugar), True, FONT_COLOR), (0, 3*FONT_SIZE))
     screen.blit(font.render("   Leaves: " + str(ant.leaves), True, FONT_COLOR), (0, 4*FONT_SIZE))
     if(ant.getRemianingLives() == 0):
-        screen.blit(font.render("YOU LOOSE!!!!!! ", True, FONT_COLOR), (250, 300))
+        screen.blit(font.render("YOU LOOSE!!!!!! ", True, FONT_COLOR), (350, 300))
 
 def processPYGame():
     # handle every event since the last frame.
@@ -45,11 +45,12 @@ def main():
     crazyAnt = CrazyAnt(SQUARE_SIZE, object1, 'e')
     crazyAnt.setPos(500, 500)
     objects.append(crazyAnt)
-
+    numberOfCrazyAnts = 1
     #Create the board
     board = Board(screen)
     staticObjects = board.asList()
-
+    enemyAntList = []
+    enemyAntList.append(crazyAnt)
     #print "[DEBUG] Setting up world"
     #dirts = []
     #DIRT_SIZE = SQUARE_SIZE / 2
@@ -63,6 +64,14 @@ def main():
 
     started = False
     while True:
+        t = time.clock()
+        print t
+        if(t/50 > numberOfCrazyAnts):
+            numberOfCrazyAnts += 1
+            crazyAnt = CrazyAnt(SQUARE_SIZE, object1, 'e')
+            enemyAntList.append(crazyAnt)
+            crazyAnt.setPos(500, 500)
+            objects.append(crazyAnt)
         screen.blit(background, backgroundRect)
         if not started:
            font = pygame.font.Font(None, 50)
@@ -90,22 +99,23 @@ def main():
                 #staticObjects.remove(dirt)
                 if (dirt.delete == True):
                     staticObjects.remove(dirt)
+            for crazyAnt in enemyAntList:
+                if(crazyAnt.check_collision(dirt)):
+                    crazyAnt.collide(dirt)
 
-            if(CrazyAnt.check_collision(crazyAnt, dirt)):
-                crazyAnt.collide(dirt)
-                
-                if(dirt.delete == True):
-                    staticObjects.remove(dirt)
+                    if(dirt.delete == True):
+                        staticObjects.remove(dirt)
 
         for dirt in staticObjects:
             dirt.draw(screen)
-                
+
         for object3 in objects:
             for object4 in objects:
                 if (object3 != object4):
-                    if (object3.check_collision(object4) or crazyAnt.check_collision(object4)):
+                    if (object3.check_collision(object4)):
                         object3.collide(object4)
-                crazyAnt.searchForPlayer()
+                for crazyAnt in enemyAntList:
+                    crazyAnt.searchForPlayer()
             object3.draw(screen)
 
 	HUD(screen, object1)
@@ -118,6 +128,6 @@ def main():
         #pygame.draw.rect(screen, (255, 0, 0), (20, 20, 40, 40), 2)
         pygame.display.update() # update the screen
 
-        clock.tick(60)
+        clock.tick(30)
 
 main()

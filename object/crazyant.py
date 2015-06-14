@@ -87,8 +87,6 @@ class CrazyAnt(Object):
             object.life -= 1
             if object.life == 0:
                 object.delete = True
-        elif type(object).__name__ == 'Dirt' and object.empty:
-            return
         # Slow the ant down to the max travelling speed of the block
         elif type(object) is Boulder:
             self.speedBump(object.xSpeed, object.ySpeed)
