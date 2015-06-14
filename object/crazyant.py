@@ -61,7 +61,7 @@ class CrazyAnt(Object):
         global justRotated
         if(self.timeForPause[pause] >= self.counterVars[cPause]):
             randDir = self.rand.randint(0, 3)
-            if(justRotated >= 300):
+            if(justRotated >= 150):
                 self.image = pygame.transform.rotate(self.image, self.direction[randDir] - self._direction)
                 self._direction = self.direction[randDir]
                 justRotated = 0
