@@ -49,17 +49,24 @@ class Fire(Object):  # represents the water, not the game
         ani_E16 = pygame.image.load('images/explosion/sprite_16.png')
         ani_E17 = pygame.image.load('images/explosion/sprite_17.png')
         
-        ani_E = pyganim.PygAnimation([(ani_E1, 1.1), (ani_E2, 1.1), (ani_E3, 1.1), (ani_E4, 1.1), (ani_E5, 1.1), \
-            (ani_E6, 1.1), (ani_E7, 1.1), (ani_E8, 1.1), (ani_E9, 1.1), (ani_E10, 1.1),\
-            (ani_E11, 1.1), (ani_E12, 1.1), (ani_E13, 1.1), (ani_E14, 1.1), (ani_E15, 1.1), \
-            (ani_E16, 1.1), (ani_E17, 1.1)], False)
-        #ani_conduct_explosion = pyganim.PygConductor([ani_E])
-        self.ani_conduct.pause()
-        ani_E.play()
-        self.ani_conduct.play()
-        ani_E.blit(self.x, self.y)
+        ani_E = pyganim.PygAnimation([(ani_E1, 0.1), (ani_E2, 0.1), (ani_E3, 0.1), (ani_E4, 0.1), (ani_E5, 0.1), \
+            (ani_E6, 0.1), (ani_E7, 0.1), (ani_E8, 0.1), (ani_E9, 0.1), (ani_E10, 0.1),\
+            (ani_E11, 0.1), (ani_E12, 0.1), (ani_E13, 0.1), (ani_E14, 0.1), (ani_E15, 0.1), \
+            (ani_E16, 0.1), (ani_E17, 0.1)], False)
+        ani_conduct_explosion = pyganim.PygConductor([ani_E])
+        
+        self.old_x = self.x
+        self.x = self.x + (self.dimension / 2) - (ani_E1.get_width() / 2)
+        self.old_y = self.y
+        self.y = self.y + (self.dimension / 2) - (ani_E1.get_height() / 2)
+        
+        self.ani = ani_E
+        self.ani.play()
         
     def collide(self, object):
         if type(object) is Water:
             self.delete = True
-        
+    def inBetweenLoops(self):
+        self.ani = self.ani_F
+        self.x = self.old_x
+        self.y = self.old_y
