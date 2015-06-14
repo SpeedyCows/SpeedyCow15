@@ -11,6 +11,7 @@ from fire import Fire
 class CrazyAnt(Object):
     def __init__(self, dimension, playerAnt, difficulty):
         global pause
+        global functionCounter
         super(CrazyAnt, self).__init__(dimension)
         self.playerAnt = playerAnt
         self.image = pygame.image.load('images/ant.png')
@@ -22,6 +23,7 @@ class CrazyAnt(Object):
         self.direction = [0, 90, 180, 270]
         pause = self.rand.randint(0, 12)
         self.counter = 0
+        functionCounter = 0
         if(difficulty == 'h'):
             self.speed = 4
         elif(difficulty == 'm'):
@@ -35,11 +37,25 @@ class CrazyAnt(Object):
         rot_rect = rot_image.get_rect(center=rect.center)
         return rot_image,rot_rect
 
+    def aggresiveSearchForPlayer(self):
+        global pause
+        global found
+        if(self.timeForPause[pause] >= self.counter):
+            randDir = self.rand.randint(0, 3)
+            self.image = pygame.transform.rotate(self.image, self.direction[randDir] - self._direction)
+            self._direction = self.direction[randDir]
+            pause = self.rand.randint(0, 12)
+            self.counter = 0
+            self.checkDirection()
+        else:
+            self.counter += 1
+            self.checkDirection()
+
     # Kind of the init function for ants
     def searchForPlayer(self):
         global pause
         global found
-        if(self.timeForPause[pause] == self.counter):
+        if(self.timeForPause[pause] >= self.counter):
             randDir = self.rand.randint(0, 3)
             self.image = pygame.transform.rotate(self.image, self.direction[randDir] - self._direction)
             self._direction = self.direction[randDir]
@@ -55,6 +71,8 @@ class CrazyAnt(Object):
         self.image = pygame.transform.rotate(self.image)
 
     def checkDirection(self):
+        global functionCounter
+        functionCounter += 1
         #translate where to check for on the board.
         if(self._direction == 0):#Ant looks 5 to the right
             if(self.playerAnt.getXPosition() >= self.x and 
