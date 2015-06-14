@@ -13,10 +13,13 @@ class Board:
     SCREEN_WIDTH = 800
     SCREEN_HEIGHT = 600
     
-    def __init__(self, screen):
+    def __init__(self, screen, evManager):
 
         self.screen = screen
 
+        # Event manager reference to give to objects requiring events
+        self.evManager = evManager
+        
         self.screenWidth = Board.SCREEN_WIDTH
         self.screenHeight = Board.SCREEN_HEIGHT
         self.squareSize = 20
@@ -110,7 +113,7 @@ class Board:
                     elif itemNum == 3:
                         self.setBlock(Leaf(self.squareSize), x, y)
                     elif itemNum == 4:
-                        self.setBlock(Fire(self.squareSize * 2), x, y)
+                        self.setBlock(Fire(self.squareSize * 2, self.evManager), x, y)
 
     def clearSquares(self, actor):
         self.board[actor[0] % self.horizontalBlocks][actor[1] % self.verticalBlocks] = None

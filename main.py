@@ -1,4 +1,4 @@
-import pygame, os, time
+import pygame, os, time, copy
 
 from object.object import *
 from object.player_ant import *
@@ -6,8 +6,11 @@ from object.water import Water
 from object.dirt import Dirt
 from object.crazyant import CrazyAnt
 from object.queen import Queen
+from object.egg import Egg
 from board import Board
 from random import Random
+from eventmanager import EventManager
+from soundmanager import SoundManager
 
 from object.pyganim import *
 PLAYER_SIZE = 80
@@ -64,6 +67,9 @@ def main():
     pygame.init()
     rand = Random()
 
+    # Set Difficulty
+    dif = 'e'
+
     #make background dirt
     topdirt = pygame.image.load("images/dirt1.png")
     topdirt = pygame.transform.scale(topdirt, (BLOCK_SIZE, BLOCK_SIZE))
@@ -81,16 +87,19 @@ def main():
     enemyAnts = []
     clock = pygame.time.Clock()
     ant = Player_Ant(SQUARE_SIZE)
-    crazyAnt = CrazyAnt(SQUARE_SIZE, ant, 'e')
+    crazyAnt = CrazyAnt(SQUARE_SIZE, ant, dif)
     crazyAnt.setPos(500, 500)
     enemyAnts.append(crazyAnt)
-    #Create the board
-    board = Board(screen)
+    #Create the event managers
+    eventManager = EventManager()
+    soundManager = SoundManager(eventManager)
+    #Create board
+    board = Board(screen, eventManager)
     movableObjects, staticObjects = board.getObjects()
     movableObjects += [ant]
     movableObjects.append(crazyAnt)
 
-    queen = Queen(SQUARE_SIZE)
+    queen = Queen(SQUARE_SIZE, dif)
     queen.setPos(420, 420)
     movableObjects.append(queen)
 
@@ -99,6 +108,10 @@ def main():
     numberOfCrazyAnts = 1
 
     scoreTimer = time.clock()
+    sugarTimer = scoreTimer
+    leafTimer = scoreTimer
+    eggTimer = scoreTimer
+    randomEggSpawnTime = queen.getRandomEggTime()
 
     logo = pygame.image.load('images/sugar-ant.png')
     font = pygame.font.Font(None, 50)
@@ -110,14 +123,40 @@ def main():
         if (t - scoreTimer) > 1:
             ant.score += 1
             scoreTimer = t
-        if(t/10 > numberOfCrazyAnts):
-            crazyAnt = CrazyAnt(SQUARE_SIZE, ant, 'e')
-            randomX = rand.randint(20, 500)
-            randomY = rand.randint(20, 500)
-            crazyAnt.setPos(randomX, randomY)
-            numberOfCrazyAnts += 1
-            movableObjects.append(crazyAnt)
-            enemyAnts.append(crazyAnt)
+        if (t - eggTimer) > randomEggSpawnTime:
+            egg = Egg(SQUARE_SIZE)
+            egg.setPos(queen.x, queen.y)
+            staticObjects.append(egg)
+            eggTimer = t
+            randomEggSpawnTime = queen.getRandomEggTime()
+        if (t - sugarTimer) > 30:
+            sugar = Sugar(rand.choice((SQUARE_SIZE, SQUARE_SIZE / 2)))
+            randomX = rand.randint(100, 800 - SQUARE_SIZE)
+            randomY = rand.randint(100, 600 - SQUARE_SIZE)
+            sugar.setPos(randomX, randomY)
+            staticObjects.append(sugar)
+            sugar = t
+        if (t - leafTimer) > 15:
+            leaf = Leaf(rand.choice((SQUARE_SIZE, SQUARE_SIZE / 2)))
+            randomX = rand.randint(100, 800 - SQUARE_SIZE)
+            randomY = rand.randint(100, 600 - SQUARE_SIZE)
+            leaf.setPos(randomX, randomY)
+            movableObjects.append(leaf)
+            leafTimer = t
+        if (t/20 > numberOfCrazyAnts):
+            if(t < 40):
+                spawnCrazyAnt(numberOfCrazyAnts, rand, enemyAnts, movableObjects, ant, 'e')
+                numberOfCrazyAnts += 1
+            elif(t >= 40 and t <= 60):
+                spawnCrazyAnt(numberOfCrazyAnts, rand, enemyAnts, movableObjects, ant, 'm')
+                numberOfCrazyAnts += 1
+            else:
+                spawnCrazyAnt(numberOfCrazyAnts, rand, enemyAnts, movableObjects, ant, 'h')
+                numberOfCrazyAnts += 1
+
+        if (t - scoreTimer) > 1:
+            ant.score += 1
+            scoreTimer = t
         screen.blit(background, backgroundRect)
         if not started:
             screen.blit(mes, (200, 250))
@@ -141,12 +180,8 @@ def main():
                     sys.exit(0)
 
         processPYGame(ant, keycount)
-
         ant.inBetweenLoops()
         ant.update_pos()
-        for object in movableObjects:
-            object.inBetweenLoops()
-
         queen.move()
 
         for staticObject in staticObjects:
@@ -166,26 +201,26 @@ def main():
                 object3.collide(ant)
                 if (object3.delete):
                     staticObjects.remove(object3)
-                    
+
         for object3 in movableObjects :
             if (ant.check_collision(object3)):
                 ant.collide(object3)
                 object3.collide(ant)
                 if (object3.delete):
                     movableObjects.remove(object3)
-                
+
         for object3 in movableObjects:
             if (object3.delete == True):
-                movableObjects.remove(object3)                    
-            
+                movableObjects.remove(object3)
+
         #collide movable objects against each other
         for object3 in movableObjects:
             for object4 in movableObjects:
                 if (object3 != object4):
                     if (object3.check_collision(object4)):
                         object3.collide(object4)
-                for crazyAnt in enemyAnts:
-                    crazyAnt.searchForPlayer()
+                    for cA in enemyAnts:
+                        cA.searchForPlayer()
 
         #draw all objects
         for obj in staticObjects + movableObjects:
@@ -197,6 +232,21 @@ def main():
 
         pygame.display.update() # update the screen
 
-        clock.tick(30)
+        clock.tick(20)
 
-main()
+def spawnCrazyAnt(numberOfCrazyAnts, rand, enemyAnts, movableObjects, ant, arg ):
+    crazyAnt = copy.copy(CrazyAnt(SQUARE_SIZE, ant, arg))
+    randomX = rand.randint(100, 500)
+    randomY = rand.randint(100, 500)
+    if(randomX != ant.x and randomY != ant.y):
+        crazyAnt.setPos(randomX, randomY)
+        movableObjects.append(crazyAnt)
+        enemyAnts.append(crazyAnt)
+        crazyAnt.aggresiveSearchForPlayer()
+    else:
+        crazyAnt.setPos(500, 500)
+        movableObjects.append(crazyAnt)
+        enemyAnts.append(crazyAnt)
+        crazyAnt.aggresiveSearchForPlayer()
+
+if __name__=='__main__':main()

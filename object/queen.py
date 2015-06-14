@@ -3,7 +3,7 @@ import pygame, random, pyganim
 
 class Queen(Object):
 
-    def __init__(self, dimension):
+    def __init__(self, dimension, dif):
         """ The constructor of the class """
         super(Queen, self).__init__(dimension)
 
@@ -18,6 +18,8 @@ class Queen(Object):
         ani_Q8 = pygame.image.load('images/queen/queenant8.png')
         self.ani_Q = pyganim.PygAnimation([(ani_Q1, .1), (ani_Q2, .1), (ani_Q3, .1), (ani_Q4, .1), (ani_Q5, .1), (ani_Q6, .1), (ani_Q7, .1), (ani_Q8, .1)])
         self.ani_Q.scale((self.dimension, self.dimension))
+
+        self.dif = dif
 
         # start all animations
         self.ani_conduct = pyganim.PygConductor([self.ani_Q])
@@ -40,12 +42,13 @@ class Queen(Object):
             self.y -= 3
         self.checkBoundaries()
 
-    def dropEgg(self):
-        return
-
-    def doSomething(self):
-        self.move()
-        self.dropEgg()
+    def getRandomEggTime(self):
+       if (self.dif == 'h'):
+          return random.randint(120, 240)
+       elif (self.dif == 'm'):
+          return random.randint(60, 120)
+       else:
+          return random.randint(30, 60)
 
     def collide(self, object):
        if type(object).__name__ == 'Player_Ant':

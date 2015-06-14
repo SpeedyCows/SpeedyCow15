@@ -170,7 +170,7 @@ class Player_Ant(Object):  # represents the bird, not the game
         elif type(object) is Boulder:
             self.speedBump(object.xSpeed, object.ySpeed)
         else:
-            print "[Info] Collided with Dirt or something"
+            pass
 
     def image_rotate(self, rect, angle):
         """rotate an image while keeping its center"""
