@@ -108,15 +108,15 @@ def main():
     while True:
         t = time.clock()
         if(t/20 > numberOfCrazyAnts):
-            crazyAnt = copy.copy(CrazyAnt(SQUARE_SIZE, ant, 'e'))
-            randomX = rand.randint(100, 500)
-            randomY = rand.randint(100, 500)
-            crazyAnt.setPos(randomX, randomY)
-            numberOfCrazyAnts += 1
-            movableObjects.append(crazyAnt)
-            enemyAnts.append(crazyAnt)
-            crazyAnt.aggresiveSearchForPlayer()
-
+            if(t < 40):
+                spawnCrazyAnt(numberOfCrazyAnts, rand, enemyAnts, movableObjects, ant, 'e')
+                numberOfCrazyAnts += 1
+            elif(t < 40 and t >= 20):
+                spawnCrazyAnt(numberOfCrazyAnts, rand, enemyAnts, movableObjects, ant, 'm')
+                numberOfCrazyAnts += 1
+            else:
+                spawnCrazyAnt(numberOfCrazyAnts, rand, enemyAnts, movableObjects, ant, 'h')
+                numberOfCrazyAnts += 1
         if (t - scoreTimer) > 1:
             ant.score += 1
             scoreTimer = t
@@ -197,4 +197,14 @@ def main():
 
         clock.tick(20)
 
-main()
+def spawnCrazyAnt(numberOfCrazyAnts, rand, enemyAnts, movableObjects, ant, arg ):
+    crazyAnt = copy.copy(CrazyAnt(SQUARE_SIZE, ant, arg))
+    randomX = rand.randint(100, 500)
+    randomY = rand.randint(100, 500)
+    if(randomX != ant.x and randomY != ant.y):
+        crazyAnt.setPos(randomX, randomY)
+        movableObjects.append(crazyAnt)
+        enemyAnts.append(crazyAnt)
+        crazyAnt.aggresiveSearchForPlayer()
+
+if __name__=='__main__':main()
