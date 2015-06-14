@@ -12,7 +12,6 @@ class Queen(Object):
         self.image = pygame.transform.scale(self.image, (dimension, dimension))
 
     def move(self):
-	# this does not work to good!
         direction = random.choice((0, 1, 2, 3))
         self.old_x = self.x
         self.old_y = self.y
@@ -24,6 +23,7 @@ class Queen(Object):
             self.y += 3
         elif direction == 3: # move up
             self.y -= 3
+        self.checkBoundaries()
 
     def dropEgg(self):
         return

@@ -83,6 +83,16 @@ class Object(pygame.sprite.Sprite):
         self.old_old_x = self.x
         self.old_old_y = self.y
         return
+
+    def checkBoundaries(self):
+        if self.x > self.max_x:
+           self.x = self.max_x
+        if self.x < self.min_x:
+           self.x = self.min_x
+        if self.y > self.max_y:
+           self.y = self.max_y
+        if self.y < self.min_y:
+           self.y = self.min_y
         
     def isMovable(self):
         return false
