@@ -1,4 +1,4 @@
-import pygame, os
+import pygame, os, time
 
 from object.object import *
 from object.player_ant import *
@@ -22,7 +22,12 @@ def HUD(screen, ant):
     screen.blit(font.render("   Sugar: " + str(ant.sugar), True, FONT_COLOR), (0, 3*FONT_SIZE))
     screen.blit(font.render("   Leaves: " + str(ant.leaves), True, FONT_COLOR), (0, 4*FONT_SIZE))
     if(ant.getRemianingLives() == 0):
-        screen.blit(font.render("YOU LOOSE!!!!!! ", True, FONT_COLOR), (250, 300))
+        screen.blit(pygame.font.Font(None, 50).render("GAME OVER!", True, (255, 255, 255)), (275, 250))
+        if ant.score == 0:
+           screen.blit(pygame.font.Font(None, 25).render("You Lose", True, (255, 255, 255)), (325, 300))
+        else:
+           screen.blit(pygame.font.Font(None, 25).render("Your score is " + str(ant.score), True, (255, 255, 255)), (325, 300))
+        
 
 def processPYGame(ant, keycount):
     # handle every event since the last frame.
