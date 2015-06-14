@@ -6,8 +6,11 @@ from object.water import Water
 from object.dirt import Dirt
 from object.crazyant import CrazyAnt
 from object.queen import Queen
+from object.egg import Egg
 from board import Board
 from random import Random
+from eventmanager import EventManager
+from soundmanager import SoundManager
 
 from object.pyganim import *
 PLAYER_SIZE = 80
@@ -64,6 +67,9 @@ def main():
     pygame.init()
     rand = Random()
 
+    # Set Difficulty
+    dif = 'e'
+
     #make background dirt
     topdirt = pygame.image.load("images/dirt1.png")
     topdirt = pygame.transform.scale(topdirt, (BLOCK_SIZE, BLOCK_SIZE))
@@ -81,16 +87,19 @@ def main():
     enemyAnts = []
     clock = pygame.time.Clock()
     ant = Player_Ant(SQUARE_SIZE)
-    crazyAnt = CrazyAnt(SQUARE_SIZE, ant, 'e')
+    crazyAnt = CrazyAnt(SQUARE_SIZE, ant, dif)
     crazyAnt.setPos(500, 500)
     enemyAnts.append(crazyAnt)
-    #Create the board
-    board = Board(screen)
+    #Create the event managers
+    eventManager = EventManager()
+    soundManager = SoundManager(eventManager)
+    #Create board
+    board = Board(screen, eventManager)
     movableObjects, staticObjects = board.getObjects()
     movableObjects += [ant]
     movableObjects.append(crazyAnt)
 
-    queen = Queen(SQUARE_SIZE)
+    queen = Queen(SQUARE_SIZE, dif)
     queen.setPos(420, 420)
     movableObjects.append(queen)
 
@@ -99,6 +108,8 @@ def main():
     numberOfCrazyAnts = 1
 
     scoreTimer = time.clock()
+    eggTimer = scoreTimer
+    randomEggSpawnTime = queen.getRandomEggTime()
 
     logo = pygame.image.load('images/sugar-ant.png')
     font = pygame.font.Font(None, 50)
@@ -107,11 +118,20 @@ def main():
 
     while True:
         t = time.clock()
+        if (t - scoreTimer) > 1:
+            ant.score += 1
+            scoreTimer = t
+        if (t - eggTimer) > randomEggSpawnTime:
+            egg = Egg(SQUARE_SIZE)
+            egg.setPos(queen.x, queen.y)
+            staticObjects.append(egg)
+            eggTimer = t
+            randomEggSpawnTime = queen.getRandomEggTime()
         if(t/20 > numberOfCrazyAnts):
             if(t < 40):
                 spawnCrazyAnt(numberOfCrazyAnts, rand, enemyAnts, movableObjects, ant, 'e')
                 numberOfCrazyAnts += 1
-            elif(t < 40 and t >= 20):
+            elif(t >= 40 and t <= 60):
                 spawnCrazyAnt(numberOfCrazyAnts, rand, enemyAnts, movableObjects, ant, 'm')
                 numberOfCrazyAnts += 1
             else:

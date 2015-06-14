@@ -1,13 +1,16 @@
 from object import Object
 from water import Water
+from eventmanager import SoundEffectEvent
 import pygame, random, pyganim
 
  
 class Fire(Object):  # represents the water, not the game
 
-    def __init__(self, dimension):
+    def __init__(self, dimension, evManager):
         """ The constructor of the class """
         super(Fire, self).__init__(dimension)
+        
+        self.evManager = evManager
         
         ani_F1 = pygame.image.load('images/fire/sprite_1.png')
         ani_F2 = pygame.image.load('images/fire/sprite_2.png')
@@ -31,6 +34,9 @@ class Fire(Object):  # represents the water, not the game
         self.width = 1
         
     def explode(self):
+        event = SoundEffectEvent('sounds/explosion.wav')
+        self.evManager.Post(event)
+    
         ani_E1 = pygame.image.load('images/explosion/sprite_1.png')
         ani_E2 = pygame.image.load('images/explosion/sprite_2.png')
         ani_E3 = pygame.image.load('images/explosion/sprite_3.png')
