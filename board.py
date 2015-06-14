@@ -9,12 +9,15 @@ from object.leaf import Leaf
 
 
 class Board:
+    SCREEN_WIDTH = 800
+    SCREEN_HEIGHT = 600
+    
     def __init__(self, screen):
 
         self.screen = screen
 
-        self.screenWidth = 800
-        self.screenHeight = 600
+        self.screenWidth = Board.SCREEN_WIDTH
+        self.screenHeight = Board.SCREEN_HEIGHT
         self.squareSize = 20
 
         self.horizontalBlocks = self.screenWidth / self.squareSize
@@ -102,7 +105,7 @@ class Board:
                     elif itemNum == 1:
                         self.setBlock(Boulder(self.squareSize), x, y)
                     elif itemNum == 2:
-                        self.setBlock(Water(self.squareSize), x, y)
+                        self.setBlock(Water(self.squareSize, Board.SCREEN_WIDTH, Board.SCREEN_HEIGHT), x, y)
                     elif itemNum == 3:
                         self.setBlock(Leaf(self.squareSize), x, y)
 

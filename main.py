@@ -1,4 +1,4 @@
-import pygame, os
+import pygame, os, time
 
 from object.object import *
 from object.player_ant import *
@@ -7,13 +7,13 @@ from object.dirt import Dirt
 from object.crazyant import CrazyAnt
 from object.queen import Queen
 from board import Board
+from random import Random
 
 from object.pyganim import *
 PLAYER_SIZE = 80
 SQUARE_SIZE = 40
 FONT_SIZE = 20
 FONT_COLOR = (255, 255, 255)
-
 def HUD(screen, ant):
     font = pygame.font.Font(None, FONT_SIZE)
     screen.blit(font.render("Score: " + str(ant.score), True, FONT_COLOR), (0, 0))
@@ -22,7 +22,12 @@ def HUD(screen, ant):
     screen.blit(font.render("   Sugar: " + str(ant.sugar), True, FONT_COLOR), (0, 3*FONT_SIZE))
     screen.blit(font.render("   Leaves: " + str(ant.leaves), True, FONT_COLOR), (0, 4*FONT_SIZE))
     if(ant.getRemianingLives() == 0):
-        screen.blit(font.render("YOU LOOSE!!!!!! ", True, FONT_COLOR), (250, 300))
+        screen.blit(pygame.font.Font(None, 50).render("GAME OVER!", True, (255, 255, 255)), (275, 250))
+        if ant.score == 0:
+           screen.blit(pygame.font.Font(None, 25).render("You Lose", True, (255, 255, 255)), (325, 300))
+        else:
+           screen.blit(pygame.font.Font(None, 25).render("Your score is " + str(ant.score), True, (255, 255, 255)), (325, 300))
+        
 
 def processPYGame(ant, keycount):
     # handle every event since the last frame.
@@ -38,28 +43,28 @@ def processPYGame(ant, keycount):
             #only pause if num of key down is now 0
             keycount -= 1
             if keycount <= 0:
+                keycount = 0
                 ant.pause_ani()
         elif event.type == pygame.MOUSEMOTION:
             ant.handle_mouse(event)
 
 def main():
     pygame.init()
+    rand = Random()
     background = pygame.image.load("images/grass.jpg")
     backgroundRect = background.get_rect()
     screen = pygame.display.set_mode((800, 600))
-
+    enemyAnts = []
     clock = pygame.time.Clock()
-
     ant = Player_Ant(SQUARE_SIZE)
     crazyAnt = CrazyAnt(SQUARE_SIZE, ant, 'e')
     crazyAnt.setPos(500, 500)
-
+    enemyAnts.append(crazyAnt)
     #Create the board
     board = Board(screen)
     movableObjects, staticObjects = board.getObjects()
     movableObjects += [ant]
     movableObjects.append(crazyAnt)
-
 
     queen = Queen(SQUARE_SIZE)
     queen.setPos(420, 420)
@@ -67,7 +72,17 @@ def main():
 
     keycount = 0
     started = False
+    numberOfCrazyAnts = 1
     while True:
+        t = time.clock()
+        if(t/10 > numberOfCrazyAnts):
+            crazyAnt = CrazyAnt(SQUARE_SIZE, ant, 'e')
+            randomX = rand.randint(20, 500)
+            randomY = rand.randint(20, 500)
+            crazyAnt.setPos(randomX, randomY)
+            numberOfCrazyAnts += 1
+            movableObjects.append(crazyAnt)
+            enemyAnts.append(crazyAnt)
         screen.blit(background, backgroundRect)
         if not started:
             font = pygame.font.Font(None, 50)
@@ -100,11 +115,9 @@ def main():
                     movableObject.collide(staticObject)
                     staticObject.collide(movableObject)
 
-                    if (staticObject.delete == True):
-                        staticObjects.remove(staticObject)
+            if (staticObject.delete == True):
+                staticObjects.remove(staticObject)
 
-
-            
         for object3 in staticObjects:
             if (ant.check_collision(object3)):
                 ant.collide(object3)
@@ -129,9 +142,9 @@ def main():
                 if (object3 != object4):
                     if (object3.check_collision(object4)):
                         object3.collide(object4)
+                for crazyAnt in enemyAnts:
                     crazyAnt.searchForPlayer()
 
-                
         #draw all objects
         for obj in staticObjects + movableObjects:
             obj.draw(screen)
