@@ -184,6 +184,10 @@ def main():
 
         processPYGame(ant, keycount)
         ant.inBetweenLoops()
+        for staticObject in staticObjects:
+            staticObject.inBetweenLoops()
+        for movableObject in movableObjects:
+            movableObject.inBetweenLoops()
         ant.update_pos()
         queen.move()
 
