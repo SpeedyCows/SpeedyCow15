@@ -33,7 +33,7 @@ class Queen(Object):
         self.dropEgg()
 
     def collide(self, object):
-        if (type(object) is player_ant.Player_Ant):
+       # if (type(object) is player_ant.Player_Ant):
             self.delete = True
 
     def isMovable(self):
