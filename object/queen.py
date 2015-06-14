@@ -27,13 +27,9 @@ class Queen(Object):
     def dropEgg(self):
         return
 
-    def dropEnemy(self):
-        return
-
     def doSomething(self):
         self.move()
         self.dropEgg()
-        self.dropEnemy()
 
     def collide(self, object):
         if (type(object) is player_ant.Player_Ant):

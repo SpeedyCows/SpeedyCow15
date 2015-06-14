@@ -21,13 +21,19 @@ def HUD(screen, ant):
     if(ant.getRemianingLives() == 0):
         screen.blit(font.render("YOU LOOSE!!!!!! ", True, FONT_COLOR), (250, 300))
 
+def processPYGame():
+    # handle every event since the last frame.
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+           pygame.quit() # quit the screen
+           sys.exit(1)
+
 def main():
     pygame.init()
     background = pygame.image.load("images/grass.jpg")
     backgroundRect = background.get_rect()
     screen = pygame.display.set_mode((800, 600))
 
-    #ant = Ant() # create an instance
     clock = pygame.time.Clock()
 
     objects = []
@@ -55,18 +61,22 @@ def main():
     #            #objects.append(dirt)
     #print "[DEBUG] Done Setting up world"
 
-    running = True
-    while running:
-        # handle every event since the last frame.
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit() # quit the screen
-                running = False
-
-        #ant.handle_keys() # handle the keys
-
-        #screen.fill((255,255,255)) # fill the screen with black
+    started = False
+    while True:
         screen.blit(background, backgroundRect)
+        if not started:
+           font = pygame.font.Font(None, 50)
+           mes = font.render("Press <ENTER> to Start", True, (255, 0, 0))
+           screen.blit(mes, (200, 400))
+           pygame.display.update() # update the screen
+           while True:
+		 processPYGame()
+                 key = pygame.key.get_pressed()
+                 if key[pygame.K_RETURN]:
+                    started = True
+                    break
+
+	processPYGame()
 
         object1.inBetweenLoops()
         for object in objects:
@@ -95,12 +105,6 @@ def main():
 
 	HUD(screen, object1)
 
-        font = pygame.font.Font(None, 50)
-        mes = font.render("Press <SPACE> to Start", True, (255, 0, 0))
-        screen.blit(mes, (100, 100))
-
-        #ant.draw(screen) # draw the bird to the screen
-        #pygame.draw.rect(screen, (255, 0, 0), (20, 20, 40, 40), 2)
         pygame.display.update() # update the screen
 
         clock.tick(60)
