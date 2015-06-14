@@ -53,3 +53,6 @@ class Water(Object):  # represents the water, not the game
 
     def isMovable(self):
         return True
+        
+    def inBetweenLoops(self):
+        self.fall()

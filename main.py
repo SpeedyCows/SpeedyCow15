@@ -130,7 +130,7 @@ def main():
                 if (object3 != object4):
                     if (object3.check_collision(object4)):
                         object3.collide(object4)
-                crazyAnt.searchForPlayer()
+                    crazyAnt.searchForPlayer()
 
                 
         #draw all objects
@@ -138,8 +138,8 @@ def main():
             obj.draw(screen)
             
         ant.draw(screen)
-
-	    HUD(screen, ant)
+        
+        HUD(screen, ant)
 
         pygame.display.update() # update the screen
 
