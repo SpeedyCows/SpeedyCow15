@@ -39,6 +39,8 @@ def processPYGame(ant, keycount):
             keycount -= 1
             if keycount <= 0:
                 ant.pause_ani()
+        elif event.type == pygame.MOUSEMOTION:
+            ant.handle_mouse(event)
 
 def main():
     pygame.init()
