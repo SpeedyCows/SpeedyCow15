@@ -68,6 +68,10 @@ def main():
         #screen.fill((255,255,255)) # fill the screen with black
         screen.blit(background, backgroundRect)
 
+        object1.inBetweenLoops()
+        for object in objects:
+            object.inBetweenLoops()
+            
         object1.handle_keys()
             
         for dirt in staticObjects:
