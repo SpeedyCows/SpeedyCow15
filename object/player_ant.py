@@ -145,9 +145,8 @@ class Player_Ant(Object):  # represents the bird, not the game
                 object.delete = True
         elif type(object).__name__ == 'Dirt' and object.empty:
             return
-        elif type(object).__name__ == 'Water':
-            self.x = self.old_x
-            self.y = self.old_y
+        elif type(object) is Water:
+            self.minusLife()
             return
         elif type(object) is Sugar:
             print "PICKED UP SUGAR"  
