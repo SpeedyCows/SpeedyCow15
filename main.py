@@ -5,6 +5,7 @@ from object.player_ant import *
 from object.water import Water
 from object.dirt import Dirt
 from object.crazyant import CrazyAnt
+from object.queen import Queen
 from board import Board
 
 SQUARE_SIZE = 40
@@ -37,12 +38,12 @@ def main():
     clock = pygame.time.Clock()
 
     objects = []
-    object1 = Player_Ant(SQUARE_SIZE)
-    objects.append(object1)
+    ant = Player_Ant(SQUARE_SIZE)
+    objects.append(ant)
     object2 = Water(SQUARE_SIZE)
     object2.setPos(280, 280)
     objects.append(object2)
-    crazyAnt = CrazyAnt(SQUARE_SIZE, object1, 'e')
+    crazyAnt = CrazyAnt(SQUARE_SIZE, ant, 'e')
     crazyAnt.setPos(500, 500)
     objects.append(crazyAnt)
     numberOfCrazyAnts = 1
@@ -61,6 +62,13 @@ def main():
     #            dirt.setPos(x * DIRT_SIZE, y * DIRT_SIZE)
     #            #objects.append(dirt)
     #print "[DEBUG] Done Setting up world"
+    movableObjects, staticObjects = board.getObjects()
+    movableObjects += [ant]
+    movableObjects += [crazyAnt]
+
+    queen = Queen(SQUARE_SIZE)
+    queen.setPos(420, 420)
+    staticObjects.append(queen)
 
     started = False
     while True:
@@ -68,7 +76,7 @@ def main():
         print t
         if(t/20 > numberOfCrazyAnts):
             numberOfCrazyAnts += 1
-            crazyAnt = CrazyAnt(SQUARE_SIZE, object1, 'e')
+            crazyAnt = CrazyAnt(SQUARE_SIZE, ant, 'e')
             enemyAntList.append(crazyAnt)
             crazyAnt.setPos(500, 500)
             objects.append(crazyAnt)
@@ -87,15 +95,15 @@ def main():
 
 	processPYGame()
 
-        object1.inBetweenLoops()
+        ant.inBetweenLoops()
         for object in objects:
             object.inBetweenLoops()
-            
-        object1.handle_keys()
+
+        ant.handle_keys()
 
         for dirt in staticObjects:
-            if (object1.check_collision(dirt)):
-                object1.collide(dirt)
+            if (ant.check_collision(dirt)):
+                ant.collide(dirt)
                 #staticObjects.remove(dirt)
                 if (dirt.delete == True):
                     staticObjects.remove(dirt)
@@ -111,6 +119,33 @@ def main():
 
         for object3 in objects:
             for object4 in objects:
+                ant.handle_keys()
+
+        queen.move()
+
+        for staticObject in staticObjects:
+            for movableObject in movableObjects:
+                if (movableObject.check_collision(staticObject)):
+
+                    #collide both ways
+                    movableObject.collide(staticObject)
+                    staticObject.collide(movableObject)
+
+                    if (staticObject.delete == True):
+                        staticObjects.remove(staticObject)
+
+                    if(CrazyAnt.check_collision(crazyAnt, staticObject)):
+                        crazyAnt.collide(staticObject)
+
+
+
+        #draw all objects
+        for obj in staticObjects + movableObjects:
+            obj.draw(screen)
+
+        #collide movable objects against each other
+        for object3 in movableObjects:
+            for object4 in movableObjects:
                 if (object3 != object4):
                     if (object3.check_collision(object4)):
                         object3.collide(object4)
@@ -118,14 +153,8 @@ def main():
                     crazyAnt.searchForPlayer()
             object3.draw(screen)
 
-	HUD(screen, object1)
+	HUD(screen, ant)
 
-        font = pygame.font.Font(None, 50)
-        #mes = font.render("Press <SPACE> to Start", True, (255, 0, 0))
-        #screen.blit(mes, (100, 100))
-
-        #ant.draw(screen) # draw the bird to the screen
-        #pygame.draw.rect(screen, (255, 0, 0), (20, 20, 40, 40), 2)
         pygame.display.update() # update the screen
 
         clock.tick(30)
