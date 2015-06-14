@@ -27,3 +27,6 @@ class Dirt(Object):  # represents the water, not the game
         return
         #if type(object).__name__ == 'Player_Ant':
         #self.empty = True
+
+    def isMovable(self):
+        return False

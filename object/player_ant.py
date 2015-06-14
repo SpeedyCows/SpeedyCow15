@@ -81,6 +81,8 @@ class Player_Ant(Object):  # represents the bird, not the game
         elif type(object) is Sugar:
             print "PICKED UP SUGAR"  
             self.powerup = "Sugar"
+            self.sugar += 1
+            self.delete = True
         # Slow the ant down to the max travelling speed of the block
         elif type(object) is Boulder:
             self.speedBump(object.xSpeed, object.ySpeed)
@@ -109,3 +111,6 @@ class Player_Ant(Object):  # represents the bird, not the game
         
     def getRemianingLives(self):
         return self.lives
+
+    def isMovable(self):
+        return True

@@ -66,7 +66,7 @@ def main():
     while True:
         t = time.clock()
         print t
-        if(t/50 > numberOfCrazyAnts):
+        if(t/20 > numberOfCrazyAnts):
             numberOfCrazyAnts += 1
             crazyAnt = CrazyAnt(SQUARE_SIZE, object1, 'e')
             enemyAntList.append(crazyAnt)
