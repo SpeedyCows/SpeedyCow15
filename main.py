@@ -49,7 +49,7 @@ def main():
 
     queen = Queen(SQUARE_SIZE)
     queen.setPos(420, 420)
-    staticObjects.append(queen)
+    movableObjects.append(queen)
 
     started = False
     while True:

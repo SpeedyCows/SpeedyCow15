@@ -1,5 +1,4 @@
 from object import Object
-#from object.player_ant import Player_Ant
 import pygame
 import random
 
@@ -35,18 +34,21 @@ class Queen(Object):
 
     def collide(self, object):
        if type(object).__name__ == 'Player_Ant':
-          object.score += object.sugar
+          object.score += object.sugar * 2
+          object.score += object.leave
+          object.leaves = 0
           object.sugar = 0
        elif type(object).__name__ == 'Water':
           object.x = object.old_x
           object.y = object.old_y
        elif type(object).__name__ == 'Dirt':
-            print "HELLO WORLD"
-            object.x = object.old_x
-            object.y = object.old_y
-            object.life -= 1
-            if object.life == 0:
-                object.delete = True
+          object.x = object.old_x
+          object.y = object.old_y
+          object.life -= 1
+          if object.life == 0:
+             object.delete = True
+       elif type(object).__name__ == 'Boulder':
+            self.speedBump(object.xSpeed, object.ySpeed)
 
     def isMovable(self):
         return True
