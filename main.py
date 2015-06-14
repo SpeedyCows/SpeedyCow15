@@ -5,6 +5,7 @@ from object.player_ant import *
 from object.water import Water
 from object.dirt import Dirt
 from object.crazyant import CrazyAnt
+from object.queen import Queen
 from board import Board
 
 SQUARE_SIZE = 40
@@ -46,16 +47,9 @@ def main():
     movableObjects += [ant]
     movableObjects += [crazyAnt]
 
-    #print "[DEBUG] Setting up world"
-    #dirts = []
-    #DIRT_SIZE = SQUARE_SIZE / 2
-    #for x in xrange(800 / DIRT_SIZE):
-    #    for y in xrange(600 / DIRT_SIZE):
-    #        if not (y == 0 and x == 0):
-    #            dirt = Dirt(DIRT_SIZE)
-    #            dirt.setPos(x * DIRT_SIZE, y * DIRT_SIZE)
-    #            #objects.append(dirt)
-    #print "[DEBUG] Done Setting up world"
+    queen = Queen(SQUARE_SIZE)
+    queen.setPos(420, 420)
+    staticObjects.append(queen)
 
     started = False
     while True:
@@ -81,6 +75,8 @@ def main():
             object.inBetweenLoops()
             
         ant.handle_keys()
+
+        queen.move()
 
         for staticObject in staticObjects:
             for movableObject in movableObjects:
@@ -113,14 +109,8 @@ def main():
 
 	HUD(screen, ant)
 
-        font = pygame.font.Font(None, 50)
-        #mes = font.render("Press <SPACE> to Start", True, (255, 0, 0))
-        #screen.blit(mes, (100, 100))
-
-        #ant.draw(screen) # draw the bird to the screen
-        #pygame.draw.rect(screen, (255, 0, 0), (20, 20, 40, 40), 2)
         pygame.display.update() # update the screen
 
-        clock.tick(60)
+        clock.tick(30)
 
 main()
