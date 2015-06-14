@@ -93,11 +93,10 @@ def main():
                     if (staticObject.delete == True):
                         staticObjects.remove(staticObject)
 
-                if(CrazyAnt.check_collision(crazyAnt, staticObject)):
-                    crazyAnt.collide(staticObject)
+                    if(CrazyAnt.check_collision(crazyAnt, staticObject)):
+                        crazyAnt.collide(staticObject)
 
-                    if(staticObject.delete == True):
-                        staticObjects.remove(staticObject)
+
 
         #draw all objects
         for obj in staticObjects + movableObjects:
