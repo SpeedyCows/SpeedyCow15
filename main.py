@@ -102,9 +102,15 @@ def main():
         for object3 in movableObjects:
             for object4 in movableObjects:
                 if (object3 != object4):
-                    if (object3.check_collision(object4) or crazyAnt.check_collision(object4)):
+                    if (object3.check_collision(object4)):
                         object3.collide(object4)
                 crazyAnt.searchForPlayer()
+
+        for object3 in movableObjects:
+            if (object3.delete == True):
+                movableObjects.remove(object3)     
+                
+        for object3 in movableObjects:
             object3.draw(screen)
 
 	HUD(screen, ant)
