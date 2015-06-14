@@ -77,9 +77,8 @@ def main():
         if(t/20 > numberOfCrazyAnts):
             numberOfCrazyAnts += 1
             crazyAnt = CrazyAnt(SQUARE_SIZE, ant, 'e')
-            enemyAntList.append(crazyAnt)
-            crazyAnt.setPos(500, 500)
-            objects.append(crazyAnt)
+            movableObjects += crazyAnt
+
         screen.blit(background, backgroundRect)
         if not started:
            font = pygame.font.Font(None, 50)
