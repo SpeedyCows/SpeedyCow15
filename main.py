@@ -22,7 +22,12 @@ def HUD(screen, ant):
     screen.blit(font.render("   Sugar: " + str(ant.sugar), True, FONT_COLOR), (0, 3*FONT_SIZE))
     screen.blit(font.render("   Leaves: " + str(ant.leaves), True, FONT_COLOR), (0, 4*FONT_SIZE))
     if(ant.getRemianingLives() == 0):
-        screen.blit(font.render("YOU LOOSE!!!!!! ", True, FONT_COLOR), (250, 300))
+        screen.blit(pygame.font.Font(None, 50).render("GAME OVER!", True, (255, 255, 255)), (275, 250))
+        if ant.score == 0:
+           screen.blit(pygame.font.Font(None, 25).render("You Lose", True, (255, 255, 255)), (325, 300))
+        else:
+           screen.blit(pygame.font.Font(None, 25).render("Your score is " + str(ant.score), True, (255, 255, 255)), (325, 300))
+        
 
 def processPYGame(ant, keycount):
     # handle every event since the last frame.
@@ -72,8 +77,8 @@ def main():
         t = time.clock()
         if(t/20 > numberOfCrazyAnts):
             crazyAnt = CrazyAnt(SQUARE_SIZE, ant, 'e')
-            randomX = rand.randint(20, 500)
-            randomY = rand.randint(20, 500)
+            randomX = rand.randint(60, 500)
+            randomY = rand.randint(60, 500)
             crazyAnt.setPos(randomX, randomY)
             numberOfCrazyAnts += 1
             movableObjects.append(crazyAnt)
@@ -129,7 +134,7 @@ def main():
                 
         for object3 in movableObjects:
             if (object3.delete == True):
-                movableObjects.remove(object3)                    
+                movableObjects.remove(object3)
             
         #collide movable objects against each other
         for object3 in movableObjects:
@@ -137,8 +142,8 @@ def main():
                 if (object3 != object4):
                     if (object3.check_collision(object4)):
                         object3.collide(object4)
-                    for crazyAnt in enemyAnts:
-                        crazyAnt.searchForPlayer()
+                    for cA in enemyAnts:
+                        cA.searchForPlayer()
 
         #draw all objects
         for obj in staticObjects + movableObjects:
@@ -150,6 +155,6 @@ def main():
 
         pygame.display.update() # update the screen
 
-        clock.tick(30)
+        clock.tick(20)
 
 main()

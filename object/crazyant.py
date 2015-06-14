@@ -4,6 +4,9 @@ from random import Random
 from dirt import Dirt
 from block import Boulder
 
+from water import Water
+from queen import Queen
+
 class CrazyAnt(Object):
     def __init__(self, dimension, playerAnt, difficulty):
         global pause
@@ -15,7 +18,7 @@ class CrazyAnt(Object):
         self._direction = 0
         self.rand = Random()
         self.rotationTracekr = 0
-        self.timeForPause = [200, 500, 700, 90, 10, 150, 300, 300, 400, 50, 10, 118, 120]
+        self.timeForPause = [1000, 2000, 3000, 4000, 500, 600, 700, 800, 900, 10, 110, 120, 130]
         self.direction = [0, 90, 180, 270]
         pause = self.rand.randint(0, 12)
         self.counter = 0
@@ -48,6 +51,7 @@ class CrazyAnt(Object):
         else:
             self.counter += 1
             self.checkDirection()
+
     def rotate(self):
         oldCenter = self.rect.center
         self.image = pygame.transform.rotate(self.image)
@@ -56,25 +60,25 @@ class CrazyAnt(Object):
         #translate where to check for on the board.
         if(self._direction == 0):#Ant looks 5 to the right
             if(self.playerAnt.getXPosition() >= self.x and 
-               self.playerAnt.getXPosition() <= self.x + 100 and
+               self.playerAnt.getXPosition() <= self.x + 200 and
                self.x < self.max_x): #Then we move right
                 self.old_x = self.x
                 self.x += self.speed
         elif(self._direction == 90):#We look up
             if(self.playerAnt.getYPosition() <= self.y and 
-               self.playerAnt.getYPosition() >= self.y - 100 and
+               self.playerAnt.getYPosition() >= self.y - 200 and
                self.y > self.min_y): #Move u
                 self.old_y = self.y
                 self.y -= self.speed
         elif(self._direction == 180):#look left
             if(self.playerAnt.getXPosition() <= self.x and 
-               self.playerAnt.getXPosition() >= self.x - 100 and
+               self.playerAnt.getXPosition() >= self.x - 200 and
                self.x > self.min_x):#mvoe left
                 self.old_x = self.x
                 self.x -= self.speed
         elif(self._direction == 270):
             if(self.playerAnt.getYPosition() >= self.y and 
-               self.playerAnt.getYPosition() <= self.y + 100 and 
+               self.playerAnt.getYPosition() <= self.y + 200 and 
                self.y < self.max_y):
                 self.old_y = self.y
                 self.y += self.speed
@@ -90,8 +94,12 @@ class CrazyAnt(Object):
             return
         elif type(obj) is Boulder:
             self.speedBump(obj.xSpeed, obj.ySpeed)
+        # Slow the ant down to the max travelling speed of the block
+        elif type(object) is Boulder or type(object) is Water or type(object) is Queen:
+            self.delete = True
 
-        elif type(obj).__name__ == 'Player_Ant':
+        elif type(object).__name__ == 'Player_Ant':
+            print'------------------------------------- player ant'
             self.playerAnt.minusLife()
             self.playerAnt
 
