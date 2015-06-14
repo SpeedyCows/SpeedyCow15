@@ -6,6 +6,8 @@ from object.water import Water
 from object.dirt import Dirt
 from object.crazyant import CrazyAnt
 
+from object.pyganim import *
+PLAYER_SIZE = 80
 SQUARE_SIZE = 40
 
 def main():
@@ -18,7 +20,7 @@ def main():
     clock = pygame.time.Clock()
 
     objects = []
-    object1 = Player_Ant(SQUARE_SIZE)
+    object1 = Player_Ant(PLAYER_SIZE)
     objects.append(object1)
     object2 = Water(SQUARE_SIZE)
     object2.setPos(280, 280)
@@ -38,6 +40,7 @@ def main():
                 #objects.append(dirt)
     print "[DEBUG] Done Setting up world"
 
+    keycount = 0
     running = True
     while running:
         # handle every event since the last frame.
@@ -45,13 +48,24 @@ def main():
             if event.type == pygame.QUIT:
                 pygame.quit() # quit the screen
                 running = False
+            elif event.type == pygame.KEYDOWN:
+                #need to count key down so that we can track when they are released
+                keycount += 1
+                object1.handle_key(event)
+            elif event.type == pygame.KEYUP:
+                #only pause if num of key down is now 0
+                keycount -= 1
+                if keycount <= 0:
+                    object1.pause_ani()
 
         #ant.handle_keys() # handle the keys
+
+        #Update ant position
+        object1.update_pos()
 
         #screen.fill((255,255,255)) # fill the screen with black
         screen.blit(background, backgroundRect)
 
-        object1.handle_keys()
             
         for dirt in dirts:
             if (object1.check_collision(dirt)):
