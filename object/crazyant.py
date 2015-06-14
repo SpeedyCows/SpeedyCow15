@@ -166,9 +166,13 @@ class CrazyAnt(Object):
         elif type(obj) is Boulder:
             self.speedBump(obj.xSpeed, obj.ySpeed)
         # Slow the ant down to the max travelling speed of the block
-        elif type(object) is Boulder or type(object) is Water or type(object) is Queen or type(object) is Fire:
+        elif type(object) is Boulder or type(object) is Water or type(object) is Queen:
             self.delete = True
 
+        elif type(object) is Fire:
+            object.explode()
+            self.delete = True
+            
         elif type(obj).__name__ == 'Player_Ant':
             self.playerAnt.minusLife()
             self.playerAnt
