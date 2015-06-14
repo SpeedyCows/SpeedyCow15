@@ -1,4 +1,5 @@
 from object import Object
+#from object.player_ant import Player_Ant
 import pygame
 import random
 
@@ -33,8 +34,9 @@ class Queen(Object):
         self.dropEgg()
 
     def collide(self, object):
-        if (type(object) is player_ant.Player_Ant):
-            self.delete = True
+       # if (type(object) is player_ant.Player_Ant):
+       #     self.delete = True
+       return
 
     def isMovable(self):
         return True

@@ -23,7 +23,8 @@ class Player_Ant(Object):  # represents the bird, not the game
         self.leaves = 0
         self.sugar = 0
 
-        self.speed = 5
+        self.initial_speed = 5
+        self.speed = self.initial_speed
     	self._direction = 0
         
     def handle_keys(self):
@@ -62,6 +63,9 @@ class Player_Ant(Object):  # represents the bird, not the game
                 print "Using sugar"
                 self.powerup = None
                 self.speed = 2 * self.speed
+                self.sugar -= 1
+                if self.sugar < 0:
+                   self.sugar = 0
         if key[pygame.K_ESCAPE]:
                 sys.exit(0)
 
@@ -108,6 +112,7 @@ class Player_Ant(Object):  # represents the bird, not the game
     def minusLife(self):
         self.lives -= 1
         self.setPos(0, 0)
+        self.speed = self.initial_speed
         
     def getRemianingLives(self):
         return self.lives
