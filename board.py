@@ -3,7 +3,7 @@ __author__ = 'name'
 import random
 from object.dirt import Dirt
 from object.sugar import Sugar
-from object.block import Block
+from object.block import Boulder
 from object.water import Water
 
 
@@ -95,7 +95,7 @@ class Board:
                     if itemNum == 0:
                         self.setBlock(Sugar(self.squareSize), x, y)
                     elif itemNum == 1:
-                        self.setBlock(Block(self.squareSize), x, y)
+                        self.setBlock(Boulder(self.squareSize), x, y)
                     elif itemNum == 2:
                         self.setBlock(Water(self.squareSize), x, y)
 
