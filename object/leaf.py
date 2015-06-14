@@ -14,11 +14,10 @@ class Leaf(Object):  # represents the water, not the game
         self.image = pygame.transform.scale(self.image, (self.dimension, self.dimension))        
         
         self.red = 0
-        self.green = 0
-        self.blue = 255
+        self.green = 255
+        self.blue = 0
         self.width = 1
         
-        self.direction = 270
         self.xSpeed = Leaf.MAX_SPEED
         self.ySpeed = Leaf.MAX_SPEED
         
@@ -38,3 +37,6 @@ class Leaf(Object):  # represents the water, not the game
         
     def inBetweenLoops(self):
         self.setPos(self.x + self.xSpeed, self.y + self.ySpeed)
+        
+    def isMovable(self):
+        return True

@@ -79,3 +79,6 @@ class Object(pygame.sprite.Sprite):
         self.old_old_x = self.x
         self.old_old_y = self.y
         return
+        
+    def isMovable(self):
+        return false

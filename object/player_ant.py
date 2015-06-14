@@ -3,6 +3,7 @@ from water import Water
 from sugar import Sugar
 from block import Boulder
 from dirt import Dirt
+from leaf import Leaf
 import pygame, sys
 
 FONT_SIZE = 20
@@ -86,7 +87,10 @@ class Player_Ant(Object):  # represents the bird, not the game
             print "PICKED UP SUGAR"  
             self.powerup = "Sugar"
             self.sugar += 1
-            self.delete = True
+        elif type(object) is Leaf:
+            print "PICKED UP Leaf"  
+            self.powerup = "Leaf"
+            self.leaves += 1
         # Slow the ant down to the max travelling speed of the block
         elif type(object) is Boulder:
             self.speedBump(object.xSpeed, object.ySpeed)
