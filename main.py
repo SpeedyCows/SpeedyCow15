@@ -108,6 +108,8 @@ def main():
     numberOfCrazyAnts = 1
 
     scoreTimer = time.clock()
+    sugarTimer = scoreTimer
+    leafTimer = scoreTimer
     eggTimer = scoreTimer
     randomEggSpawnTime = queen.getRandomEggTime()
 
@@ -127,7 +129,21 @@ def main():
             staticObjects.append(egg)
             eggTimer = t
             randomEggSpawnTime = queen.getRandomEggTime()
-        if(t/20 > numberOfCrazyAnts):
+        if (t - sugarTimer) > 30:
+            sugar = Sugar(rand.choice((SQUARE_SIZE, SQUARE_SIZE / 2)))
+            randomX = rand.randint(100, 800 - SQUARE_SIZE)
+            randomY = rand.randint(100, 600 - SQUARE_SIZE)
+            sugar.setPos(randomX, randomY)
+            staticObjects.append(sugar)
+            sugar = t
+        if (t - leafTimer) > 15:
+            leaf = Leaf(rand.choice((SQUARE_SIZE, SQUARE_SIZE / 2)))
+            randomX = rand.randint(100, 800 - SQUARE_SIZE)
+            randomY = rand.randint(100, 600 - SQUARE_SIZE)
+            leaf.setPos(randomX, randomY)
+            movableObjects.append(leaf)
+            leafTimer = t
+        if (t/20 > numberOfCrazyAnts):
             if(t < 40):
                 spawnCrazyAnt(numberOfCrazyAnts, rand, enemyAnts, movableObjects, ant, 'e')
                 numberOfCrazyAnts += 1
