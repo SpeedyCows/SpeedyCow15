@@ -1,4 +1,4 @@
-import pygame, os, time
+import pygame, os, time, copy
 
 from object.object import *
 from object.player_ant import *
@@ -109,17 +109,19 @@ def main():
 
     while True:
         t = time.clock()
-        if (t - scoreTimer) > 1:
-            ant.score += 1
-            scoreTimer = t
-        if(t/10 > numberOfCrazyAnts):
-            crazyAnt = CrazyAnt(SQUARE_SIZE, ant, 'e')
-            randomX = rand.randint(20, 500)
-            randomY = rand.randint(20, 500)
+        if(t/20 > numberOfCrazyAnts):
+            crazyAnt = copy.copy(CrazyAnt(SQUARE_SIZE, ant, 'e'))
+            randomX = rand.randint(100, 500)
+            randomY = rand.randint(100, 500)
             crazyAnt.setPos(randomX, randomY)
             numberOfCrazyAnts += 1
             movableObjects.append(crazyAnt)
             enemyAnts.append(crazyAnt)
+            crazyAnt.aggresiveSearchForPlayer()
+
+        if (t - scoreTimer) > 1:
+            ant.score += 1
+            scoreTimer = t
         screen.blit(background, backgroundRect)
         if not started:
             screen.blit(mes, (200, 250))
@@ -143,12 +145,8 @@ def main():
                     sys.exit(0)
 
         processPYGame(ant, keycount)
-
         ant.inBetweenLoops()
         ant.update_pos()
-        for object in movableObjects:
-            object.inBetweenLoops()
-
         queen.move()
 
         for staticObject in staticObjects:
@@ -168,26 +166,26 @@ def main():
                 object3.collide(ant)
                 if (object3.delete):
                     staticObjects.remove(object3)
-                    
+
         for object3 in movableObjects :
             if (ant.check_collision(object3)):
                 ant.collide(object3)
                 object3.collide(ant)
                 if (object3.delete):
                     movableObjects.remove(object3)
-                
+
         for object3 in movableObjects:
             if (object3.delete == True):
-                movableObjects.remove(object3)                    
-            
+                movableObjects.remove(object3)
+
         #collide movable objects against each other
         for object3 in movableObjects:
             for object4 in movableObjects:
                 if (object3 != object4):
                     if (object3.check_collision(object4)):
                         object3.collide(object4)
-                for crazyAnt in enemyAnts:
-                    crazyAnt.searchForPlayer()
+                    for cA in enemyAnts:
+                        cA.searchForPlayer()
 
         #draw all objects
         for obj in staticObjects + movableObjects:
@@ -199,6 +197,6 @@ def main():
 
         pygame.display.update() # update the screen
 
-        clock.tick(30)
+        clock.tick(20)
 
 main()

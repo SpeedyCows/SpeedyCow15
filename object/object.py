@@ -17,8 +17,8 @@ class Object(pygame.sprite.Sprite):
 
         self.max_x = 800 - dimension
         self.min_x = 0
-    	self.max_y = 600 - dimension
-    	self.min_y = 0
+        self.max_y = 600 - dimension
+        self.min_y = 0
 
     	self.red = 255
     	self.green = 0
