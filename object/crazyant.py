@@ -25,7 +25,7 @@ class CrazyAnt(Object):
         elif(difficulty == 'm'):
             self.speed = 3
         else:
-            self.speed = 0.04
+            self.speed = 0.07
 
     def image_rotate(self, rect, angle):
         """rotate an image while keeping its center"""
