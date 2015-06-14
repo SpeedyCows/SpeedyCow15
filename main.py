@@ -9,6 +9,7 @@ from object.queen import Queen
 from board import Board
 from random import Random
 from eventmanager import EventManager
+from soundmanager import SoundManager
 
 from object.pyganim import *
 PLAYER_SIZE = 80
@@ -85,8 +86,10 @@ def main():
     crazyAnt = CrazyAnt(SQUARE_SIZE, ant, 'e')
     crazyAnt.setPos(500, 500)
     enemyAnts.append(crazyAnt)
-    #Create the board
+    #Create the event managers
     eventManager = EventManager()
+    soundManager = SoundManager(eventManager)
+    #Create board
     board = Board(screen, eventManager)
     movableObjects, staticObjects = board.getObjects()
     movableObjects += [ant]

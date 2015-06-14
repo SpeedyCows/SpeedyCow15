@@ -1,5 +1,6 @@
 from object import Object
 from water import Water
+from eventmanager import SoundEffectEvent
 import pygame, random, pyganim
 
  
