@@ -97,10 +97,12 @@ def main():
     started = False
     keycount = 0
     numberOfCrazyAnts = 1
-    numberOfSugar = 1
-    numberOfLeafs = 1
+    scoreTimer = time.clock()
     while True:
         t = time.clock()
+        if (t - scoreTimer) > 1:
+            ant.score += 1
+            scoreTimer = t
         if(t/10 > numberOfCrazyAnts):
             crazyAnt = CrazyAnt(SQUARE_SIZE, ant, 'e')
             randomX = rand.randint(20, 500)
