@@ -15,7 +15,7 @@ class CrazyAnt(Object):
         self._direction = 0
         self.rand = Random()
         self.rotationTracekr = 0
-        self.timeForPause = [200, 500, 700, 90, 10, 150, 300, 300, 400, 50, 10, 118, 120]
+        self.timeForPause = [2000, 5000, 7000, 900, 100, 1500, 3000, 3000, 4000, 500, 100, 1180, 1200]
         self.direction = [0, 90, 180, 270]
         pause = self.rand.randint(0, 12)
         self.counter = 0
@@ -25,7 +25,7 @@ class CrazyAnt(Object):
         elif(difficulty == 'm'):
             self.speed = 3
         else:
-            self.speed = 1
+            self.speed = 0.02
 
     def image_rotate(self, rect, angle):
         """rotate an image while keeping its center"""
@@ -37,7 +37,6 @@ class CrazyAnt(Object):
     def searchForPlayer(self):
         global pause
         global found
-        global timesMoved
         if(self.timeForPause[pause] == self.counter):
             randDir = self.rand.randint(0, 3)
             self.image = pygame.transform.rotate(self.image, self.direction[randDir] - self._direction)
