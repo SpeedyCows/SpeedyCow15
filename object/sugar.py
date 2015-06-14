@@ -19,4 +19,4 @@ class Sugar(Object):  # represents the water, not the game
             self.delete = True
 
     def isMovable(self):
-        return True
+        return False
