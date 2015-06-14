@@ -1,6 +1,5 @@
 from object import Object
-import pygame
-import random
+import pygame, random, pyganim
 
 class Queen(Object):
 
@@ -8,8 +7,24 @@ class Queen(Object):
         """ The constructor of the class """
         super(Queen, self).__init__(dimension)
 
-        self.image = pygame.image.load('images/crown.jpg')
-        self.image = pygame.transform.scale(self.image, (dimension, dimension))
+        # Queen Animation
+        ani_Q1 = pygame.image.load('images/queen/queenant1.png')
+        ani_Q2 = pygame.image.load('images/queen/queenant2.png')
+        ani_Q3 = pygame.image.load('images/queen/queenant3.png')
+        ani_Q4 = pygame.image.load('images/queen/queenant4.png')
+        ani_Q5 = pygame.image.load('images/queen/queenant5.png')
+        ani_Q6 = pygame.image.load('images/queen/queenant6.png')
+        ani_Q7 = pygame.image.load('images/queen/queenant7.png')
+        ani_Q8 = pygame.image.load('images/queen/queenant8.png')
+        self.ani_Q = pyganim.PygAnimation([(ani_Q1, .1), (ani_Q2, .1), (ani_Q3, .1), (ani_Q4, .1), (ani_Q5, .1), (ani_Q6, .1), (ani_Q7, .1), (ani_Q8, .1)])
+        self.ani_Q.scale((self.dimension, self.dimension))
+
+        # start all animations
+        self.ani_conduct = pyganim.PygConductor([self.ani_Q])
+        self.ani_conduct.play()
+
+        # initial animation direction to draw
+        self.ani = self.ani_Q
 
     def move(self):
         direction = random.choice((0, 1, 2, 3))

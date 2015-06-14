@@ -14,9 +14,6 @@ class Player_Ant(Object):  # represents the bird, not the game
         """ The constructor of the class """
         super(Player_Ant, self).__init__(dimension)
 
-        self.image = pygame.image.load('images/ant.png')
-        self.image = pygame.transform.scale(self.image, (self.dimension, self.dimension))
-
         # Right Animation
         ani_R1 = pygame.image.load('images/ant/sprite_b_ant_right1.png')
         ani_R2 = pygame.image.load('images/ant/sprite_b_ant_right2.png')
@@ -74,22 +71,18 @@ class Player_Ant(Object):  # represents the bird, not the game
 
         if event.key == pygame.K_DOWN: # down key
             self.move = (0, self.speed)
-            self.image = pygame.transform.rotate(self.image, 270 - self._direction)
             self.ani = self.ani_D
             self._direction = 270
         elif event.key == pygame.K_UP: # up key
             self.move = (0, 0 - self.speed)
-            self.image = pygame.transform.rotate(self.image, 90 - self._direction)
             self.ani = self.ani_D
             self._direction = 90
         if event.key == pygame.K_RIGHT: # right key
             self.move = (self.speed, 0)
-            self.image = pygame.transform.rotate(self.image, 0 - self._direction)
             self.ani = self.ani_R
             self._direction = 0
         elif event.key == pygame.K_LEFT: # left key
             self.move = (0 - self.speed, 0)
-            self.image = pygame.transform.rotate(self.image, 180 - self._direction)
             self.ani = self.ani_L
             self._direction = 180
         elif event.key == pygame.K_SPACE:
@@ -150,10 +143,6 @@ class Player_Ant(Object):  # represents the bird, not the game
         rot_image = pygame.transform.rotate(self, angle)
         rot_rect = rot_image.get_rect(center=rect.center)
         return rot_image,rot_rect
-
-    def rotate(self):
-        oldCenter = self.rect.center
-        self.image = pygame.transform.rotate(self.image)
 
     def getXPosition(self):
         return self.x
