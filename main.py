@@ -1,4 +1,4 @@
-import pygame, os, time
+import pygame, os, time, copy
 
 from object.object import *
 from object.player_ant import *
@@ -89,7 +89,7 @@ def main():
     while True:
         t = time.clock()
         if(t/20 > numberOfCrazyAnts):
-            crazyAnt = CrazyAnt(SQUARE_SIZE, ant, 'e')
+            crazyAnt = copy.copy(CrazyAnt(SQUARE_SIZE, ant, 'e'))
             randomX = rand.randint(60, 500)
             randomY = rand.randint(60, 500)
             crazyAnt.setPos(randomX, randomY)
@@ -112,12 +112,8 @@ def main():
                     sys.exit(0)
 
         processPYGame(ant, keycount)
-
         ant.inBetweenLoops()
         ant.update_pos()
-        for object in movableObjects:
-            object.inBetweenLoops()
-
         queen.move()
 
         for staticObject in staticObjects:
@@ -137,18 +133,18 @@ def main():
                 object3.collide(ant)
                 if (object3.delete):
                     staticObjects.remove(object3)
-                    
+
         for object3 in movableObjects :
             if (ant.check_collision(object3)):
                 ant.collide(object3)
                 object3.collide(ant)
                 if (object3.delete):
                     movableObjects.remove(object3)
-                
+
         for object3 in movableObjects:
             if (object3.delete == True):
                 movableObjects.remove(object3)
-            
+
         #collide movable objects against each other
         for object3 in movableObjects:
             for object4 in movableObjects:

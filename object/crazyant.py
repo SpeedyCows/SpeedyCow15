@@ -11,7 +11,6 @@ from fire import Fire
 class CrazyAnt(Object):
     def __init__(self, dimension, playerAnt, difficulty):
         global pause
-        global timesMoved
         super(CrazyAnt, self).__init__(dimension)
         self.playerAnt = playerAnt
         self.image = pygame.image.load('images/ant.png')
@@ -23,13 +22,12 @@ class CrazyAnt(Object):
         self.direction = [0, 90, 180, 270]
         pause = self.rand.randint(0, 12)
         self.counter = 0
-        timesMoved = 0
         if(difficulty == 'h'):
             self.speed = 4
         elif(difficulty == 'm'):
             self.speed = 3
         else:
-            self.speed = 0.07
+            self.speed = 0.05
 
     def image_rotate(self, rect, angle):
         """rotate an image while keeping its center"""
@@ -47,7 +45,6 @@ class CrazyAnt(Object):
             self._direction = self.direction[randDir]
             pause = self.rand.randint(0, 12)
             self.counter = 0
-            timesMoved = 0
             self.checkDirection()
         else:
             self.counter += 1
@@ -99,8 +96,7 @@ class CrazyAnt(Object):
         elif type(object) is Boulder or type(object) is Water or type(object) is Queen or type(object) is Fire:
             self.delete = True
 
-        elif type(object).__name__ == 'Player_Ant':
-            print'------------------------------------- player ant'
+        elif type(obj).__name__ == 'Player_Ant':
             self.playerAnt.minusLife()
             self.playerAnt
 
