@@ -70,7 +70,7 @@ class Player_Ant(Object):  # represents the bird, not the game
 
         self.initial_speed = 5
         self.speed = self.initial_speed
-    	self._direction = 0
+        self._direction = 0
 
 
     def handle_mouse(self, event):"""
