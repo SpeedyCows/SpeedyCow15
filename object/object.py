@@ -1,4 +1,5 @@
 import math, pygame
+__import__('eventmanager')
 
 class Object(pygame.sprite.Sprite):
 
