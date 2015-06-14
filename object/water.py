@@ -50,3 +50,6 @@ class Water(Object):  # represents the water, not the game
 
         self.x = self.old_x
         self.y = self.old_y
+
+    def isMovable(self):
+        return True

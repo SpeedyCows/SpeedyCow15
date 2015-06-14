@@ -110,3 +110,6 @@ class Player_Ant(Object):  # represents the bird, not the game
         
     def getRemianingLives(self):
         return self.lives
+
+    def isMovable(self):
+        return True

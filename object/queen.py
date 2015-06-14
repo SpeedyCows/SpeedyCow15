@@ -38,3 +38,6 @@ class Queen(Object):
     def collide(self, object):
         if (type(object) is player_ant.Player_Ant):
             self.delete = True
+
+    def isMovable(self):
+        return True

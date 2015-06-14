@@ -55,3 +55,6 @@ class Boulder(Object):  # represents the water, not the game
     def inBetweenLoops(self):
         self.xSpeed = Boulder.MAX_SPEED
         self.ySpeed = Boulder.MAX_SPEED
+
+    def isMovable(self):
+        return True
