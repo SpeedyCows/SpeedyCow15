@@ -39,19 +39,19 @@ def processPYGame(ant, keycount):
             ant.handle_mouse(event)
 
 def HUD(screen, ant):
-    font = pygame.font.Font(None, FONT_SIZE)
+    font = pygame.font.Font("fonts/opensansbold.ttf", FONT_SIZE)
     screen.blit(font.render("Score: " + str(ant.score), True, FONT_COLOR), (0, 0))
     screen.blit(font.render("Lives: " + str(ant.lives), True, FONT_COLOR), (0, 1*FONT_SIZE))
     screen.blit(font.render("Power ups", True, FONT_COLOR), (0, 2*FONT_SIZE))
     screen.blit(font.render("   Sugar: " + str(ant.sugar), True, FONT_COLOR), (0, 3*FONT_SIZE))
     screen.blit(font.render("   Leaves: " + str(ant.leaves), True, FONT_COLOR), (0, 4*FONT_SIZE))
     if(ant.getRemianingLives() == 0):
-        screen.blit(pygame.font.Font(None, 50).render("GAME OVER!", True, (255, 255, 255)), (275, 250))
+        screen.blit(pygame.font.Font("fonts/opensansbold.ttf", 50).render("GAME OVER!", True, (255, 255, 255)), (275, 250))
         if ant.score == 0:
-           screen.blit(pygame.font.Font(None, 25).render("You Lose", True, (255, 255, 255)), (325, 300))
+           screen.blit(pygame.font.Font("fonts/opensansbold.ttf", 25).render("You Lose", True, (255, 255, 255)), (325, 300))
         else:
-           screen.blit(pygame.font.Font(None, 25).render("Your score is " + str(ant.score), True, (255, 255, 255)), (325, 300))
-        screen.blit(pygame.font.Font(None, 25).render("Press <SPACE> to try again", True, (255, 255, 255)), (275, 450))
+           screen.blit(pygame.font.Font("fonts/opensansbold.ttf", 25).render("Your score is " + str(ant.score), True, (255, 255, 255)), (325, 300))
+        screen.blit(pygame.font.Font("fonts/opensansbold.ttf", 25).render("Press <SPACE> to try again", True, (255, 255, 255)), (275, 450))
         pygame.display.update()
         keycount = 0
         while True:
@@ -112,7 +112,7 @@ def main():
     randomEggSpawnTime = queen.getRandomEggTime()
 
     logo = pygame.image.load('images/sugar-ant.png')
-    font = pygame.font.Font(None, 50)
+    font = pygame.font.Font("fonts/opensansbold.ttf", 50)
     mes = font.render("Press <ENTER> to Start", True, (255, 0, 0))
     gamename = font.render("Crazy Ants!", True, (0, 255, 0))
 
@@ -245,3 +245,4 @@ def spawnCrazyAnt(numberOfCrazyAnts, rand, enemyAnts, movableObjects, ant, arg )
         crazyAnt.aggresiveSearchForPlayer()
 
 if __name__=='__main__':main()
+
